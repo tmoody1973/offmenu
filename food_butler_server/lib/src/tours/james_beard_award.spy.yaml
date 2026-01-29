@@ -1,0 +1,27 @@
+### James Beard Foundation award record.
+class: JamesBeardAward
+table: james_beard_awards
+fields:
+  ### Name of the chef or restaurant.
+  name: String
+  ### City where the chef/restaurant is located.
+  city: String
+  ### Award category (e.g., "Best Chef: Great Lakes", "Outstanding Restaurant").
+  category: String
+  ### Distinction level of the award.
+  distinctionLevel: JamesBeardDistinction
+  ### Year the award was given.
+  awardYear: int
+  ### When the record was created.
+  createdAt: DateTime
+  ### When the record was last updated.
+  updatedAt: DateTime
+indexes:
+  james_beard_name_city_idx:
+    fields: name, city
+  james_beard_category_idx:
+    fields: category
+  james_beard_distinction_idx:
+    fields: distinctionLevel
+  james_beard_year_idx:
+    fields: awardYear

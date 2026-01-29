@@ -1,0 +1,27 @@
+### Junction table linking restaurants to their awards.
+class: RestaurantAwardLink
+table: restaurant_award_links
+fields:
+  ### Reference to the restaurant.
+  restaurantId: int
+  ### Type of award (michelin or james_beard).
+  awardType: AwardType
+  ### Reference to the award record ID.
+  awardId: int
+  ### Confidence score of the match (0.0 to 1.0).
+  matchConfidenceScore: double
+  ### Status of the match.
+  matchStatus: MatchStatus
+  ### User who confirmed/rejected the match (null for auto matches).
+  matchedByUserId: int?
+  ### When the record was created.
+  createdAt: DateTime
+  ### When the record was last updated.
+  updatedAt: DateTime
+indexes:
+  restaurant_award_link_restaurant_idx:
+    fields: restaurantId
+  restaurant_award_link_status_idx:
+    fields: matchStatus
+  restaurant_award_link_type_award_idx:
+    fields: awardType, awardId

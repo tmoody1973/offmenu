@@ -1,0 +1,6 @@
+### Enum for narrative types in the tour narrative system.
+enum: NarrativeType
+values:
+  - intro
+  - description
+  - transition

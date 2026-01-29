@@ -1,0 +1,65 @@
+### A curated restaurant map like Eater's "Best Tacos in Austin" or "38 Best Restaurants in Chicago 2026".
+### Can be system-generated (Perplexity) or user-created custom maps.
+class: CuratedMap
+table: curated_maps
+fields:
+  ### User ID if this is a user-created map (null for system maps).
+  userId: String?
+
+  ### Whether this is a user-created custom map.
+  isUserCreated: bool
+
+  ### City this map is for.
+  cityName: String
+
+  ### State/region.
+  stateOrRegion: String?
+
+  ### Country.
+  country: String
+
+  ### Map title (e.g., "Best Tacos in Austin", "Hidden Gems in Chicago").
+  title: String
+
+  ### Map slug for URL (e.g., "best-tacos-austin", "hidden-gems-chicago").
+  slug: String
+
+  ### Map category (e.g., "best-of", "cuisine", "occasion", "neighborhood").
+  category: String
+
+  ### Cuisine type if applicable (e.g., "Mexican", "Japanese").
+  cuisineType: String?
+
+  ### Short description for the map listing.
+  shortDescription: String
+
+  ### Full editorial intro paragraph written by Perplexity.
+  introText: String?
+
+  ### Cover image URL (from one of the restaurants).
+  coverImageUrl: String?
+
+  ### Number of restaurants in this map.
+  restaurantCount: int
+
+  ### When this map was last updated.
+  lastUpdatedAt: DateTime
+
+  ### When this map was created.
+  createdAt: DateTime
+
+  ### Whether this map is published/visible.
+  isPublished: bool
+
+indexes:
+  curated_map_city_idx:
+    fields: cityName
+  curated_map_slug_idx:
+    fields: slug
+    unique: true
+  curated_map_category_idx:
+    fields: category
+  curated_map_city_category_idx:
+    fields: cityName, category
+  curated_map_user_id_idx:
+    fields: userId

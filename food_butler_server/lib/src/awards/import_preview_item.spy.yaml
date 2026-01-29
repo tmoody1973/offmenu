@@ -1,0 +1,15 @@
+### Single item in import preview.
+class: ImportPreviewItem
+fields:
+  ### Name from the record.
+  recordName: String
+  ### City from the record.
+  recordCity: String
+  ### Year from the record.
+  recordYear: int
+  ### Matched restaurant name if found.
+  matchedRestaurantName: String?
+  ### Match confidence score.
+  confidence: double?
+  ### Match status (auto_match, pending_review, no_match).
+  status: String

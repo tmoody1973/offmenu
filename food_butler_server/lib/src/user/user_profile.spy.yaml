@@ -1,0 +1,57 @@
+### User profile and preferences collected during onboarding.
+### Used to personalize recommendations, The Daily, and the Serendipity Engine.
+class: UserProfile
+table: user_profiles
+fields:
+  ### The user ID (from Serverpod auth).
+  userId: String
+
+  ### User's food philosophy - story vs dish preference.
+  foodPhilosophy: FoodPhilosophy?
+
+  ### User's adventure/exploration style.
+  adventureLevel: AdventureLevel?
+
+  ### Cuisines the user is familiar with (comma-separated).
+  familiarCuisines: String?
+
+  ### Cuisines the user wants to explore (comma-separated).
+  wantToTryCuisines: String?
+
+  ### Dietary restrictions (comma-separated: vegetarian, vegan, gluten-free, etc).
+  dietaryRestrictions: String?
+
+  ### User's home city for local recommendations.
+  homeCity: String?
+
+  ### User's home state/region.
+  homeState: String?
+
+  ### User's home country.
+  homeCountry: String?
+
+  ### Latitude of user's home location.
+  homeLatitude: double?
+
+  ### Longitude of user's home location.
+  homeLongitude: double?
+
+  ### Additional cities for personalized content (JSON array, up to 10).
+  ### Format: [{"city":"Seattle","state":"WA","country":"USA","lat":47.6,"lng":-122.3}]
+  additionalCities: String?
+
+  ### Whether onboarding has been completed.
+  onboardingCompleted: bool
+
+  ### When preferences were created.
+  createdAt: DateTime
+
+  ### When preferences were last updated.
+  updatedAt: DateTime
+
+indexes:
+  user_profile_user_id_idx:
+    fields: userId
+    unique: true
+  user_profile_home_city_idx:
+    fields: homeCity

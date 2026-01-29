@@ -1,0 +1,23 @@
+### Analytics event for tracking reservation link clicks.
+class: ReservationClickEvent
+table: reservation_click_events
+fields:
+  ### Restaurant ID (foreign key to restaurants table).
+  restaurantId: int
+  ### Type of link clicked.
+  linkType: ReservationLinkType
+  ### User ID if authenticated (nullable).
+  userId: String?
+  ### Whether the URL launch was successful.
+  launchSuccess: bool
+  ### When the click occurred.
+  timestamp: DateTime
+  ### When the record was created.
+  createdAt: DateTime
+indexes:
+  reservation_click_restaurant_idx:
+    fields: restaurantId
+  reservation_click_timestamp_idx:
+    fields: timestamp
+  reservation_click_link_type_idx:
+    fields: linkType

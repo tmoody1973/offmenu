@@ -1,0 +1,2859 @@
+{
+  "__className__": "serverpod.DatabaseDefinition",
+  "moduleName": "food_butler",
+  "tables": [
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "award_import_logs",
+      "dartName": "AwardImportLog",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('award_import_logs_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "importType",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:AwardType"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "fileName",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "recordsImported",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "recordsMatched",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "recordsPendingReview",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "importedByUserId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "award_import_logs_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "award_import_log_type_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "importType"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "award_import_log_created_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "createdAt"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "award_import_log_user_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "importedByUserId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "awards",
+      "dartName": "Award",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('awards_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "restaurantFsqId",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "awardType",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:AwardType"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "awardLevel",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "year",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "awards_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "award_restaurant_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "restaurantFsqId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "award_type_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "awardType"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "award_year_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "year"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "cached_foursquare_responses",
+      "dartName": "CachedFoursquareResponse",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('cached_foursquare_responses_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "cacheKey",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "responseData",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "expiresAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "cached_foursquare_responses_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "cached_foursquare_cache_key_unique_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "cacheKey"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "cached_foursquare_expires_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "expiresAt"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "cached_routes",
+      "dartName": "CachedRoute",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('cached_routes_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "waypointsHash",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "transportMode",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:TransportMode"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "polyline",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "distanceMeters",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "durationSeconds",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "legsJson",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "expiresAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "cached_routes_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "cached_route_hash_mode_unique_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "waypointsHash"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "transportMode"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "cached_route_expires_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "expiresAt"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "curated_maps",
+      "dartName": "CuratedMap",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('curated_maps_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "userId",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "isUserCreated",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "cityName",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "stateOrRegion",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "country",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "title",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "slug",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "category",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "cuisineType",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "shortDescription",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "introText",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "coverImageUrl",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "restaurantCount",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "lastUpdatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "isPublished",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "curated_maps_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "curated_map_city_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "cityName"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "curated_map_slug_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "slug"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "curated_map_category_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "category"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "curated_map_city_category_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "cityName"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "category"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "curated_map_user_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "userId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "favorite_cities",
+      "dartName": "FavoriteCity",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('favorite_cities_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "userId",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "cityName",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "stateOrRegion",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "country",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "latitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "longitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "isHomeCity",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "displayOrder",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "favorite_cities_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "favorite_city_user_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "userId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "favorite_city_user_order_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "userId"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "displayOrder"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "james_beard_awards",
+      "dartName": "JamesBeardAward",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('james_beard_awards_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "name",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "city",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "category",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "distinctionLevel",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:JamesBeardDistinction"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "awardYear",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "james_beard_awards_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "james_beard_name_city_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "name"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "city"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "james_beard_category_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "category"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "james_beard_distinction_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "distinctionLevel"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "james_beard_year_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "awardYear"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "journal_entries",
+      "dartName": "JournalEntry",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('journal_entries_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "userId",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "restaurantId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "tourId",
+          "columnType": 6,
+          "isNullable": true,
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "tourStopId",
+          "columnType": 6,
+          "isNullable": true,
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "rating",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "notes",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "visitedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_entries_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_entry_user_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "userId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_entry_restaurant_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "restaurantId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_entry_tour_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "tourId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_entry_visited_at_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "visitedAt"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_entry_user_visited_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "userId"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "visitedAt"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "journal_photos",
+      "dartName": "JournalPhoto",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('journal_photos_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "journalEntryId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "originalUrl",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "thumbnailUrl",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "displayOrder",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "uploadedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_photos_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_photo_entry_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "journalEntryId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "journal_photo_entry_order_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "journalEntryId"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "displayOrder"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "map_restaurants",
+      "dartName": "MapRestaurant",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('map_restaurants_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "mapId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "name",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "googlePlaceId",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "editorialDescription",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "whyNotable",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "mustOrderDishes",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "priceLevel",
+          "columnType": 6,
+          "isNullable": true,
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "cuisineTypes",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "address",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "city",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "stateOrRegion",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "postalCode",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "phoneNumber",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "websiteUrl",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "reservationUrl",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "latitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "longitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "primaryPhotoUrl",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "additionalPhotosJson",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "googleRating",
+          "columnType": 3,
+          "isNullable": true,
+          "dartType": "double?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "googleReviewCount",
+          "columnType": 6,
+          "isNullable": true,
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "displayOrder",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "map_restaurants_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "map_restaurant_map_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "mapId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "map_restaurant_place_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "googlePlaceId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "map_restaurant_city_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "city"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "michelin_awards",
+      "dartName": "MichelinAward",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('michelin_awards_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "restaurantName",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "city",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "address",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "latitude",
+          "columnType": 3,
+          "isNullable": true,
+          "dartType": "double?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "longitude",
+          "columnType": 3,
+          "isNullable": true,
+          "dartType": "double?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "designation",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:MichelinDesignation"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "awardYear",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "michelin_awards_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "michelin_name_city_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "restaurantName"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "city"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "michelin_designation_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "designation"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "michelin_year_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "awardYear"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "narrative_caches",
+      "dartName": "NarrativeCache",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('narrative_caches_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "tourId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "userId",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "narrativeType",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "stopIndex",
+          "columnType": 6,
+          "isNullable": true,
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "content",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "generatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "expiresAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "cacheHitCount",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "narrative_caches_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "narrative_cache_lookup_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "tourId"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "userId"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "narrativeType"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "stopIndex"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "narrative_cache_expires_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "expiresAt"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "narrative_cache_tour_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "tourId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "narrative_regenerate_limits",
+      "dartName": "NarrativeRegenerateLimit",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('narrative_regenerate_limits_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "tourId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "userId",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "limitDate",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "attemptCount",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "narrative_regenerate_limits_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "narrative_regenerate_lookup_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "tourId"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "userId"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "limitDate"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "narrative_regenerate_date_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "limitDate"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "reservation_click_events",
+      "dartName": "ReservationClickEvent",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('reservation_click_events_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "restaurantId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "linkType",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:ReservationLinkType"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "userId",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "launchSuccess",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "timestamp",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "reservation_click_events_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "reservation_click_restaurant_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "restaurantId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "reservation_click_timestamp_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "timestamp"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "reservation_click_link_type_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "linkType"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "restaurant_award_links",
+      "dartName": "RestaurantAwardLink",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('restaurant_award_links_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "restaurantId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "awardType",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:AwardType"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "awardId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "matchConfidenceScore",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "matchStatus",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:MatchStatus"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "matchedByUserId",
+          "columnType": 6,
+          "isNullable": true,
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurant_award_links_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurant_award_link_restaurant_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "restaurantId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurant_award_link_status_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "matchStatus"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurant_award_link_type_award_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "awardType"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "awardId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "restaurants",
+      "dartName": "Restaurant",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('restaurants_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "fsqId",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "name",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "address",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "latitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "longitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "priceTier",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "rating",
+          "columnType": 3,
+          "isNullable": true,
+          "dartType": "double?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "cuisineTypes",
+          "columnType": 8,
+          "isNullable": false,
+          "dartType": "List<String>"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "description",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "hours",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "dishData",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "opentableId",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "opentableSlug",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "phone",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "websiteUrl",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurants_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurant_fsq_id_unique_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "fsqId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurant_coordinates_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "latitude"
+            },
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "longitude"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurant_price_tier_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "priceTier"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "restaurant_opentable_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "opentableId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "tour_requests",
+      "dartName": "TourRequest",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('tour_requests_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "startLatitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "startLongitude",
+          "columnType": 3,
+          "isNullable": false,
+          "dartType": "double"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "startAddress",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "numStops",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "transportMode",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:TransportMode"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "cuisinePreferences",
+          "columnType": 8,
+          "isNullable": true,
+          "dartType": "List<String>?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "awardOnly",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "startTime",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "endTime",
+          "columnType": 4,
+          "isNullable": true,
+          "dartType": "DateTime?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "budgetTier",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "protocol:BudgetTier"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "specificDish",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "tour_requests_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "tour_request_created_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "createdAt"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "tour_results",
+      "dartName": "TourResult",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('tour_results_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "requestId",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "stopsJson",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "confidenceScore",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "routePolyline",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "routeLegsJson",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "totalDistanceMeters",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "totalDurationSeconds",
+          "columnType": 6,
+          "isNullable": false,
+          "dartType": "int"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "isPartialTour",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "warningMessage",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "tourTitle",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "tourIntroduction",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "tourVibe",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "tourClosing",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "curatedTourJson",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "tour_results_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "tour_result_request_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "requestId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "tour_result_created_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "createdAt"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    },
+    {
+      "__className__": "serverpod.TableDefinition",
+      "name": "user_profiles",
+      "dartName": "UserProfile",
+      "module": "food_butler",
+      "schema": "public",
+      "columns": [
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "id",
+          "columnType": 6,
+          "isNullable": false,
+          "columnDefault": "nextval('user_profiles_id_seq'::regclass)",
+          "dartType": "int?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "userId",
+          "columnType": 0,
+          "isNullable": false,
+          "dartType": "String"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "foodPhilosophy",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "protocol:FoodPhilosophy?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "adventureLevel",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "protocol:AdventureLevel?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "familiarCuisines",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "wantToTryCuisines",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "dietaryRestrictions",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "homeCity",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "homeState",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "homeCountry",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "homeLatitude",
+          "columnType": 3,
+          "isNullable": true,
+          "dartType": "double?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "homeLongitude",
+          "columnType": 3,
+          "isNullable": true,
+          "dartType": "double?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "additionalCities",
+          "columnType": 0,
+          "isNullable": true,
+          "dartType": "String?"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "onboardingCompleted",
+          "columnType": 1,
+          "isNullable": false,
+          "dartType": "bool"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "createdAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        },
+        {
+          "__className__": "serverpod.ColumnDefinition",
+          "name": "updatedAt",
+          "columnType": 4,
+          "isNullable": false,
+          "dartType": "DateTime"
+        }
+      ],
+      "foreignKeys": [],
+      "indexes": [
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "user_profiles_pkey",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "id"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": true
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "user_profile_user_id_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "userId"
+            }
+          ],
+          "type": "btree",
+          "isUnique": true,
+          "isPrimary": false
+        },
+        {
+          "__className__": "serverpod.IndexDefinition",
+          "indexName": "user_profile_home_city_idx",
+          "elements": [
+            {
+              "__className__": "serverpod.IndexElementDefinition",
+              "type": 0,
+              "definition": "homeCity"
+            }
+          ],
+          "type": "btree",
+          "isUnique": false,
+          "isPrimary": false
+        }
+      ],
+      "managed": true
+    }
+  ],
+  "installedModules": [
+    {
+      "__className__": "serverpod.DatabaseMigrationVersion",
+      "module": "serverpod",
+      "version": "20251208110333922-v3-0-0"
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationVersion",
+      "module": "serverpod_auth_idp",
+      "version": "20260109031533194"
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationVersion",
+      "module": "serverpod_auth_core",
+      "version": "20251208110412389-v3-0-0"
+    }
+  ],
+  "migrationApiVersion": 1
+}

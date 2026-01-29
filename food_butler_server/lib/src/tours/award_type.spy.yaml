@@ -1,0 +1,5 @@
+### Type of culinary award.
+enum: AwardType
+values:
+  - jamesBeard
+  - michelin

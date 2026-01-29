@@ -1,0 +1,19 @@
+### Categories for curated restaurant maps.
+enum: MapCategory
+values:
+  ### "The 38 Best Restaurants in [City] 2026" style lists
+  - bestOf
+  ### Cuisine-specific maps ("Best Tacos", "Best Sushi")
+  - cuisine
+  ### Occasion-based maps ("Date Night", "Business Lunch")
+  - occasion
+  ### Neighborhood guides ("Best of Williamsburg")
+  - neighborhood
+  ### Hidden gems and underrated spots
+  - hiddenGems
+  ### New openings and trending spots
+  - newAndTrending
+  ### Budget-friendly options
+  - budget
+  ### Late night eats
+  - lateNight

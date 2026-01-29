@@ -1,0 +1,18 @@
+### Cached Foursquare API response for reducing API calls.
+class: CachedFoursquareResponse
+table: cached_foursquare_responses
+fields:
+  ### Unique cache key generated from query parameters.
+  cacheKey: String
+  ### Raw response data as JSON string.
+  responseData: String
+  ### When the cache entry expires.
+  expiresAt: DateTime
+  ### When the cache entry was created.
+  createdAt: DateTime
+indexes:
+  cached_foursquare_cache_key_unique_idx:
+    fields: cacheKey
+    unique: true
+  cached_foursquare_expires_idx:
+    fields: expiresAt

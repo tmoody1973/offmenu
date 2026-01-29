@@ -1,0 +1,60 @@
+### Personalized daily story for a user.
+### Generated once per day based on user profile and preferences.
+class: DailyStory
+table: daily_stories
+fields:
+  ### User ID this story is for.
+  userId: String
+
+  ### Date this story is for (YYYY-MM-DD format).
+  storyDate: String
+
+  ### City the story is about.
+  city: String
+
+  ### State/region of the city.
+  state: String?
+
+  ### Country of the city.
+  country: String?
+
+  ### Compelling headline (magazine style, 8-15 words).
+  headline: String
+
+  ### 1-2 sentence teaser that hooks the reader.
+  subheadline: String
+
+  ### Full story text (2-3 paragraphs, optional).
+  bodyText: String?
+
+  ### Name of the featured restaurant.
+  restaurantName: String
+
+  ### Restaurant street address.
+  restaurantAddress: String?
+
+  ### Google Places ID for the restaurant.
+  restaurantPlaceId: String?
+
+  ### Hero image URL (proxied through our server).
+  heroImageUrl: String
+
+  ### Thumbnail image URL.
+  thumbnailUrl: String?
+
+  ### Type of story (hidden gem, legacy, etc).
+  storyType: DailyStoryType
+
+  ### Cuisine type featured in the story.
+  cuisineType: String?
+
+  ### Source URL for attribution/citation.
+  sourceUrl: String?
+
+  ### When this story was generated.
+  createdAt: DateTime
+
+indexes:
+  daily_story_user_date_idx:
+    fields: userId, storyDate
+    unique: true

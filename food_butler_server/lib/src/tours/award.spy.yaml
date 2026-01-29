@@ -1,0 +1,21 @@
+### Culinary award record for James Beard and Michelin designations.
+class: Award
+table: awards
+fields:
+  ### Reference to the restaurant's Foursquare ID.
+  restaurantFsqId: String
+  ### Type of award (James Beard or Michelin).
+  awardType: AwardType
+  ### Award level (winner, nominee, semifinalist, oneStar, twoStar, threeStar, bibGourmand).
+  awardLevel: String
+  ### Year the award was given.
+  year: int
+  ### When the record was created.
+  createdAt: DateTime
+indexes:
+  award_restaurant_idx:
+    fields: restaurantFsqId
+  award_type_idx:
+    fields: awardType
+  award_year_idx:
+    fields: year

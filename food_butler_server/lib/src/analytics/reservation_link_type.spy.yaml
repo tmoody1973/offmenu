@@ -1,0 +1,8 @@
+### Enum for types of reservation links clicked.
+enum: ReservationLinkType
+values:
+  - opentableApp
+  - opentableWeb
+  - opentableSearch
+  - phone
+  - website

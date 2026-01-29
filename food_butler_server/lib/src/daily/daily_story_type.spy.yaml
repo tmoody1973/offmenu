@@ -1,0 +1,16 @@
+### Type of daily story to generate.
+### Determines the narrative style and focus.
+enum: DailyStoryType
+values:
+  ### "The spot locals won't tell you about"
+  - hiddenGem
+  ### "22 years in a strip mall" - history/founder stories
+  - legacyStory
+  ### "Why this city's pho is different"
+  - cuisineDeepDive
+  ### "The chef who trained under..."
+  - chefSpotlight
+  ### "The block that's quietly becoming..."
+  - neighborhoodGuide
+  ### "What to eat right now"
+  - seasonalFeature

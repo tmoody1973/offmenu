@@ -1,0 +1,6 @@
+### James Beard award distinction levels.
+enum: JamesBeardDistinction
+values:
+  - winner
+  - nominee
+  - semifinalist

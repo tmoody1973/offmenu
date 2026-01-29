@@ -1,0 +1,7 @@
+### Result of previewing an award import.
+class: ImportPreviewResult
+fields:
+  ### Total number of records in the file.
+  totalRecords: int
+  ### Preview items.
+  items: List<ImportPreviewItem>

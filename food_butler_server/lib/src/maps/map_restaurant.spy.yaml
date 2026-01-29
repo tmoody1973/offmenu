@@ -1,0 +1,83 @@
+### A restaurant entry in a curated map with Eater-style editorial description.
+class: MapRestaurant
+table: map_restaurants
+fields:
+  ### The curated map this restaurant belongs to.
+  mapId: int
+
+  ### Restaurant name.
+  name: String
+
+  ### Google Places ID for fetching photos and details.
+  googlePlaceId: String?
+
+  ### Editorial description written by Perplexity (Eater-style storytelling).
+  editorialDescription: String
+
+  ### Why this restaurant is notable (awards, chef, specialty).
+  whyNotable: String?
+
+  ### Signature dishes to order.
+  mustOrderDishes: String?
+
+  ### Price range (1-4 dollar signs).
+  priceLevel: int?
+
+  ### Cuisine types (comma-separated).
+  cuisineTypes: String?
+
+  ### Full street address.
+  address: String
+
+  ### City name.
+  city: String
+
+  ### State/region.
+  stateOrRegion: String?
+
+  ### Postal/ZIP code.
+  postalCode: String?
+
+  ### Phone number.
+  phoneNumber: String?
+
+  ### Website URL.
+  websiteUrl: String?
+
+  ### Reservation link (OpenTable, Resy, etc).
+  reservationUrl: String?
+
+  ### Latitude.
+  latitude: double
+
+  ### Longitude.
+  longitude: double
+
+  ### Primary photo URL from Google Places.
+  primaryPhotoUrl: String?
+
+  ### Additional photo URLs (JSON array).
+  additionalPhotosJson: String?
+
+  ### Google rating (1-5).
+  googleRating: double?
+
+  ### Google review count.
+  googleReviewCount: int?
+
+  ### Display order within the map.
+  displayOrder: int
+
+  ### When this entry was created.
+  createdAt: DateTime
+
+  ### When this entry was last updated.
+  updatedAt: DateTime
+
+indexes:
+  map_restaurant_map_id_idx:
+    fields: mapId
+  map_restaurant_place_id_idx:
+    fields: googlePlaceId
+  map_restaurant_city_idx:
+    fields: city

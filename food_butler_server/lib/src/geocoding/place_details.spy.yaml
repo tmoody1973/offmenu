@@ -1,0 +1,15 @@
+### Details for a place from Google Places API.
+class: PlaceDetails
+fields:
+  ### Latitude coordinate.
+  latitude: double
+  ### Longitude coordinate.
+  longitude: double
+  ### Full formatted address.
+  formattedAddress: String?
+  ### City/locality name.
+  city: String?
+  ### State/region name.
+  state: String?
+  ### Country name.
+  country: String?

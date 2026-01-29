@@ -1,0 +1,37 @@
+### A user's favorite city for restaurant maps.
+### Users can have their home city + up to 10 additional cities (11 total).
+class: FavoriteCity
+table: favorite_cities
+fields:
+  ### The user ID who saved this city.
+  userId: String
+
+  ### City name (e.g., "Austin", "Chicago", "Tokyo").
+  cityName: String
+
+  ### State/region (e.g., "TX", "IL", "Tokyo").
+  stateOrRegion: String?
+
+  ### Country (e.g., "USA", "Japan").
+  country: String
+
+  ### Latitude of city center.
+  latitude: double
+
+  ### Longitude of city center.
+  longitude: double
+
+  ### Whether this is the user's home city.
+  isHomeCity: bool
+
+  ### Display order (0 = home city, 1-10 = favorites).
+  displayOrder: int
+
+  ### When this city was added.
+  createdAt: DateTime
+
+indexes:
+  favorite_city_user_id_idx:
+    fields: userId
+  favorite_city_user_order_idx:
+    fields: userId, displayOrder

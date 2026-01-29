@@ -1,0 +1,19 @@
+### A photo attached to a journal entry, stored in Cloudflare R2.
+class: JournalPhoto
+table: journal_photos
+fields:
+  ### The journal entry this photo belongs to.
+  journalEntryId: int
+  ### URL for the full-size image in R2.
+  originalUrl: String
+  ### URL for the 200x200 thumbnail in R2.
+  thumbnailUrl: String
+  ### Display order for the photo (0-2).
+  displayOrder: int
+  ### When the photo was uploaded.
+  uploadedAt: DateTime
+indexes:
+  journal_photo_entry_id_idx:
+    fields: journalEntryId
+  journal_photo_entry_order_idx:
+    fields: journalEntryId, displayOrder

@@ -1,0 +1,7 @@
+### Budget tier for restaurant filtering.
+enum: BudgetTier
+values:
+  - budget
+  - moderate
+  - upscale
+  - luxury

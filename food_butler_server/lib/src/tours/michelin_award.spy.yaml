@@ -1,0 +1,29 @@
+### Michelin Guide award record for restaurant designations.
+class: MichelinAward
+table: michelin_awards
+fields:
+  ### Restaurant name as it appears in Michelin Guide.
+  restaurantName: String
+  ### City where the restaurant is located.
+  city: String
+  ### Full street address.
+  address: String?
+  ### Latitude coordinate for location matching.
+  latitude: double?
+  ### Longitude coordinate for location matching.
+  longitude: double?
+  ### Michelin designation type.
+  designation: MichelinDesignation
+  ### Year the award was given.
+  awardYear: int
+  ### When the record was created.
+  createdAt: DateTime
+  ### When the record was last updated.
+  updatedAt: DateTime
+indexes:
+  michelin_name_city_idx:
+    fields: restaurantName, city
+  michelin_designation_idx:
+    fields: designation
+  michelin_year_idx:
+    fields: awardYear

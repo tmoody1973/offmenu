@@ -1,0 +1,9 @@
+### Where a restaurant was saved from.
+enum: SavedRestaurantSource
+values:
+  - map        # Saved from a curated map
+  - askButler  # Saved from Ask the Butler response
+  - story      # Saved from a Daily Story
+  - tonight    # Saved from Three for Tonight
+  - search     # Saved from search results
+  - other      # Other source

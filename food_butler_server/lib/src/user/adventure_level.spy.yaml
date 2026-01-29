@@ -1,0 +1,12 @@
+### User's adventure/exploration style when discovering food.
+### Used to calibrate the Serendipity Engine recommendations.
+enum: AdventureLevel
+values:
+  ### Seeks out local hidden gems, avoids tourist spots
+  - localExplorer
+  ### Visits landmarks first, then explores
+  - landmarkFirst
+  ### Lets serendipity guide them
+  - serendipitous
+  ### Researches obsessively before visiting
+  - researcher

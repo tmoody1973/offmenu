@@ -1,0 +1,17 @@
+### Item in the review queue.
+class: ReviewQueueItem
+fields:
+  ### Restaurant award link ID.
+  linkId: int
+  ### Restaurant name.
+  restaurantName: String
+  ### Restaurant address.
+  restaurantAddress: String
+  ### Award name.
+  awardName: String
+  ### Award details.
+  awardDetails: String
+  ### Award type.
+  awardType: String
+  ### Match confidence score.
+  confidenceScore: double

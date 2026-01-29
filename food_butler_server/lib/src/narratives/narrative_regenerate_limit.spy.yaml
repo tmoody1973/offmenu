@@ -1,0 +1,22 @@
+### Tracks regenerate attempts per tour per day for rate limiting.
+class: NarrativeRegenerateLimit
+table: narrative_regenerate_limits
+fields:
+  ### Reference to the tour result.
+  tourId: int
+  ### User ID for tracking (or 'anonymous').
+  userId: String
+  ### Date for the limit tracking (truncated to day).
+  limitDate: DateTime
+  ### Number of regenerate attempts on this date.
+  attemptCount: int
+  ### When the record was created.
+  createdAt: DateTime
+  ### When the record was last updated.
+  updatedAt: DateTime
+indexes:
+  narrative_regenerate_lookup_idx:
+    fields: tourId, userId, limitDate
+    unique: true
+  narrative_regenerate_date_idx:
+    fields: limitDate

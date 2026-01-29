@@ -1,0 +1,27 @@
+### A discovered place from the AI food concierge.
+class: DiscoveredPlace
+fields:
+  ### The Google Place ID.
+  placeId: String
+  ### Name of the restaurant.
+  name: String
+  ### Full address.
+  address: String
+  ### Latitude coordinate.
+  latitude: double
+  ### Longitude coordinate.
+  longitude: double
+  ### Rating (0-5).
+  rating: double
+  ### Number of reviews.
+  reviewCount: int
+  ### Price level display (e.g., "$", "$$", "$$$").
+  priceLevel: String
+  ### URL to a photo (from Google Places).
+  photoUrl: String?
+  ### Why the Butler recommends this place.
+  whyRecommended: String
+  ### Types/categories (e.g., "Japanese", "Ramen").
+  categories: List<String>
+  ### Is it currently open?
+  isOpen: bool?

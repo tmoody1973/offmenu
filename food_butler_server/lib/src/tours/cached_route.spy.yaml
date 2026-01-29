@@ -1,0 +1,26 @@
+### Cached Mapbox route for reducing API calls.
+class: CachedRoute
+table: cached_routes
+fields:
+  ### Hash of sorted waypoints for cache lookup.
+  waypointsHash: String
+  ### Transport mode for this cached route.
+  transportMode: TransportMode
+  ### Encoded polyline string.
+  polyline: String
+  ### Total distance in meters.
+  distanceMeters: int
+  ### Total duration in seconds.
+  durationSeconds: int
+  ### Per-leg data as JSON string.
+  legsJson: String
+  ### When the cache entry expires.
+  expiresAt: DateTime
+  ### When the cache entry was created.
+  createdAt: DateTime
+indexes:
+  cached_route_hash_mode_unique_idx:
+    fields: waypointsHash, transportMode
+    unique: true
+  cached_route_expires_idx:
+    fields: expiresAt

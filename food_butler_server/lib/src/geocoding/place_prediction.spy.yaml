@@ -1,0 +1,11 @@
+### A place prediction from Google Places Autocomplete.
+class: PlacePrediction
+fields:
+  ### The place ID for use with getPlaceDetails.
+  placeId: String
+  ### Full description of the place.
+  description: String
+  ### Main text (usually the place name or street).
+  mainText: String?
+  ### Secondary text (usually city, state, country).
+  secondaryText: String?

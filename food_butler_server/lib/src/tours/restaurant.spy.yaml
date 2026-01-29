@@ -1,0 +1,48 @@
+### Restaurant data from Foursquare Places API.
+class: Restaurant
+table: restaurants
+fields:
+  ### Foursquare unique identifier.
+  fsqId: String
+  ### Restaurant name.
+  name: String
+  ### Full address string.
+  address: String
+  ### Latitude coordinate.
+  latitude: double
+  ### Longitude coordinate.
+  longitude: double
+  ### Price tier (1-4, where 1 is cheapest).
+  priceTier: int
+  ### Rating from 0-10 scale.
+  rating: double?
+  ### List of cuisine types.
+  cuisineTypes: List<String>
+  ### Description of what makes this restaurant special (from AI discovery).
+  description: String?
+  ### Operating hours as JSON structure.
+  hours: String?
+  ### Dish-level data for digestion optimization.
+  dishData: String?
+  ### OpenTable restaurant ID for exact matching.
+  opentableId: String?
+  ### OpenTable URL slug for web deep links.
+  opentableSlug: String?
+  ### Phone number for fallback contact.
+  phone: String?
+  ### Website URL for fallback contact.
+  websiteUrl: String?
+  ### When the record was created.
+  createdAt: DateTime
+  ### When the record was last updated.
+  updatedAt: DateTime
+indexes:
+  restaurant_fsq_id_unique_idx:
+    fields: fsqId
+    unique: true
+  restaurant_coordinates_idx:
+    fields: latitude, longitude
+  restaurant_price_tier_idx:
+    fields: priceTier
+  restaurant_opentable_id_idx:
+    fields: opentableId

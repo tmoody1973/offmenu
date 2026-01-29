@@ -1,0 +1,11 @@
+### Response from the AI food discovery/concierge.
+class: FoodDiscoveryResponse
+fields:
+  ### AI-generated summary/response to the query.
+  summary: String
+  ### List of discovered places.
+  places: List<DiscoveredPlace>
+  ### The original query.
+  query: String
+  ### Detected location from the query (if any).
+  detectedLocation: String?

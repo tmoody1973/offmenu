@@ -1,0 +1,21 @@
+### Photo data for a restaurant from Google Places.
+### Stored as JSON array in MapRestaurant.additionalPhotosJson.
+class: RestaurantPhoto
+fields:
+  ### Google Places photo reference (used to fetch the actual image).
+  photoReference: String
+
+  ### Photo width in pixels.
+  width: int
+
+  ### Photo height in pixels.
+  height: int
+
+  ### Proxied URL for full-size image.
+  url: String
+
+  ### Proxied URL for thumbnail image.
+  thumbnailUrl: String
+
+  ### Attribution text (required by Google).
+  attribution: String?

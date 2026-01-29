@@ -1,0 +1,10 @@
+### User's food philosophy preference.
+### Determines how content is presented - story-first or dish-first.
+enum: FoodPhilosophy
+values:
+  ### Values the story behind the dish - the people, history, culture
+  - storyFirst
+  ### Values the dish itself - flavors, technique, quality
+  - dishFirst
+  ### Appreciates both equally
+  - balanced

@@ -1,0 +1,49 @@
+### A restaurant saved/bookmarked by the user.
+###
+### Allows users to save restaurants from maps, Ask the Butler,
+### or stories for later reference.
+class: SavedRestaurant
+table: saved_restaurants
+fields:
+  ### The user who saved this restaurant.
+  userId: String
+
+  ### Restaurant name.
+  name: String
+
+  ### Google Place ID for looking up details.
+  placeId: String?
+
+  ### Restaurant address.
+  address: String?
+
+  ### Type of cuisine.
+  cuisineType: String?
+
+  ### Photo URL.
+  imageUrl: String?
+
+  ### Google rating (0-5).
+  rating: double?
+
+  ### Price level (1-4).
+  priceLevel: int?
+
+  ### User's personal notes about this restaurant.
+  notes: String?
+
+  ### User's personal rating (1-5 stars).
+  userRating: int?
+
+  ### Where the restaurant was saved from.
+  source: SavedRestaurantSource
+
+  ### When it was saved.
+  savedAt: DateTime
+
+indexes:
+  saved_restaurant_user_idx:
+    fields: userId
+  saved_restaurant_user_place_idx:
+    fields: userId, placeId
+    unique: true

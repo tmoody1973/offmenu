@@ -1,0 +1,99 @@
+analytics:
+  - recordReservationClick:
+  - getClicksByRestaurant:
+  - getClickCountsByType:
+emailIdp:
+  - login:
+  - startRegistration:
+  - verifyRegistrationCode:
+  - finishRegistration:
+  - startPasswordReset:
+  - verifyPasswordResetCode:
+  - finishPasswordReset:
+googleIdp:
+  - login:
+jwtRefresh:
+  - refreshAccessToken:
+adminAward:
+  - importAwards:
+  - previewImport:
+  - getReviewQueue:
+  - confirmMatch:
+  - rejectMatch:
+  - createLink:
+  - deleteLink:
+  - getImportLogs:
+award:
+  - getRestaurantAwards:
+  - getMichelinAwards:
+  - getJamesBeardAwards:
+  - calculateRestaurantAwardScore:
+dailyStory:
+  - getDailyStory:
+  - refreshDailyStory:
+threeForTonight:
+  - getThreeForTonight:
+foodDiscovery:
+  - ask:
+geocoding:
+  - searchPlaces:
+  - getPlaceDetails:
+places:
+  - searchCities:
+  - getPlaceDetails:
+greeting:
+  - hello:
+journalEntry:
+  - createEntry:
+  - getEntries:
+  - getEntry:
+  - updateEntry:
+  - deleteEntry:
+  - getEntriesByRestaurant:
+  - getEntriesByTour:
+  - getVisitedRestaurants:
+photo:
+  - getUploadUrl:
+  - confirmUpload:
+  - deletePhoto:
+curatedMaps:
+  - getMapsForCity:
+  - getMapsByCategory:
+  - getMapBySlug:
+  - getMapRestaurants:
+  - getFavoriteCities:
+  - addFavoriteCity:
+  - removeFavoriteCity:
+  - getUserMaps:
+  - createUserMap:
+  - addRestaurantToMap:
+  - generateMap:
+narrative:
+  - generate:
+googlePhotos:
+  - getPhoto:
+  - getPhotoUrl:
+  - streamPhoto:
+  - getPhotoReferences:
+  - getRestaurantPhotos:
+savedRestaurant:
+  - saveRestaurant:
+  - unsaveRestaurant:
+  - isRestaurantSaved:
+  - getSavedRestaurants:
+  - updateSavedRestaurant:
+  - getSavedRestaurant:
+tour:
+  - generate:
+userProfile:
+  - getProfile:
+  - hasCompletedOnboarding:
+  - saveProfile:
+  - completeOnboarding:
+  - updateLocation:
+  - updateFoodPhilosophy:
+  - updateAdventureLevel:
+  - updateCuisinePreferences:
+  - updateDietaryRestrictions:
+  - updateAdditionalCities:
+  - debugProfileStatus:

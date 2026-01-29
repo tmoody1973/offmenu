@@ -1,0 +1,28 @@
+### A single restaurant pick for "Three for Tonight".
+###
+### Context-aware recommendation based on time of day and user preferences.
+class: TonightPick
+fields:
+  ### Restaurant name
+  name: String
+
+  ### Punchy one-liner hook that makes you want to go
+  hook: String
+
+  ### Type of cuisine
+  cuisineType: String?
+
+  ### Photo URL (from Google Places or Perplexity)
+  imageUrl: String?
+
+  ### Google Place ID for navigation/details
+  placeId: String?
+
+  ### Restaurant address
+  address: String?
+
+  ### Google rating (0-5)
+  rating: double?
+
+  ### Price level (1-4)
+  priceLevel: int?

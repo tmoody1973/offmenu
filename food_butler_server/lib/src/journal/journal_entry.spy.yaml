@@ -1,0 +1,33 @@
+### A food journal entry capturing a user's restaurant visit experience.
+class: JournalEntry
+table: journal_entries
+fields:
+  ### The user who created this entry.
+  userId: String
+  ### The restaurant associated with this entry.
+  restaurantId: int
+  ### The tour this entry is associated with (optional).
+  tourId: int?
+  ### The specific tour stop this entry is associated with (optional).
+  tourStopId: int?
+  ### Rating from 1-5 stars.
+  rating: int
+  ### Free-text notes about the visit.
+  notes: String?
+  ### When the visit occurred (stored as UTC).
+  visitedAt: DateTime
+  ### When the entry was created.
+  createdAt: DateTime
+  ### When the entry was last updated.
+  updatedAt: DateTime
+indexes:
+  journal_entry_user_id_idx:
+    fields: userId
+  journal_entry_restaurant_id_idx:
+    fields: restaurantId
+  journal_entry_tour_id_idx:
+    fields: tourId
+  journal_entry_visited_at_idx:
+    fields: visitedAt
+  journal_entry_user_visited_idx:
+    fields: userId, visitedAt

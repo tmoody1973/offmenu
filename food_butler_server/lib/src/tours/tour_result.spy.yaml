@@ -1,0 +1,39 @@
+### Generated tour result with all metadata.
+class: TourResult
+table: tour_results
+fields:
+  ### Reference to the original request.
+  requestId: int
+  ### Ordered array of tour stops as JSON.
+  stopsJson: String
+  ### Tour confidence score (0-100).
+  confidenceScore: int
+  ### Encoded route polyline for map rendering.
+  routePolyline: String
+  ### Per-leg route summaries as JSON.
+  routeLegsJson: String
+  ### Total tour distance in meters.
+  totalDistanceMeters: int
+  ### Total tour duration in seconds.
+  totalDurationSeconds: int
+  ### Whether this is a partial tour (fewer stops than requested).
+  isPartialTour: bool
+  ### Warning message when partial tour or other issues.
+  warningMessage: String?
+  ### Creative title/theme for the tour (from AI curation).
+  tourTitle: String?
+  ### Opening narrative that sets the stage for the journey.
+  tourIntroduction: String?
+  ### The overall vibe/mood of the tour.
+  tourVibe: String?
+  ### Closing narrative wrapping up the experience.
+  tourClosing: String?
+  ### Full curated tour JSON from Perplexity (contains stories, dish details, tips).
+  curatedTourJson: String?
+  ### When the result was created.
+  createdAt: DateTime
+indexes:
+  tour_result_request_idx:
+    fields: requestId
+  tour_result_created_idx:
+    fields: createdAt

@@ -1,0 +1,15 @@
+### Alternative restaurant suggestion for a tour stop.
+class: TourStopAlternative
+fields:
+  ### Restaurant name.
+  name: String
+  ### Full address.
+  address: String
+  ### Latitude coordinate.
+  latitude: double
+  ### Longitude coordinate.
+  longitude: double
+  ### Price tier (1-4).
+  priceTier: int
+  ### Rating from 0-10.
+  rating: double?

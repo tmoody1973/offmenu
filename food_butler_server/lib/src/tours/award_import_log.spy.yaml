@@ -1,0 +1,25 @@
+### Audit log for award data imports.
+class: AwardImportLog
+table: award_import_logs
+fields:
+  ### Type of awards imported.
+  importType: AwardType
+  ### Name of the uploaded file.
+  fileName: String
+  ### Number of records imported.
+  recordsImported: int
+  ### Number of records successfully matched.
+  recordsMatched: int
+  ### Number of records pending manual review.
+  recordsPendingReview: int
+  ### User who performed the import.
+  importedByUserId: int
+  ### When the import was performed.
+  createdAt: DateTime
+indexes:
+  award_import_log_type_idx:
+    fields: importType
+  award_import_log_created_idx:
+    fields: createdAt
+  award_import_log_user_idx:
+    fields: importedByUserId

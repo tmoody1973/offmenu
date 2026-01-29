@@ -1,0 +1,9 @@
+### Result of an award import operation.
+class: ImportResult
+fields:
+  ### Number of records successfully imported.
+  recordsImported: int
+  ### Number of records matched to restaurants.
+  recordsMatched: int
+  ### Number of records pending manual review.
+  recordsPendingReview: int

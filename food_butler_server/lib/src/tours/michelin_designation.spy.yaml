@@ -1,0 +1,7 @@
+### Michelin Guide designation types.
+enum: MichelinDesignation
+values:
+  - oneStar
+  - twoStar
+  - threeStar
+  - bibGourmand

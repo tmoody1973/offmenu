@@ -1,0 +1,9 @@
+### A leg of the route between two tour stops.
+class: RouteLeg
+fields:
+  ### Distance in meters.
+  distanceMeters: int
+  ### Duration in seconds.
+  durationSeconds: int
+  ### Transport mode for this leg.
+  transportMode: TransportMode

@@ -1,0 +1,7 @@
+### Status of a restaurant-award match.
+enum: MatchStatus
+values:
+  - autoMatched
+  - manualConfirmed
+  - manualRejected
+  - pendingReview

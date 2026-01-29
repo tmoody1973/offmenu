@@ -1,0 +1,19 @@
+### Response structure for generated tour narratives.
+class: NarrativeResponse
+fields:
+  ### Tour introduction narrative (50-75 words).
+  intro: String
+  ### Restaurant description narratives (75-100 words each).
+  descriptions: List<String>
+  ### Transition narratives between stops (25-40 words each).
+  transitions: List<String>
+  ### When the narratives were generated.
+  generatedAt: DateTime
+  ### Whether the response was served from cache.
+  cached: bool
+  ### Remaining cache TTL in seconds (0 if freshly generated).
+  ttlRemainingSeconds: int
+  ### Whether any fallback text was used.
+  fallbackUsed: bool
+  ### List of narrative types that failed and used fallback.
+  failedTypes: List<String>

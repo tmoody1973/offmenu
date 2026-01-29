@@ -1,0 +1,32 @@
+### Cached LLM-generated narrative content for tours.
+class: NarrativeCache
+table: narrative_caches
+fields:
+  ### Reference to the tour result this narrative belongs to.
+  tourId: int
+  ### User ID for personalized narratives (null for anonymous users).
+  userId: String?
+  ### Type of narrative (intro, description, transition).
+  narrativeType: String
+  ### Stop index for description/transition narratives (null for intro).
+  stopIndex: int?
+  ### The generated narrative content.
+  content: String
+  ### When the narrative was generated.
+  generatedAt: DateTime
+  ### When the cache entry expires.
+  expiresAt: DateTime
+  ### Number of cache hits for monitoring.
+  cacheHitCount: int
+  ### When the record was created.
+  createdAt: DateTime
+  ### When the record was last updated.
+  updatedAt: DateTime
+indexes:
+  narrative_cache_lookup_idx:
+    fields: tourId, userId, narrativeType, stopIndex
+    unique: true
+  narrative_cache_expires_idx:
+    fields: expiresAt
+  narrative_cache_tour_idx:
+    fields: tourId

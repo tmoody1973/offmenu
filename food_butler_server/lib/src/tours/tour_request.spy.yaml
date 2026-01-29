@@ -1,0 +1,31 @@
+### Input parameters for tour generation request.
+class: TourRequest
+table: tour_requests
+fields:
+  ### Starting point latitude.
+  startLatitude: double
+  ### Starting point longitude.
+  startLongitude: double
+  ### Optional starting address string for display.
+  startAddress: String?
+  ### Number of stops (3-6 inclusive).
+  numStops: int
+  ### Transport mode for navigation.
+  transportMode: TransportMode
+  ### Optional cuisine type preferences.
+  cuisinePreferences: List<String>?
+  ### Filter for award-winning restaurants only.
+  awardOnly: bool
+  ### Tour start time.
+  startTime: DateTime
+  ### Optional preferred end time.
+  endTime: DateTime?
+  ### Budget tier preference.
+  budgetTier: BudgetTier
+  ### Optional specific dish to search for (e.g., "tonkotsu ramen", "tacos al pastor").
+  specificDish: String?
+  ### When the request was created.
+  createdAt: DateTime
+indexes:
+  tour_request_created_idx:
+    fields: createdAt
