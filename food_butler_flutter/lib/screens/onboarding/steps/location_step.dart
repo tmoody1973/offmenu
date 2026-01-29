@@ -136,16 +136,35 @@ class _LocationStepState extends State<LocationStep> {
   @override
   Widget build(BuildContext context) {
     final canContinue = _selectedCity != null;
+    // Get bottom padding for keyboard and safe area
+    final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
+    final safeAreaBottom = MediaQuery.of(context).padding.bottom;
 
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Spacer(flex: 1),
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        left: 24,
+        right: 24,
+        top: 24,
+        // Add extra padding when keyboard is visible, plus safe area
+        bottom: bottomPadding > 0 ? bottomPadding + 24 : safeAreaBottom + 24,
+      ),
+      child: ConstrainedBox(
+        // Ensure minimum height fills the screen minus app bar
+        constraints: BoxConstraints(
+          minHeight: MediaQuery.of(context).size.height -
+              MediaQuery.of(context).padding.top -
+              kToolbarHeight -
+              bottomPadding -
+              100, // Account for onboarding progress bar
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 24),
 
-          // Header
-          Text(
+            // Header
+            Text(
             'Where are you based?',
             style: AppTheme.headlineSerif.copyWith(
               fontSize: 32,
@@ -267,7 +286,7 @@ class _LocationStepState extends State<LocationStep> {
             ),
           ],
 
-          const Spacer(flex: 2),
+          const SizedBox(height: 40),
 
           // Continue button
           SizedBox(
@@ -294,6 +313,7 @@ class _LocationStepState extends State<LocationStep> {
 
           const SizedBox(height: 24),
         ],
+        ),
       ),
     );
   }

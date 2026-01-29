@@ -115,12 +115,13 @@ void main() async {
     ..connectivityMonitor = FlutterConnectivityMonitor()
     ..authSessionManager = FlutterAuthSessionManager();
 
-  // Initialize authentication
-  client.auth.initialize();
+  // Initialize authentication - MUST be awaited
+  await client.auth.initialize();
 
   // Initialize Google Sign-In (if configured)
   try {
     client.auth.initializeGoogleSignIn();
+    debugPrint('Google Sign-In initialized');
   } catch (e) {
     debugPrint('Google Sign-In not configured: $e');
   }

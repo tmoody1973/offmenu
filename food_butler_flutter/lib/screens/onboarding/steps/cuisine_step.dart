@@ -49,8 +49,18 @@ class _CuisineStepState extends State<CuisineStep> {
 
   @override
   Widget build(BuildContext context) {
+    // Get bottom padding for keyboard and safe area (notch/home indicator)
+    final bottomPadding = MediaQuery.of(context).viewInsets.bottom;
+    final safeAreaBottom = MediaQuery.of(context).padding.bottom;
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.only(
+        left: 24,
+        right: 24,
+        top: 24,
+        // Add extra padding when keyboard is visible, plus safe area
+        bottom: bottomPadding > 0 ? bottomPadding + 24 : safeAreaBottom + 24,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

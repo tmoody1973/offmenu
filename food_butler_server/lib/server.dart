@@ -19,26 +19,45 @@ void run(List<String> args) async {
   // Initialize authentication services for the server.
   // Token managers will be used to validate and issue authentication keys,
   // and the identity providers will be the authentication options available for users.
+  //
+  // Required secrets (in passwords.yaml or as SERVERPOD_PASSWORD_<name> env vars):
+  // - jwtRefreshTokenHashPepper: Random string for hashing refresh tokens
+  // - jwtHmacSha512PrivateKey: Private key for signing JWTs
+  // - emailSecretHashPepper: Random string for hashing email verification codes
+  // - serverpod_auth_googleClientSecret: Google OAuth client secret JSON
 
-  // Get Google client secret if configured
-  final googleClientSecret = pod.getPassword('googleClientSecret');
+  // Debug: Check if Google client secret is configured
+  final googleClientSecret = pod.getPassword('serverpod_auth_googleClientSecret');
+  if (googleClientSecret != null) {
+    print('[Auth] Google client secret found (${googleClientSecret.length} chars)');
+  } else {
+    print('[Auth] WARNING: Google client secret NOT found');
+    print('[Auth] Expected: SERVERPOD_PASSWORD_serverpod_auth_googleClientSecret');
+    // Debug: List relevant env vars to help diagnose
+    final relevantVars = Platform.environment.keys
+        .where((k) => k.toLowerCase().contains('google') ||
+                      k.toLowerCase().contains('secret') ||
+                      k.contains('SERVERPOD'))
+        .toList();
+    print('[Auth] Available relevant env vars: $relevantVars');
+  }
 
   pod.initializeAuthServices(
     tokenManagerBuilders: [
       // Use JWT for authentication keys towards the server.
+      // Requires: jwtRefreshTokenHashPepper, jwtHmacSha512PrivateKey
       JwtConfigFromPasswords(),
     ],
     identityProviderBuilders: [
       // Configure the email identity provider for email/password authentication.
+      // Requires: emailSecretHashPepper
       EmailIdpConfigFromPasswords(
         sendRegistrationVerificationCode: _sendRegistrationCode,
         sendPasswordResetVerificationCode: _sendPasswordResetCode,
       ),
-      // Configure Google identity provider if credentials are available.
-      if (googleClientSecret != null)
-        GoogleIdpConfig(
-          clientSecret: GoogleClientSecret.fromJsonString(googleClientSecret),
-        ),
+      // Configure Google identity provider using the standard secret name.
+      // Requires: serverpod_auth_googleClientSecret
+      GoogleIdpConfigFromPasswords(),
     ],
   );
 

@@ -182,7 +182,12 @@ class _TourFormScreenState extends State<TourFormScreen> {
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
-          padding: AppTheme.responsivePadding(context),
+          // Add bottom padding for keyboard and safe area on notched devices
+          padding: AppTheme.responsivePadding(context).copyWith(
+            bottom: MediaQuery.of(context).viewInsets.bottom +
+                MediaQuery.of(context).padding.bottom +
+                24,
+          ),
           child: Center(
             child: ConstrainedBox(
               constraints: BoxConstraints(
@@ -447,7 +452,8 @@ class _TourFormScreenState extends State<TourFormScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 32),
+                  // Extra bottom padding to ensure button is visible above keyboard
+                  SizedBox(height: MediaQuery.of(context).viewInsets.bottom > 0 ? 120 : 32),
                 ],
               ),
             ),

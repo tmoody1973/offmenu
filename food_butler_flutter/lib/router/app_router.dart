@@ -367,6 +367,9 @@ class _SignInSuccess extends StatefulWidget {
 }
 
 class _SignInSuccessState extends State<_SignInSuccess> {
+  int _retryCount = 0;
+  static const _maxRetries = 3;
+
   @override
   void initState() {
     super.initState();
@@ -374,10 +377,24 @@ class _SignInSuccessState extends State<_SignInSuccess> {
   }
 
   Future<void> _checkOnboardingStatus() async {
-    // Small delay to ensure auth is fully initialized
-    await Future.delayed(const Duration(milliseconds: 500));
+    // Wait for auth to be fully initialized
+    await Future.delayed(const Duration(milliseconds: 800));
 
     if (!mounted) return;
+
+    // Ensure we're actually authenticated before checking onboarding
+    if (!client.auth.isAuthenticated) {
+      debugPrint('Not authenticated yet, waiting...');
+      if (_retryCount < _maxRetries) {
+        _retryCount++;
+        await Future.delayed(const Duration(milliseconds: 500));
+        if (mounted) _checkOnboardingStatus();
+      } else {
+        debugPrint('Auth failed after retries, going to landing');
+        if (mounted) context.go('/landing');
+      }
+      return;
+    }
 
     try {
       // Check if user has completed onboarding
@@ -387,16 +404,28 @@ class _SignInSuccessState extends State<_SignInSuccess> {
 
       if (hasCompleted) {
         // User has onboarded, go to home
+        debugPrint('Onboarding completed, going to home');
         context.go('/');
       } else {
         // New user or incomplete onboarding, go to onboarding flow
+        debugPrint('Onboarding not completed, going to onboarding');
         context.go('/onboarding');
       }
     } catch (e) {
-      // If API call fails (e.g., endpoint not generated yet), go to onboarding
-      // This handles the case where serverpod generate hasn't been run
-      debugPrint('Onboarding check failed: $e');
+      debugPrint('Onboarding check failed (attempt ${_retryCount + 1}): $e');
+
+      // Retry on transient network errors
+      if (_retryCount < _maxRetries) {
+        _retryCount++;
+        await Future.delayed(Duration(milliseconds: 500 * _retryCount));
+        if (mounted) _checkOnboardingStatus();
+        return;
+      }
+
+      // After retries, assume new user and go to onboarding
+      // This handles truly new users and persistent errors gracefully
       if (mounted) {
+        debugPrint('Going to onboarding after failed retries');
         context.go('/onboarding');
       }
     }

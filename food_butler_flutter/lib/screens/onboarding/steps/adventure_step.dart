@@ -25,13 +25,19 @@ class AdventureStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
+    // Get safe area padding for notched devices
+    final safeAreaBottom = MediaQuery.of(context).padding.bottom;
+
+    return SingleChildScrollView(
+      padding: EdgeInsets.only(
+        left: 24,
+        right: 24,
+        top: 32,
+        bottom: safeAreaBottom + 24,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Spacer(flex: 1),
-
           // Header
           Text(
             'When you travel, you tend to:',
@@ -91,7 +97,7 @@ class AdventureStep extends StatelessWidget {
             onTap: () => onSelected(AdventureLevel.researcher),
           ),
 
-          const Spacer(flex: 2),
+          const SizedBox(height: 32),
 
           // Continue button
           SizedBox(

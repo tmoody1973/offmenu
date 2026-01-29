@@ -51,6 +51,12 @@ redis:
 
 maxRequestSize: 524288 # The maximum size of requests allowed in bytes
 
+# CORS configuration for cross-origin requests
+httpOptionsResponseHeaders:
+  Access-Control-Allow-Origin: '*'
+  Access-Control-Allow-Methods: 'GET, POST, PUT, DELETE, OPTIONS'
+  Access-Control-Allow-Headers: 'Content-Type, Authorization'
+
 sessionLogs:
   consoleEnabled: false
 # persistentEnabled: true
