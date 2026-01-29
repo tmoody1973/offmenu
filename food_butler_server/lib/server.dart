@@ -8,6 +8,7 @@ import 'package:serverpod_auth_idp_server/providers/google.dart';
 import 'src/future_calls/daily_story_generation_call.dart';
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
+import 'src/web/middleware/cors_middleware.dart';
 import 'src/web/routes/app_config_route.dart';
 import 'src/web/routes/photo_proxy_route.dart';
 import 'src/web/routes/root.dart';
@@ -61,6 +62,15 @@ void run(List<String> args) async {
       GoogleIdpConfigFromPasswords(),
     ],
   );
+
+  // Configure CORS for Flutter web clients
+  const allowedOrigins = [
+    'https://offmenu-two.vercel.app',
+    'https://offmenu.vercel.app',
+    'http://localhost:8080',
+    'http://localhost:3000',
+  ];
+  pod.webServer.addMiddleware(corsMiddleware(allowedOrigins), '/**');
 
   // Setup a default page at the web root.
   // These are used by the default page.
