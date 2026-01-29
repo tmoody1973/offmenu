@@ -1,4 +1,35 @@
-.mcp.json
+# macOS
 .DS_Store
 **/.DS_Store
+
+# Claude
 .claude/
+.mcp.json
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Serverpod
+**/passwords.yaml
+**/config.local.json
+
+# Flutter config with API keys
+food_butler_flutter/assets/config.json
+food_butler_flutter/assets/config.prod.json
+food_butler_flutter/assets/config.local.json
+
+# Web index with API keys (use index.example.html as template)
+food_butler_flutter/web/index.html
+
+# Build outputs
+**/build/
+**/.dart_tool/
+**/.packages
+
+# Vercel
+**/.vercel/
+
+# Serverpod Cloud
+**/.scloud/
