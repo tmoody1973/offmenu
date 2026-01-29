@@ -39,38 +39,40 @@ import 'package:food_butler_server/src/generated/tours/james_beard_distinction.d
 import 'package:food_butler_server/src/generated/daily/daily_story.dart'
     as _i15;
 import 'package:food_butler_server/src/generated/tonight_pick.dart' as _i16;
-import 'package:food_butler_server/src/generated/discovery/food_discovery_response.dart'
+import 'package:food_butler_server/src/generated/discovery/cuisine_exploration_suggestion.dart'
     as _i17;
-import 'package:food_butler_server/src/generated/geocoding/place_prediction.dart'
+import 'package:food_butler_server/src/generated/discovery/food_discovery_response.dart'
     as _i18;
-import 'package:food_butler_server/src/generated/geocoding/place_details.dart'
+import 'package:food_butler_server/src/generated/geocoding/place_prediction.dart'
     as _i19;
-import 'package:food_butler_server/src/generated/places/city_prediction.dart'
+import 'package:food_butler_server/src/generated/geocoding/place_details.dart'
     as _i20;
-import 'package:food_butler_server/src/generated/greetings/greeting.dart'
+import 'package:food_butler_server/src/generated/places/city_prediction.dart'
     as _i21;
-import 'package:food_butler_server/src/generated/maps/curated_map.dart' as _i22;
+import 'package:food_butler_server/src/generated/greetings/greeting.dart'
+    as _i22;
+import 'package:food_butler_server/src/generated/maps/curated_map.dart' as _i23;
 import 'package:food_butler_server/src/generated/maps/map_restaurant.dart'
-    as _i23;
-import 'package:food_butler_server/src/generated/maps/favorite_city.dart'
     as _i24;
-import 'package:food_butler_server/src/generated/narratives/narrative_response.dart'
+import 'package:food_butler_server/src/generated/maps/favorite_city.dart'
     as _i25;
-import 'package:food_butler_server/src/generated/saved_restaurant.dart' as _i26;
+import 'package:food_butler_server/src/generated/narratives/narrative_response.dart'
+    as _i26;
+import 'package:food_butler_server/src/generated/saved_restaurant.dart' as _i27;
 import 'package:food_butler_server/src/generated/saved_restaurant_source.dart'
-    as _i27;
-import 'package:food_butler_server/src/generated/tours/tour_result.dart'
     as _i28;
-import 'package:food_butler_server/src/generated/tours/tour_request.dart'
+import 'package:food_butler_server/src/generated/tours/tour_result.dart'
     as _i29;
-import 'package:food_butler_server/src/generated/user/user_profile.dart'
+import 'package:food_butler_server/src/generated/tours/tour_request.dart'
     as _i30;
-import 'package:food_butler_server/src/generated/user/food_philosophy.dart'
+import 'package:food_butler_server/src/generated/user/user_profile.dart'
     as _i31;
-import 'package:food_butler_server/src/generated/user/adventure_level.dart'
+import 'package:food_butler_server/src/generated/user/food_philosophy.dart'
     as _i32;
-import 'package:food_butler_server/src/generated/empty_data.dart' as _i33;
-import 'package:food_butler_server/src/generated/future_calls.dart' as _i34;
+import 'package:food_butler_server/src/generated/user/adventure_level.dart'
+    as _i33;
+import 'package:food_butler_server/src/generated/empty_data.dart' as _i34;
+import 'package:food_butler_server/src/generated/future_calls.dart' as _i35;
 import 'package:food_butler_server/src/generated/protocol.dart';
 import 'package:food_butler_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -196,6 +198,8 @@ class TestEndpoints {
 
   late final _ThreeForTonightEndpoint threeForTonight;
 
+  late final _CuisineExplorationEndpoint cuisineExploration;
+
   late final _FoodDiscoveryEndpoint foodDiscovery;
 
   late final _GeocodingEndpoint geocoding;
@@ -257,6 +261,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     threeForTonight = _ThreeForTonightEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    cuisineExploration = _CuisineExplorationEndpoint(
       endpoints,
       serializationManager,
     );
@@ -1424,6 +1432,56 @@ class _ThreeForTonightEndpoint {
   }
 }
 
+class _CuisineExplorationEndpoint {
+  _CuisineExplorationEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _i2.EndpointDispatch _endpointDispatch;
+
+  final _i2.SerializationManager _serializationManager;
+
+  _i3.Future<_i17.CuisineExplorationSuggestion?> getExplorationSuggestion(
+    _i1.TestSessionBuilder sessionBuilder, {
+    required String cityName,
+    String? stateOrRegion,
+    double? latitude,
+    double? longitude,
+  }) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'cuisineExploration',
+            method: 'getExplorationSuggestion',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'cuisineExploration',
+          methodName: 'getExplorationSuggestion',
+          parameters: _i1.testObjectToJson({
+            'cityName': cityName,
+            'stateOrRegion': stateOrRegion,
+            'latitude': latitude,
+            'longitude': longitude,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<_i17.CuisineExplorationSuggestion?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
 class _FoodDiscoveryEndpoint {
   _FoodDiscoveryEndpoint(
     this._endpointDispatch,
@@ -1434,7 +1492,7 @@ class _FoodDiscoveryEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i17.FoodDiscoveryResponse> ask(
+  _i3.Future<_i18.FoodDiscoveryResponse> ask(
     _i1.TestSessionBuilder sessionBuilder,
     String query,
   ) async {
@@ -1457,7 +1515,7 @@ class _FoodDiscoveryEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i17.FoodDiscoveryResponse>);
+                as _i3.Future<_i18.FoodDiscoveryResponse>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1476,7 +1534,7 @@ class _GeocodingEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<List<_i18.PlacePrediction>> searchPlaces(
+  _i3.Future<List<_i19.PlacePrediction>> searchPlaces(
     _i1.TestSessionBuilder sessionBuilder,
     String query,
   ) async {
@@ -1499,7 +1557,7 @@ class _GeocodingEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i18.PlacePrediction>>);
+                as _i3.Future<List<_i19.PlacePrediction>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1507,7 +1565,7 @@ class _GeocodingEndpoint {
     });
   }
 
-  _i3.Future<_i19.PlaceDetails?> getPlaceDetails(
+  _i3.Future<_i20.PlaceDetails?> getPlaceDetails(
     _i1.TestSessionBuilder sessionBuilder,
     String placeId,
   ) async {
@@ -1530,7 +1588,7 @@ class _GeocodingEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i19.PlaceDetails?>);
+                as _i3.Future<_i20.PlaceDetails?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1549,7 +1607,7 @@ class _PlacesEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<List<_i20.CityPrediction>> searchCities(
+  _i3.Future<List<_i21.CityPrediction>> searchCities(
     _i1.TestSessionBuilder sessionBuilder,
     String query,
   ) async {
@@ -1572,7 +1630,7 @@ class _PlacesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i20.CityPrediction>>);
+                as _i3.Future<List<_i21.CityPrediction>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1580,7 +1638,7 @@ class _PlacesEndpoint {
     });
   }
 
-  _i3.Future<_i19.PlaceDetails?> getPlaceDetails(
+  _i3.Future<_i20.PlaceDetails?> getPlaceDetails(
     _i1.TestSessionBuilder sessionBuilder,
     String placeId,
   ) async {
@@ -1603,7 +1661,7 @@ class _PlacesEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i19.PlaceDetails?>);
+                as _i3.Future<_i20.PlaceDetails?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -1622,7 +1680,7 @@ class _GreetingEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i21.Greeting> hello(
+  _i3.Future<_i22.Greeting> hello(
     _i1.TestSessionBuilder sessionBuilder,
     String name,
   ) async {
@@ -1645,7 +1703,7 @@ class _GreetingEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i21.Greeting>);
+                as _i3.Future<_i22.Greeting>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2079,7 +2137,7 @@ class _CuratedMapsEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<List<_i22.CuratedMap>> getMapsForCity(
+  _i3.Future<List<_i23.CuratedMap>> getMapsForCity(
     _i1.TestSessionBuilder sessionBuilder,
     String cityName,
   ) async {
@@ -2102,7 +2160,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i22.CuratedMap>>);
+                as _i3.Future<List<_i23.CuratedMap>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2110,7 +2168,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<List<_i22.CuratedMap>> getMapsByCategory(
+  _i3.Future<List<_i23.CuratedMap>> getMapsByCategory(
     _i1.TestSessionBuilder sessionBuilder,
     String cityName,
     String category,
@@ -2137,7 +2195,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i22.CuratedMap>>);
+                as _i3.Future<List<_i23.CuratedMap>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2145,7 +2203,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<_i22.CuratedMap?> getMapBySlug(
+  _i3.Future<_i23.CuratedMap?> getMapBySlug(
     _i1.TestSessionBuilder sessionBuilder,
     String slug,
   ) async {
@@ -2168,7 +2226,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i22.CuratedMap?>);
+                as _i3.Future<_i23.CuratedMap?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2176,7 +2234,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<List<_i23.MapRestaurant>> getMapRestaurants(
+  _i3.Future<List<_i24.MapRestaurant>> getMapRestaurants(
     _i1.TestSessionBuilder sessionBuilder,
     int mapId,
   ) async {
@@ -2199,7 +2257,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i23.MapRestaurant>>);
+                as _i3.Future<List<_i24.MapRestaurant>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2207,7 +2265,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<List<_i24.FavoriteCity>> getFavoriteCities(
+  _i3.Future<List<_i25.FavoriteCity>> getFavoriteCities(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2229,7 +2287,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i24.FavoriteCity>>);
+                as _i3.Future<List<_i25.FavoriteCity>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2237,7 +2295,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<_i24.FavoriteCity> addFavoriteCity(
+  _i3.Future<_i25.FavoriteCity> addFavoriteCity(
     _i1.TestSessionBuilder sessionBuilder, {
     required String cityName,
     String? stateOrRegion,
@@ -2272,7 +2330,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i24.FavoriteCity>);
+                as _i3.Future<_i25.FavoriteCity>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2311,7 +2369,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<List<_i22.CuratedMap>> getUserMaps(
+  _i3.Future<List<_i23.CuratedMap>> getUserMaps(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2333,7 +2391,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i22.CuratedMap>>);
+                as _i3.Future<List<_i23.CuratedMap>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2341,7 +2399,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<_i22.CuratedMap> createUserMap(
+  _i3.Future<_i23.CuratedMap> createUserMap(
     _i1.TestSessionBuilder sessionBuilder, {
     required String cityName,
     String? stateOrRegion,
@@ -2374,7 +2432,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i22.CuratedMap>);
+                as _i3.Future<_i23.CuratedMap>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2382,7 +2440,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<_i23.MapRestaurant> addRestaurantToMap(
+  _i3.Future<_i24.MapRestaurant> addRestaurantToMap(
     _i1.TestSessionBuilder sessionBuilder, {
     required int mapId,
     required String name,
@@ -2431,7 +2489,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i23.MapRestaurant>);
+                as _i3.Future<_i24.MapRestaurant>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2439,7 +2497,7 @@ class _CuratedMapsEndpoint {
     });
   }
 
-  _i3.Future<_i22.CuratedMap> generateMap(
+  _i3.Future<_i23.CuratedMap> generateMap(
     _i1.TestSessionBuilder sessionBuilder, {
     required String cityName,
     String? stateOrRegion,
@@ -2474,7 +2532,7 @@ class _CuratedMapsEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i22.CuratedMap>);
+                as _i3.Future<_i23.CuratedMap>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2493,7 +2551,7 @@ class _NarrativeEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i25.NarrativeResponse> generate(
+  _i3.Future<_i26.NarrativeResponse> generate(
     _i1.TestSessionBuilder sessionBuilder,
     int tourId, {
     required bool regenerate,
@@ -2520,7 +2578,7 @@ class _NarrativeEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i25.NarrativeResponse>);
+                as _i3.Future<_i26.NarrativeResponse>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2725,7 +2783,7 @@ class _SavedRestaurantEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i26.SavedRestaurant> saveRestaurant(
+  _i3.Future<_i27.SavedRestaurant> saveRestaurant(
     _i1.TestSessionBuilder sessionBuilder, {
     required String name,
     String? placeId,
@@ -2736,7 +2794,7 @@ class _SavedRestaurantEndpoint {
     int? priceLevel,
     String? notes,
     int? userRating,
-    required _i27.SavedRestaurantSource source,
+    required _i28.SavedRestaurantSource source,
   }) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -2768,7 +2826,7 @@ class _SavedRestaurantEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i26.SavedRestaurant>);
+                as _i3.Future<_i27.SavedRestaurant>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2842,7 +2900,7 @@ class _SavedRestaurantEndpoint {
     });
   }
 
-  _i3.Future<List<_i26.SavedRestaurant>> getSavedRestaurants(
+  _i3.Future<List<_i27.SavedRestaurant>> getSavedRestaurants(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -2864,7 +2922,7 @@ class _SavedRestaurantEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<List<_i26.SavedRestaurant>>);
+                as _i3.Future<List<_i27.SavedRestaurant>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2872,7 +2930,7 @@ class _SavedRestaurantEndpoint {
     });
   }
 
-  _i3.Future<_i26.SavedRestaurant?> updateSavedRestaurant(
+  _i3.Future<_i27.SavedRestaurant?> updateSavedRestaurant(
     _i1.TestSessionBuilder sessionBuilder, {
     required int id,
     String? notes,
@@ -2901,7 +2959,7 @@ class _SavedRestaurantEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i26.SavedRestaurant?>);
+                as _i3.Future<_i27.SavedRestaurant?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2909,7 +2967,7 @@ class _SavedRestaurantEndpoint {
     });
   }
 
-  _i3.Future<_i26.SavedRestaurant?> getSavedRestaurant(
+  _i3.Future<_i27.SavedRestaurant?> getSavedRestaurant(
     _i1.TestSessionBuilder sessionBuilder, {
     required int id,
   }) async {
@@ -2932,7 +2990,7 @@ class _SavedRestaurantEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i26.SavedRestaurant?>);
+                as _i3.Future<_i27.SavedRestaurant?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2951,9 +3009,9 @@ class _TourEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i28.TourResult> generate(
+  _i3.Future<_i29.TourResult> generate(
     _i1.TestSessionBuilder sessionBuilder,
-    _i29.TourRequest request,
+    _i30.TourRequest request,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -2974,7 +3032,7 @@ class _TourEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i28.TourResult>);
+                as _i3.Future<_i29.TourResult>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -2993,7 +3051,7 @@ class _UserProfileEndpoint {
 
   final _i2.SerializationManager _serializationManager;
 
-  _i3.Future<_i30.UserProfile?> getProfile(
+  _i3.Future<_i31.UserProfile?> getProfile(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -3015,7 +3073,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile?>);
+                as _i3.Future<_i31.UserProfile?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3053,10 +3111,10 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i30.UserProfile> saveProfile(
+  _i3.Future<_i31.UserProfile> saveProfile(
     _i1.TestSessionBuilder sessionBuilder, {
-    _i31.FoodPhilosophy? foodPhilosophy,
-    _i32.AdventureLevel? adventureLevel,
+    _i32.FoodPhilosophy? foodPhilosophy,
+    _i33.AdventureLevel? adventureLevel,
     List<String>? familiarCuisines,
     List<String>? wantToTryCuisines,
     List<String>? dietaryRestrictions,
@@ -3100,7 +3158,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile>);
+                as _i3.Future<_i31.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3108,7 +3166,7 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i30.UserProfile> completeOnboarding(
+  _i3.Future<_i31.UserProfile> completeOnboarding(
     _i1.TestSessionBuilder sessionBuilder,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
@@ -3130,7 +3188,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile>);
+                as _i3.Future<_i31.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3138,7 +3196,7 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i30.UserProfile> updateLocation(
+  _i3.Future<_i31.UserProfile> updateLocation(
     _i1.TestSessionBuilder sessionBuilder, {
     required String city,
     String? state,
@@ -3171,7 +3229,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile>);
+                as _i3.Future<_i31.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3179,9 +3237,9 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i30.UserProfile> updateFoodPhilosophy(
+  _i3.Future<_i31.UserProfile> updateFoodPhilosophy(
     _i1.TestSessionBuilder sessionBuilder,
-    _i31.FoodPhilosophy philosophy,
+    _i32.FoodPhilosophy philosophy,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -3202,7 +3260,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile>);
+                as _i3.Future<_i31.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3210,9 +3268,9 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i30.UserProfile> updateAdventureLevel(
+  _i3.Future<_i31.UserProfile> updateAdventureLevel(
     _i1.TestSessionBuilder sessionBuilder,
-    _i32.AdventureLevel level,
+    _i33.AdventureLevel level,
   ) async {
     return _i1.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
@@ -3233,7 +3291,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile>);
+                as _i3.Future<_i31.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3241,7 +3299,7 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i30.UserProfile> updateCuisinePreferences(
+  _i3.Future<_i31.UserProfile> updateCuisinePreferences(
     _i1.TestSessionBuilder sessionBuilder, {
     List<String>? familiar,
     List<String>? wantToTry,
@@ -3268,7 +3326,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile>);
+                as _i3.Future<_i31.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3276,7 +3334,7 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i30.UserProfile> updateDietaryRestrictions(
+  _i3.Future<_i31.UserProfile> updateDietaryRestrictions(
     _i1.TestSessionBuilder sessionBuilder,
     List<String> restrictions,
   ) async {
@@ -3299,7 +3357,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile>);
+                as _i3.Future<_i31.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3307,7 +3365,7 @@ class _UserProfileEndpoint {
     });
   }
 
-  _i3.Future<_i30.UserProfile> updateAdditionalCities(
+  _i3.Future<_i31.UserProfile> updateAdditionalCities(
     _i1.TestSessionBuilder sessionBuilder,
     String citiesJson,
   ) async {
@@ -3330,7 +3388,7 @@ class _UserProfileEndpoint {
                   _localUniqueSession,
                   _localCallContext.arguments,
                 )
-                as _i3.Future<_i30.UserProfile>);
+                as _i3.Future<_i31.UserProfile>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
@@ -3372,12 +3430,12 @@ class _UserProfileEndpoint {
 class _DailyStoryGenerationCallFutureCall {
   Future<void> invoke(
     _i1.TestSessionBuilder sessionBuilder,
-    _i33.EmptyData? object,
+    _i34.EmptyData? object,
   ) async {
     var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
         .internalBuild();
     try {
-      await _i34.DailyStoryGenerationCallInvokeFutureCall().invoke(
+      await _i35.DailyStoryGenerationCallInvokeFutureCall().invoke(
         _localUniqueSession,
         object,
       );

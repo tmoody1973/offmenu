@@ -1,0 +1,24 @@
+### A cuisine exploration suggestion for the user.
+### Based on cuisines they want to try with nearby restaurant info.
+class: CuisineExplorationSuggestion
+fields:
+  ### The cuisine type to explore (e.g., "Ethiopian", "Korean").
+  cuisine: String
+
+  ### Name of a nearby restaurant of this cuisine type.
+  restaurantName: String?
+
+  ### Address of the restaurant.
+  restaurantAddress: String?
+
+  ### Google Place ID for navigation/details.
+  placeId: String?
+
+  ### Restaurant rating if available.
+  rating: double?
+
+  ### The hook line to display (e.g., "Cafe Selam is 8 min away.").
+  hookLine: String
+
+  ### The CTA button text (e.g., "SHOW ME").
+  ctaText: String

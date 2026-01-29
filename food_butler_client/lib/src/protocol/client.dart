@@ -38,35 +38,37 @@ import 'package:food_butler_client/src/protocol/tours/james_beard_distinction.da
     as _i14;
 import 'package:food_butler_client/src/protocol/daily/daily_story.dart' as _i15;
 import 'package:food_butler_client/src/protocol/tonight_pick.dart' as _i16;
-import 'package:food_butler_client/src/protocol/discovery/food_discovery_response.dart'
+import 'package:food_butler_client/src/protocol/discovery/cuisine_exploration_suggestion.dart'
     as _i17;
-import 'package:food_butler_client/src/protocol/geocoding/place_prediction.dart'
+import 'package:food_butler_client/src/protocol/discovery/food_discovery_response.dart'
     as _i18;
-import 'package:food_butler_client/src/protocol/geocoding/place_details.dart'
+import 'package:food_butler_client/src/protocol/geocoding/place_prediction.dart'
     as _i19;
-import 'package:food_butler_client/src/protocol/places/city_prediction.dart'
+import 'package:food_butler_client/src/protocol/geocoding/place_details.dart'
     as _i20;
-import 'package:food_butler_client/src/protocol/greetings/greeting.dart'
+import 'package:food_butler_client/src/protocol/places/city_prediction.dart'
     as _i21;
-import 'package:food_butler_client/src/protocol/maps/curated_map.dart' as _i22;
+import 'package:food_butler_client/src/protocol/greetings/greeting.dart'
+    as _i22;
+import 'package:food_butler_client/src/protocol/maps/curated_map.dart' as _i23;
 import 'package:food_butler_client/src/protocol/maps/map_restaurant.dart'
-    as _i23;
-import 'package:food_butler_client/src/protocol/maps/favorite_city.dart'
     as _i24;
-import 'package:food_butler_client/src/protocol/narratives/narrative_response.dart'
+import 'package:food_butler_client/src/protocol/maps/favorite_city.dart'
     as _i25;
-import 'package:food_butler_client/src/protocol/saved_restaurant.dart' as _i26;
+import 'package:food_butler_client/src/protocol/narratives/narrative_response.dart'
+    as _i26;
+import 'package:food_butler_client/src/protocol/saved_restaurant.dart' as _i27;
 import 'package:food_butler_client/src/protocol/saved_restaurant_source.dart'
-    as _i27;
-import 'package:food_butler_client/src/protocol/tours/tour_result.dart' as _i28;
+    as _i28;
+import 'package:food_butler_client/src/protocol/tours/tour_result.dart' as _i29;
 import 'package:food_butler_client/src/protocol/tours/tour_request.dart'
-    as _i29;
-import 'package:food_butler_client/src/protocol/user/user_profile.dart' as _i30;
+    as _i30;
+import 'package:food_butler_client/src/protocol/user/user_profile.dart' as _i31;
 import 'package:food_butler_client/src/protocol/user/food_philosophy.dart'
-    as _i31;
-import 'package:food_butler_client/src/protocol/user/adventure_level.dart'
     as _i32;
-import 'protocol.dart' as _i33;
+import 'package:food_butler_client/src/protocol/user/adventure_level.dart'
+    as _i33;
+import 'protocol.dart' as _i34;
 
 /// Analytics API endpoint for tracking user interactions.
 ///
@@ -666,6 +668,37 @@ class EndpointThreeForTonight extends _i1.EndpointRef {
   );
 }
 
+/// Endpoint for cuisine exploration suggestions.
+///
+/// Suggests cuisines the user wants to try and finds nearby restaurants.
+/// {@category Endpoint}
+class EndpointCuisineExploration extends _i1.EndpointRef {
+  EndpointCuisineExploration(_i1.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'cuisineExploration';
+
+  /// Get a cuisine exploration suggestion for the user.
+  ///
+  /// Returns a suggestion based on cuisines they want to try,
+  /// with a nearby restaurant recommendation.
+  _i2.Future<_i17.CuisineExplorationSuggestion?> getExplorationSuggestion({
+    required String cityName,
+    String? stateOrRegion,
+    double? latitude,
+    double? longitude,
+  }) => caller.callServerEndpoint<_i17.CuisineExplorationSuggestion?>(
+    'cuisineExploration',
+    'getExplorationSuggestion',
+    {
+      'cityName': cityName,
+      'stateOrRegion': stateOrRegion,
+      'latitude': latitude,
+      'longitude': longitude,
+    },
+  );
+}
+
 /// Endpoint for the AI food concierge - "Ask the Butler".
 ///
 /// Handles free-form natural language food queries like:
@@ -683,8 +716,8 @@ class EndpointFoodDiscovery extends _i1.EndpointRef {
   ///
   /// The AI will understand natural language queries and return
   /// curated restaurant recommendations with photos and map data.
-  _i2.Future<_i17.FoodDiscoveryResponse> ask(String query) =>
-      caller.callServerEndpoint<_i17.FoodDiscoveryResponse>(
+  _i2.Future<_i18.FoodDiscoveryResponse> ask(String query) =>
+      caller.callServerEndpoint<_i18.FoodDiscoveryResponse>(
         'foodDiscovery',
         'ask',
         {'query': query},
@@ -704,8 +737,8 @@ class EndpointGeocoding extends _i1.EndpointRef {
   /// Search for places matching the query.
   ///
   /// Returns a list of place predictions with their IDs and descriptions.
-  _i2.Future<List<_i18.PlacePrediction>> searchPlaces(String query) =>
-      caller.callServerEndpoint<List<_i18.PlacePrediction>>(
+  _i2.Future<List<_i19.PlacePrediction>> searchPlaces(String query) =>
+      caller.callServerEndpoint<List<_i19.PlacePrediction>>(
         'geocoding',
         'searchPlaces',
         {'query': query},
@@ -714,8 +747,8 @@ class EndpointGeocoding extends _i1.EndpointRef {
   /// Get details for a place by its ID.
   ///
   /// Returns the place's coordinates and address components.
-  _i2.Future<_i19.PlaceDetails?> getPlaceDetails(String placeId) =>
-      caller.callServerEndpoint<_i19.PlaceDetails?>(
+  _i2.Future<_i20.PlaceDetails?> getPlaceDetails(String placeId) =>
+      caller.callServerEndpoint<_i20.PlaceDetails?>(
         'geocoding',
         'getPlaceDetails',
         {'placeId': placeId},
@@ -733,16 +766,16 @@ class EndpointPlaces extends _i1.EndpointRef {
 
   /// Search for cities using Google Places Autocomplete.
   /// Returns a list of city predictions.
-  _i2.Future<List<_i20.CityPrediction>> searchCities(String query) =>
-      caller.callServerEndpoint<List<_i20.CityPrediction>>(
+  _i2.Future<List<_i21.CityPrediction>> searchCities(String query) =>
+      caller.callServerEndpoint<List<_i21.CityPrediction>>(
         'places',
         'searchCities',
         {'query': query},
       );
 
   /// Get place details including coordinates.
-  _i2.Future<_i19.PlaceDetails?> getPlaceDetails(String placeId) =>
-      caller.callServerEndpoint<_i19.PlaceDetails?>(
+  _i2.Future<_i20.PlaceDetails?> getPlaceDetails(String placeId) =>
+      caller.callServerEndpoint<_i20.PlaceDetails?>(
         'places',
         'getPlaceDetails',
         {'placeId': placeId},
@@ -759,8 +792,8 @@ class EndpointGreeting extends _i1.EndpointRef {
   String get name => 'greeting';
 
   /// Returns a personalized greeting message: "Hello {name}".
-  _i2.Future<_i21.Greeting> hello(String name) =>
-      caller.callServerEndpoint<_i21.Greeting>(
+  _i2.Future<_i22.Greeting> hello(String name) =>
+      caller.callServerEndpoint<_i22.Greeting>(
         'greeting',
         'hello',
         {'name': name},
@@ -972,18 +1005,18 @@ class EndpointCuratedMaps extends _i1.EndpointRef {
   String get name => 'curatedMaps';
 
   /// Get all curated maps for a city.
-  _i2.Future<List<_i22.CuratedMap>> getMapsForCity(String cityName) =>
-      caller.callServerEndpoint<List<_i22.CuratedMap>>(
+  _i2.Future<List<_i23.CuratedMap>> getMapsForCity(String cityName) =>
+      caller.callServerEndpoint<List<_i23.CuratedMap>>(
         'curatedMaps',
         'getMapsForCity',
         {'cityName': cityName},
       );
 
   /// Get maps for a specific category in a city.
-  _i2.Future<List<_i22.CuratedMap>> getMapsByCategory(
+  _i2.Future<List<_i23.CuratedMap>> getMapsByCategory(
     String cityName,
     String category,
-  ) => caller.callServerEndpoint<List<_i22.CuratedMap>>(
+  ) => caller.callServerEndpoint<List<_i23.CuratedMap>>(
     'curatedMaps',
     'getMapsByCategory',
     {
@@ -993,38 +1026,38 @@ class EndpointCuratedMaps extends _i1.EndpointRef {
   );
 
   /// Get a single map by slug.
-  _i2.Future<_i22.CuratedMap?> getMapBySlug(String slug) =>
-      caller.callServerEndpoint<_i22.CuratedMap?>(
+  _i2.Future<_i23.CuratedMap?> getMapBySlug(String slug) =>
+      caller.callServerEndpoint<_i23.CuratedMap?>(
         'curatedMaps',
         'getMapBySlug',
         {'slug': slug},
       );
 
   /// Get all restaurants in a map.
-  _i2.Future<List<_i23.MapRestaurant>> getMapRestaurants(int mapId) =>
-      caller.callServerEndpoint<List<_i23.MapRestaurant>>(
+  _i2.Future<List<_i24.MapRestaurant>> getMapRestaurants(int mapId) =>
+      caller.callServerEndpoint<List<_i24.MapRestaurant>>(
         'curatedMaps',
         'getMapRestaurants',
         {'mapId': mapId},
       );
 
   /// Get user's favorite cities.
-  _i2.Future<List<_i24.FavoriteCity>> getFavoriteCities() =>
-      caller.callServerEndpoint<List<_i24.FavoriteCity>>(
+  _i2.Future<List<_i25.FavoriteCity>> getFavoriteCities() =>
+      caller.callServerEndpoint<List<_i25.FavoriteCity>>(
         'curatedMaps',
         'getFavoriteCities',
         {},
       );
 
   /// Add a favorite city.
-  _i2.Future<_i24.FavoriteCity> addFavoriteCity({
+  _i2.Future<_i25.FavoriteCity> addFavoriteCity({
     required String cityName,
     String? stateOrRegion,
     required String country,
     required double latitude,
     required double longitude,
     required bool isHomeCity,
-  }) => caller.callServerEndpoint<_i24.FavoriteCity>(
+  }) => caller.callServerEndpoint<_i25.FavoriteCity>(
     'curatedMaps',
     'addFavoriteCity',
     {
@@ -1046,21 +1079,21 @@ class EndpointCuratedMaps extends _i1.EndpointRef {
       );
 
   /// Get user's custom maps.
-  _i2.Future<List<_i22.CuratedMap>> getUserMaps() =>
-      caller.callServerEndpoint<List<_i22.CuratedMap>>(
+  _i2.Future<List<_i23.CuratedMap>> getUserMaps() =>
+      caller.callServerEndpoint<List<_i23.CuratedMap>>(
         'curatedMaps',
         'getUserMaps',
         {},
       );
 
   /// Create a user's custom map.
-  _i2.Future<_i22.CuratedMap> createUserMap({
+  _i2.Future<_i23.CuratedMap> createUserMap({
     required String cityName,
     String? stateOrRegion,
     required String country,
     required String title,
     required String shortDescription,
-  }) => caller.callServerEndpoint<_i22.CuratedMap>(
+  }) => caller.callServerEndpoint<_i23.CuratedMap>(
     'curatedMaps',
     'createUserMap',
     {
@@ -1073,7 +1106,7 @@ class EndpointCuratedMaps extends _i1.EndpointRef {
   );
 
   /// Add a restaurant to a user's map with AI-generated description.
-  _i2.Future<_i23.MapRestaurant> addRestaurantToMap({
+  _i2.Future<_i24.MapRestaurant> addRestaurantToMap({
     required int mapId,
     required String name,
     String? googlePlaceId,
@@ -1087,7 +1120,7 @@ class EndpointCuratedMaps extends _i1.EndpointRef {
     String? websiteUrl,
     String? reservationUrl,
     String? primaryPhotoUrl,
-  }) => caller.callServerEndpoint<_i23.MapRestaurant>(
+  }) => caller.callServerEndpoint<_i24.MapRestaurant>(
     'curatedMaps',
     'addRestaurantToMap',
     {
@@ -1108,14 +1141,14 @@ class EndpointCuratedMaps extends _i1.EndpointRef {
   );
 
   /// Generate a curated map using Perplexity AI.
-  _i2.Future<_i22.CuratedMap> generateMap({
+  _i2.Future<_i23.CuratedMap> generateMap({
     required String cityName,
     String? stateOrRegion,
     required String country,
     required String mapType,
     String? customPrompt,
     required int maxRestaurants,
-  }) => caller.callServerEndpoint<_i22.CuratedMap>(
+  }) => caller.callServerEndpoint<_i23.CuratedMap>(
     'curatedMaps',
     'generateMap',
     {
@@ -1148,10 +1181,10 @@ class EndpointNarrative extends _i1.EndpointRef {
   ///
   /// Returns NarrativeResponse with intro, descriptions, and transitions.
   /// Rate limited to 3 regenerations per tour per day.
-  _i2.Future<_i25.NarrativeResponse> generate(
+  _i2.Future<_i26.NarrativeResponse> generate(
     int tourId, {
     required bool regenerate,
-  }) => caller.callServerEndpoint<_i25.NarrativeResponse>(
+  }) => caller.callServerEndpoint<_i26.NarrativeResponse>(
     'narrative',
     'generate',
     {
@@ -1256,7 +1289,7 @@ class EndpointSavedRestaurant extends _i1.EndpointRef {
   /// Save a restaurant to the user's favorites.
   ///
   /// If the restaurant is already saved (by placeId), updates it instead.
-  _i2.Future<_i26.SavedRestaurant> saveRestaurant({
+  _i2.Future<_i27.SavedRestaurant> saveRestaurant({
     required String name,
     String? placeId,
     String? address,
@@ -1266,8 +1299,8 @@ class EndpointSavedRestaurant extends _i1.EndpointRef {
     int? priceLevel,
     String? notes,
     int? userRating,
-    required _i27.SavedRestaurantSource source,
-  }) => caller.callServerEndpoint<_i26.SavedRestaurant>(
+    required _i28.SavedRestaurantSource source,
+  }) => caller.callServerEndpoint<_i27.SavedRestaurant>(
     'savedRestaurant',
     'saveRestaurant',
     {
@@ -1306,19 +1339,19 @@ class EndpointSavedRestaurant extends _i1.EndpointRef {
       );
 
   /// Get all saved restaurants for the current user.
-  _i2.Future<List<_i26.SavedRestaurant>> getSavedRestaurants() =>
-      caller.callServerEndpoint<List<_i26.SavedRestaurant>>(
+  _i2.Future<List<_i27.SavedRestaurant>> getSavedRestaurants() =>
+      caller.callServerEndpoint<List<_i27.SavedRestaurant>>(
         'savedRestaurant',
         'getSavedRestaurants',
         {},
       );
 
   /// Update notes or user rating for a saved restaurant.
-  _i2.Future<_i26.SavedRestaurant?> updateSavedRestaurant({
+  _i2.Future<_i27.SavedRestaurant?> updateSavedRestaurant({
     required int id,
     String? notes,
     int? userRating,
-  }) => caller.callServerEndpoint<_i26.SavedRestaurant?>(
+  }) => caller.callServerEndpoint<_i27.SavedRestaurant?>(
     'savedRestaurant',
     'updateSavedRestaurant',
     {
@@ -1329,8 +1362,8 @@ class EndpointSavedRestaurant extends _i1.EndpointRef {
   );
 
   /// Get a single saved restaurant by ID.
-  _i2.Future<_i26.SavedRestaurant?> getSavedRestaurant({required int id}) =>
-      caller.callServerEndpoint<_i26.SavedRestaurant?>(
+  _i2.Future<_i27.SavedRestaurant?> getSavedRestaurant({required int id}) =>
+      caller.callServerEndpoint<_i27.SavedRestaurant?>(
         'savedRestaurant',
         'getSavedRestaurant',
         {'id': id},
@@ -1353,8 +1386,8 @@ class EndpointTour extends _i1.EndpointRef {
   /// Returns HTTP 200 with TourResult for successful generation.
   /// Returns HTTP 400 equivalent (via TourResult with error) for validation errors.
   /// Includes rate limiting headers in response.
-  _i2.Future<_i28.TourResult> generate(_i29.TourRequest request) =>
-      caller.callServerEndpoint<_i28.TourResult>(
+  _i2.Future<_i29.TourResult> generate(_i30.TourRequest request) =>
+      caller.callServerEndpoint<_i29.TourResult>(
         'tour',
         'generate',
         {'request': request},
@@ -1371,8 +1404,8 @@ class EndpointUserProfile extends _i1.EndpointRef {
 
   /// Get the current user's profile.
   /// Returns null if no profile exists (user hasn't onboarded).
-  _i2.Future<_i30.UserProfile?> getProfile() =>
-      caller.callServerEndpoint<_i30.UserProfile?>(
+  _i2.Future<_i31.UserProfile?> getProfile() =>
+      caller.callServerEndpoint<_i31.UserProfile?>(
         'userProfile',
         'getProfile',
         {},
@@ -1387,9 +1420,9 @@ class EndpointUserProfile extends _i1.EndpointRef {
 
   /// Create or update user profile.
   /// Called during onboarding to save user's choices.
-  _i2.Future<_i30.UserProfile> saveProfile({
-    _i31.FoodPhilosophy? foodPhilosophy,
-    _i32.AdventureLevel? adventureLevel,
+  _i2.Future<_i31.UserProfile> saveProfile({
+    _i32.FoodPhilosophy? foodPhilosophy,
+    _i33.AdventureLevel? adventureLevel,
     List<String>? familiarCuisines,
     List<String>? wantToTryCuisines,
     List<String>? dietaryRestrictions,
@@ -1400,7 +1433,7 @@ class EndpointUserProfile extends _i1.EndpointRef {
     double? homeLongitude,
     String? additionalCities,
     bool? onboardingCompleted,
-  }) => caller.callServerEndpoint<_i30.UserProfile>(
+  }) => caller.callServerEndpoint<_i31.UserProfile>(
     'userProfile',
     'saveProfile',
     {
@@ -1420,21 +1453,21 @@ class EndpointUserProfile extends _i1.EndpointRef {
   );
 
   /// Complete onboarding - marks profile as complete.
-  _i2.Future<_i30.UserProfile> completeOnboarding() =>
-      caller.callServerEndpoint<_i30.UserProfile>(
+  _i2.Future<_i31.UserProfile> completeOnboarding() =>
+      caller.callServerEndpoint<_i31.UserProfile>(
         'userProfile',
         'completeOnboarding',
         {},
       );
 
   /// Update just the user's home location.
-  _i2.Future<_i30.UserProfile> updateLocation({
+  _i2.Future<_i31.UserProfile> updateLocation({
     required String city,
     String? state,
     String? country,
     double? latitude,
     double? longitude,
-  }) => caller.callServerEndpoint<_i30.UserProfile>(
+  }) => caller.callServerEndpoint<_i31.UserProfile>(
     'userProfile',
     'updateLocation',
     {
@@ -1447,28 +1480,28 @@ class EndpointUserProfile extends _i1.EndpointRef {
   );
 
   /// Update food philosophy preference.
-  _i2.Future<_i30.UserProfile> updateFoodPhilosophy(
-    _i31.FoodPhilosophy philosophy,
-  ) => caller.callServerEndpoint<_i30.UserProfile>(
+  _i2.Future<_i31.UserProfile> updateFoodPhilosophy(
+    _i32.FoodPhilosophy philosophy,
+  ) => caller.callServerEndpoint<_i31.UserProfile>(
     'userProfile',
     'updateFoodPhilosophy',
     {'philosophy': philosophy},
   );
 
   /// Update adventure level preference.
-  _i2.Future<_i30.UserProfile> updateAdventureLevel(
-    _i32.AdventureLevel level,
-  ) => caller.callServerEndpoint<_i30.UserProfile>(
+  _i2.Future<_i31.UserProfile> updateAdventureLevel(
+    _i33.AdventureLevel level,
+  ) => caller.callServerEndpoint<_i31.UserProfile>(
     'userProfile',
     'updateAdventureLevel',
     {'level': level},
   );
 
   /// Update cuisine preferences.
-  _i2.Future<_i30.UserProfile> updateCuisinePreferences({
+  _i2.Future<_i31.UserProfile> updateCuisinePreferences({
     List<String>? familiar,
     List<String>? wantToTry,
-  }) => caller.callServerEndpoint<_i30.UserProfile>(
+  }) => caller.callServerEndpoint<_i31.UserProfile>(
     'userProfile',
     'updateCuisinePreferences',
     {
@@ -1478,9 +1511,9 @@ class EndpointUserProfile extends _i1.EndpointRef {
   );
 
   /// Update dietary restrictions.
-  _i2.Future<_i30.UserProfile> updateDietaryRestrictions(
+  _i2.Future<_i31.UserProfile> updateDietaryRestrictions(
     List<String> restrictions,
-  ) => caller.callServerEndpoint<_i30.UserProfile>(
+  ) => caller.callServerEndpoint<_i31.UserProfile>(
     'userProfile',
     'updateDietaryRestrictions',
     {'restrictions': restrictions},
@@ -1488,8 +1521,8 @@ class EndpointUserProfile extends _i1.EndpointRef {
 
   /// Update additional cities for personalized content.
   /// Cities should be a JSON string array.
-  _i2.Future<_i30.UserProfile> updateAdditionalCities(String citiesJson) =>
-      caller.callServerEndpoint<_i30.UserProfile>(
+  _i2.Future<_i31.UserProfile> updateAdditionalCities(String citiesJson) =>
+      caller.callServerEndpoint<_i31.UserProfile>(
         'userProfile',
         'updateAdditionalCities',
         {'citiesJson': citiesJson},
@@ -1536,7 +1569,7 @@ class Client extends _i1.ServerpodClientShared {
     bool? disconnectStreamsOnLostInternetConnection,
   }) : super(
          host,
-         _i33.Protocol(),
+         _i34.Protocol(),
          securityContext: securityContext,
          streamingConnectionTimeout: streamingConnectionTimeout,
          connectionTimeout: connectionTimeout,
@@ -1553,6 +1586,7 @@ class Client extends _i1.ServerpodClientShared {
     award = EndpointAward(this);
     dailyStory = EndpointDailyStory(this);
     threeForTonight = EndpointThreeForTonight(this);
+    cuisineExploration = EndpointCuisineExploration(this);
     foodDiscovery = EndpointFoodDiscovery(this);
     geocoding = EndpointGeocoding(this);
     places = EndpointPlaces(this);
@@ -1583,6 +1617,8 @@ class Client extends _i1.ServerpodClientShared {
   late final EndpointDailyStory dailyStory;
 
   late final EndpointThreeForTonight threeForTonight;
+
+  late final EndpointCuisineExploration cuisineExploration;
 
   late final EndpointFoodDiscovery foodDiscovery;
 
@@ -1620,6 +1656,7 @@ class Client extends _i1.ServerpodClientShared {
     'award': award,
     'dailyStory': dailyStory,
     'threeForTonight': threeForTonight,
+    'cuisineExploration': cuisineExploration,
     'foodDiscovery': foodDiscovery,
     'geocoding': geocoding,
     'places': places,

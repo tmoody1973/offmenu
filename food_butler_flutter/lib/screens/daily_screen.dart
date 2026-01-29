@@ -31,6 +31,7 @@ class _DailyScreenState extends State<DailyScreen> {
   bool _isLoadingStory = true;
   String? _storyError;
   UserProfile? _userProfile;
+  CuisineExplorationSuggestion? _explorationSuggestion;
 
   @override
   void initState() {
@@ -39,10 +40,11 @@ class _DailyScreenState extends State<DailyScreen> {
   }
 
   Future<void> _loadData() async {
-    // Load profile and story in parallel
+    // Load profile first (needed for exploration), then others in parallel
+    await _loadUserProfile();
     await Future.wait([
-      _loadUserProfile(),
       _loadDailyStory(),
+      _loadExplorationSuggestion(),
     ]);
   }
 
@@ -98,6 +100,24 @@ class _DailyScreenState extends State<DailyScreen> {
           _storyError = 'Failed to load story: ${e.toString().split('\n').first}';
         });
       }
+    }
+  }
+
+  Future<void> _loadExplorationSuggestion() async {
+    if (_userProfile == null) return;
+
+    try {
+      final suggestion = await client.cuisineExploration.getExplorationSuggestion(
+        cityName: _userProfile!.homeCity ?? 'Seattle',
+        stateOrRegion: _userProfile!.homeState,
+        latitude: _userProfile!.homeLatitude,
+        longitude: _userProfile!.homeLongitude,
+      );
+      if (mounted) {
+        setState(() => _explorationSuggestion = suggestion);
+      }
+    } catch (e) {
+      debugPrint('Error loading exploration suggestion: $e');
     }
   }
 
@@ -316,14 +336,21 @@ class _DailyScreenState extends State<DailyScreen> {
             ),
           ),
 
-          // 3. THE ADVENTURE - Challenge prompt
-          SliverToBoxAdapter(
-            child: _AdventureCard(
-              onTap: () => context.go('/ask', extra: {
-                'prompt': 'Take me somewhere I\'d never pick myself',
-              }),
+          // 3. THE ADVENTURE - Cuisine exploration
+          if (_explorationSuggestion != null)
+            SliverToBoxAdapter(
+              child: _AdventureCard(
+                suggestion: _explorationSuggestion!,
+                onTap: () {
+                  final cuisine = _explorationSuggestion!.cuisine;
+                  final restaurant = _explorationSuggestion!.restaurantName;
+                  final prompt = restaurant != null
+                      ? 'Tell me about $restaurant and $cuisine cuisine'
+                      : 'Find me a great $cuisine restaurant nearby';
+                  context.go('/ask', extra: {'prompt': prompt});
+                },
+              ),
             ),
-          ),
 
           // Section header: The Hunt
           SliverToBoxAdapter(
@@ -1057,11 +1084,15 @@ class _TonightCard extends StatelessWidget {
   }
 }
 
-/// The Adventure - Challenge card with Eater-style borders.
+/// The Adventure - Cuisine exploration card with Eater-style borders.
 class _AdventureCard extends StatelessWidget {
+  final CuisineExplorationSuggestion suggestion;
   final VoidCallback onTap;
 
-  const _AdventureCard({required this.onTap});
+  const _AdventureCard({
+    required this.suggestion,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1069,7 +1100,7 @@ class _AdventureCard extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: AppTheme.charcoalLight,
-        border: Border.all(color: AppTheme.burntOrange, width: 2), // Eater accent border
+        border: Border.all(color: AppTheme.burntOrange, width: 2),
       ),
       child: Material(
         color: Colors.transparent,
@@ -1082,7 +1113,7 @@ class _AdventureCard extends StatelessWidget {
               children: [
                 // Label
                 Text(
-                  'THE ADVENTURE',
+                  'CUISINE TO EXPLORE',
                   style: AppTheme.labelCaps.copyWith(
                     fontSize: 12,
                     color: AppTheme.burntOrange,
@@ -1092,38 +1123,38 @@ class _AdventureCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 // Context line in serif
                 Text(
-                  'You\'ve eaten Thai 6 times this month.',
+                  'You said you want to try...',
                   style: AppTheme.bodySerif.copyWith(
                     fontSize: 16,
                     color: AppTheme.creamMuted,
                   ),
                 ),
                 const SizedBox(height: 8),
-                // Main headline in bold sans
+                // Main headline - the cuisine
                 Text(
-                  'You\'ve never tried Burmese.',
+                  suggestion.cuisine,
                   style: AppTheme.headlineSans.copyWith(
-                    fontSize: 24,
+                    fontSize: 28,
                   ),
                 ),
                 const SizedBox(height: 4),
-                // Supporting line
+                // Supporting line - restaurant info
                 Text(
-                  'There\'s one 12 minutes away.',
+                  suggestion.hookLine,
                   style: AppTheme.bodySerif.copyWith(
                     fontSize: 16,
                     color: AppTheme.creamMuted,
                   ),
                 ),
                 const SizedBox(height: 20),
-                // CTA Button - Eater style (no rounded corners)
+                // CTA Button
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppTheme.burntOrange,
                   ),
                   child: Text(
-                    'SHOW ME',
+                    suggestion.ctaText,
                     style: AppTheme.labelCaps.copyWith(
                       fontSize: 13,
                       color: AppTheme.cream,

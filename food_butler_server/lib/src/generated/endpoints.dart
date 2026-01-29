@@ -19,35 +19,36 @@ import '../awards/admin_award_endpoint.dart' as _i6;
 import '../awards/award_endpoint.dart' as _i7;
 import '../daily/daily_story_endpoint.dart' as _i8;
 import '../daily/three_for_tonight_endpoint.dart' as _i9;
-import '../endpoints/food_discovery_endpoint.dart' as _i10;
-import '../endpoints/geocoding_endpoint.dart' as _i11;
-import '../endpoints/places_endpoint.dart' as _i12;
-import '../greetings/greeting_endpoint.dart' as _i13;
-import '../journal/journal_entry_endpoint.dart' as _i14;
-import '../journal/photo_endpoint.dart' as _i15;
-import '../maps/curated_maps_endpoint.dart' as _i16;
-import '../narratives/narrative_endpoint.dart' as _i17;
-import '../places/google_photos_endpoint.dart' as _i18;
-import '../saved/saved_restaurant_endpoint.dart' as _i19;
-import '../tours/tour_endpoint.dart' as _i20;
-import '../user/user_profile_endpoint.dart' as _i21;
+import '../discovery/cuisine_exploration_endpoint.dart' as _i10;
+import '../endpoints/food_discovery_endpoint.dart' as _i11;
+import '../endpoints/geocoding_endpoint.dart' as _i12;
+import '../endpoints/places_endpoint.dart' as _i13;
+import '../greetings/greeting_endpoint.dart' as _i14;
+import '../journal/journal_entry_endpoint.dart' as _i15;
+import '../journal/photo_endpoint.dart' as _i16;
+import '../maps/curated_maps_endpoint.dart' as _i17;
+import '../narratives/narrative_endpoint.dart' as _i18;
+import '../places/google_photos_endpoint.dart' as _i19;
+import '../saved/saved_restaurant_endpoint.dart' as _i20;
+import '../tours/tour_endpoint.dart' as _i21;
+import '../user/user_profile_endpoint.dart' as _i22;
 import 'package:food_butler_server/src/generated/tours/michelin_designation.dart'
-    as _i22;
-import 'package:food_butler_server/src/generated/tours/james_beard_distinction.dart'
     as _i23;
-import 'package:food_butler_server/src/generated/saved_restaurant_source.dart'
+import 'package:food_butler_server/src/generated/tours/james_beard_distinction.dart'
     as _i24;
-import 'package:food_butler_server/src/generated/tours/tour_request.dart'
+import 'package:food_butler_server/src/generated/saved_restaurant_source.dart'
     as _i25;
-import 'package:food_butler_server/src/generated/user/food_philosophy.dart'
+import 'package:food_butler_server/src/generated/tours/tour_request.dart'
     as _i26;
-import 'package:food_butler_server/src/generated/user/adventure_level.dart'
+import 'package:food_butler_server/src/generated/user/food_philosophy.dart'
     as _i27;
-import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
+import 'package:food_butler_server/src/generated/user/adventure_level.dart'
     as _i28;
-import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
+import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _i29;
-import 'package:food_butler_server/src/generated/future_calls.dart' as _i30;
+import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
+    as _i30;
+import 'package:food_butler_server/src/generated/future_calls.dart' as _i31;
 export 'future_calls.dart' show ServerpodFutureCallsGetter;
 
 class Endpoints extends _i1.EndpointDispatch {
@@ -102,73 +103,79 @@ class Endpoints extends _i1.EndpointDispatch {
           'threeForTonight',
           null,
         ),
-      'foodDiscovery': _i10.FoodDiscoveryEndpoint()
+      'cuisineExploration': _i10.CuisineExplorationEndpoint()
+        ..initialize(
+          server,
+          'cuisineExploration',
+          null,
+        ),
+      'foodDiscovery': _i11.FoodDiscoveryEndpoint()
         ..initialize(
           server,
           'foodDiscovery',
           null,
         ),
-      'geocoding': _i11.GeocodingEndpoint()
+      'geocoding': _i12.GeocodingEndpoint()
         ..initialize(
           server,
           'geocoding',
           null,
         ),
-      'places': _i12.PlacesEndpoint()
+      'places': _i13.PlacesEndpoint()
         ..initialize(
           server,
           'places',
           null,
         ),
-      'greeting': _i13.GreetingEndpoint()
+      'greeting': _i14.GreetingEndpoint()
         ..initialize(
           server,
           'greeting',
           null,
         ),
-      'journalEntry': _i14.JournalEntryEndpoint()
+      'journalEntry': _i15.JournalEntryEndpoint()
         ..initialize(
           server,
           'journalEntry',
           null,
         ),
-      'photo': _i15.PhotoEndpoint()
+      'photo': _i16.PhotoEndpoint()
         ..initialize(
           server,
           'photo',
           null,
         ),
-      'curatedMaps': _i16.CuratedMapsEndpoint()
+      'curatedMaps': _i17.CuratedMapsEndpoint()
         ..initialize(
           server,
           'curatedMaps',
           null,
         ),
-      'narrative': _i17.NarrativeEndpoint()
+      'narrative': _i18.NarrativeEndpoint()
         ..initialize(
           server,
           'narrative',
           null,
         ),
-      'googlePhotos': _i18.GooglePhotosEndpoint()
+      'googlePhotos': _i19.GooglePhotosEndpoint()
         ..initialize(
           server,
           'googlePhotos',
           null,
         ),
-      'savedRestaurant': _i19.SavedRestaurantEndpoint()
+      'savedRestaurant': _i20.SavedRestaurantEndpoint()
         ..initialize(
           server,
           'savedRestaurant',
           null,
         ),
-      'tour': _i20.TourEndpoint()
+      'tour': _i21.TourEndpoint()
         ..initialize(
           server,
           'tour',
           null,
         ),
-      'userProfile': _i21.UserProfileEndpoint()
+      'userProfile': _i22.UserProfileEndpoint()
         ..initialize(
           server,
           'userProfile',
@@ -720,7 +727,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'designation': _i1.ParameterDescription(
               name: 'designation',
-              type: _i1.getType<_i22.MichelinDesignation?>(),
+              type: _i1.getType<_i23.MichelinDesignation?>(),
               nullable: true,
             ),
             'year': _i1.ParameterDescription(
@@ -768,7 +775,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'distinctionLevel': _i1.ParameterDescription(
               name: 'distinctionLevel',
-              type: _i1.getType<_i23.JamesBeardDistinction?>(),
+              type: _i1.getType<_i24.JamesBeardDistinction?>(),
               nullable: true,
             ),
             'year': _i1.ParameterDescription(
@@ -953,6 +960,51 @@ class Endpoints extends _i1.EndpointDispatch {
         ),
       },
     );
+    connectors['cuisineExploration'] = _i1.EndpointConnector(
+      name: 'cuisineExploration',
+      endpoint: endpoints['cuisineExploration']!,
+      methodConnectors: {
+        'getExplorationSuggestion': _i1.MethodConnector(
+          name: 'getExplorationSuggestion',
+          params: {
+            'cityName': _i1.ParameterDescription(
+              name: 'cityName',
+              type: _i1.getType<String>(),
+              nullable: false,
+            ),
+            'stateOrRegion': _i1.ParameterDescription(
+              name: 'stateOrRegion',
+              type: _i1.getType<String?>(),
+              nullable: true,
+            ),
+            'latitude': _i1.ParameterDescription(
+              name: 'latitude',
+              type: _i1.getType<double?>(),
+              nullable: true,
+            ),
+            'longitude': _i1.ParameterDescription(
+              name: 'longitude',
+              type: _i1.getType<double?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['cuisineExploration']
+                          as _i10.CuisineExplorationEndpoint)
+                      .getExplorationSuggestion(
+                        session,
+                        cityName: params['cityName'],
+                        stateOrRegion: params['stateOrRegion'],
+                        latitude: params['latitude'],
+                        longitude: params['longitude'],
+                      ),
+        ),
+      },
+    );
     connectors['foodDiscovery'] = _i1.EndpointConnector(
       name: 'foodDiscovery',
       endpoint: endpoints['foodDiscovery']!,
@@ -971,7 +1023,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['foodDiscovery'] as _i10.FoodDiscoveryEndpoint)
+                  (endpoints['foodDiscovery'] as _i11.FoodDiscoveryEndpoint)
                       .ask(
                         session,
                         params['query'],
@@ -996,7 +1048,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['geocoding'] as _i11.GeocodingEndpoint)
+              ) async => (endpoints['geocoding'] as _i12.GeocodingEndpoint)
                   .searchPlaces(
                     session,
                     params['query'],
@@ -1015,7 +1067,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['geocoding'] as _i11.GeocodingEndpoint)
+              ) async => (endpoints['geocoding'] as _i12.GeocodingEndpoint)
                   .getPlaceDetails(
                     session,
                     params['placeId'],
@@ -1041,7 +1093,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['places'] as _i12.PlacesEndpoint).searchCities(
+                  (endpoints['places'] as _i13.PlacesEndpoint).searchCities(
                     session,
                     params['query'],
                   ),
@@ -1060,7 +1112,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['places'] as _i12.PlacesEndpoint).getPlaceDetails(
+                  (endpoints['places'] as _i13.PlacesEndpoint).getPlaceDetails(
                     session,
                     params['placeId'],
                   ),
@@ -1084,7 +1136,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['greeting'] as _i13.GreetingEndpoint).hello(
+              ) async => (endpoints['greeting'] as _i14.GreetingEndpoint).hello(
                 session,
                 params['name'],
               ),
@@ -1134,7 +1186,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['journalEntry'] as _i14.JournalEntryEndpoint)
+                  (endpoints['journalEntry'] as _i15.JournalEntryEndpoint)
                       .createEntry(
                         session,
                         restaurantId: params['restaurantId'],
@@ -1184,7 +1236,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['journalEntry'] as _i14.JournalEntryEndpoint)
+                  (endpoints['journalEntry'] as _i15.JournalEntryEndpoint)
                       .getEntries(
                         session,
                         page: params['page'],
@@ -1209,7 +1261,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['journalEntry'] as _i14.JournalEntryEndpoint)
+                  (endpoints['journalEntry'] as _i15.JournalEntryEndpoint)
                       .getEntry(
                         session,
                         entryId: params['entryId'],
@@ -1244,7 +1296,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['journalEntry'] as _i14.JournalEntryEndpoint)
+                  (endpoints['journalEntry'] as _i15.JournalEntryEndpoint)
                       .updateEntry(
                         session,
                         entryId: params['entryId'],
@@ -1267,7 +1319,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['journalEntry'] as _i14.JournalEntryEndpoint)
+                  (endpoints['journalEntry'] as _i15.JournalEntryEndpoint)
                       .deleteEntry(
                         session,
                         entryId: params['entryId'],
@@ -1297,7 +1349,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['journalEntry'] as _i14.JournalEntryEndpoint)
+                  (endpoints['journalEntry'] as _i15.JournalEntryEndpoint)
                       .getEntriesByRestaurant(
                         session,
                         restaurantId: params['restaurantId'],
@@ -1319,7 +1371,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['journalEntry'] as _i14.JournalEntryEndpoint)
+                  (endpoints['journalEntry'] as _i15.JournalEntryEndpoint)
                       .getEntriesByTour(
                         session,
                         tourId: params['tourId'],
@@ -1344,7 +1396,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['journalEntry'] as _i14.JournalEntryEndpoint)
+                  (endpoints['journalEntry'] as _i15.JournalEntryEndpoint)
                       .getVisitedRestaurants(
                         session,
                         sortBy: params['sortBy'],
@@ -1376,7 +1428,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['photo'] as _i15.PhotoEndpoint).getUploadUrl(
+                  (endpoints['photo'] as _i16.PhotoEndpoint).getUploadUrl(
                     session,
                     journalEntryId: params['journalEntryId'],
                     filename: params['filename'],
@@ -1406,7 +1458,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['photo'] as _i15.PhotoEndpoint).confirmUpload(
+                  (endpoints['photo'] as _i16.PhotoEndpoint).confirmUpload(
                     session,
                     journalEntryId: params['journalEntryId'],
                     objectKey: params['objectKey'],
@@ -1426,7 +1478,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['photo'] as _i15.PhotoEndpoint).deletePhoto(
+              ) async => (endpoints['photo'] as _i16.PhotoEndpoint).deletePhoto(
                 session,
                 photoId: params['photoId'],
               ),
@@ -1450,7 +1502,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .getMapsForCity(
                     session,
                     params['cityName'],
@@ -1474,7 +1526,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .getMapsByCategory(
                     session,
                     params['cityName'],
@@ -1494,7 +1546,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .getMapBySlug(
                     session,
                     params['slug'],
@@ -1513,7 +1565,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .getMapRestaurants(
                     session,
                     params['mapId'],
@@ -1526,7 +1578,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .getFavoriteCities(session),
         ),
         'addFavoriteCity': _i1.MethodConnector(
@@ -1567,7 +1619,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .addFavoriteCity(
                     session,
                     cityName: params['cityName'],
@@ -1591,7 +1643,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .removeFavoriteCity(
                     session,
                     params['cityId'],
@@ -1604,7 +1656,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .getUserMaps(session),
         ),
         'createUserMap': _i1.MethodConnector(
@@ -1640,7 +1692,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .createUserMap(
                     session,
                     cityName: params['cityName'],
@@ -1723,7 +1775,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .addRestaurantToMap(
                     session,
                     mapId: params['mapId'],
@@ -1779,7 +1831,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['curatedMaps'] as _i16.CuratedMapsEndpoint)
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .generateMap(
                     session,
                     cityName: params['cityName'],
@@ -1815,7 +1867,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['narrative'] as _i17.NarrativeEndpoint).generate(
+                  (endpoints['narrative'] as _i18.NarrativeEndpoint).generate(
                     session,
                     params['tourId'],
                     regenerate: params['regenerate'],
@@ -1846,7 +1898,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['googlePhotos'] as _i18.GooglePhotosEndpoint)
+                  (endpoints['googlePhotos'] as _i19.GooglePhotosEndpoint)
                       .getPhoto(
                         session,
                         params['photoReference'],
@@ -1872,7 +1924,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['googlePhotos'] as _i18.GooglePhotosEndpoint)
+                  (endpoints['googlePhotos'] as _i19.GooglePhotosEndpoint)
                       .getPhotoUrl(
                         session,
                         params['photoReference'],
@@ -1898,7 +1950,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['googlePhotos'] as _i18.GooglePhotosEndpoint)
+                  (endpoints['googlePhotos'] as _i19.GooglePhotosEndpoint)
                       .streamPhoto(
                         session,
                         params['ref'],
@@ -1924,7 +1976,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['googlePhotos'] as _i18.GooglePhotosEndpoint)
+                  (endpoints['googlePhotos'] as _i19.GooglePhotosEndpoint)
                       .getPhotoReferences(
                         session,
                         params['placeId'],
@@ -1950,7 +2002,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['googlePhotos'] as _i18.GooglePhotosEndpoint)
+                  (endpoints['googlePhotos'] as _i19.GooglePhotosEndpoint)
                       .getRestaurantPhotos(
                         session,
                         params['placeId'],
@@ -2013,7 +2065,7 @@ class Endpoints extends _i1.EndpointDispatch {
             ),
             'source': _i1.ParameterDescription(
               name: 'source',
-              type: _i1.getType<_i24.SavedRestaurantSource>(),
+              type: _i1.getType<_i25.SavedRestaurantSource>(),
               nullable: false,
             ),
           },
@@ -2022,7 +2074,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['savedRestaurant'] as _i19.SavedRestaurantEndpoint)
+                  (endpoints['savedRestaurant'] as _i20.SavedRestaurantEndpoint)
                       .saveRestaurant(
                         session,
                         name: params['name'],
@@ -2056,7 +2108,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['savedRestaurant'] as _i19.SavedRestaurantEndpoint)
+                  (endpoints['savedRestaurant'] as _i20.SavedRestaurantEndpoint)
                       .unsaveRestaurant(
                         session,
                         id: params['id'],
@@ -2077,7 +2129,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['savedRestaurant'] as _i19.SavedRestaurantEndpoint)
+                  (endpoints['savedRestaurant'] as _i20.SavedRestaurantEndpoint)
                       .isRestaurantSaved(
                         session,
                         placeId: params['placeId'],
@@ -2091,7 +2143,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['savedRestaurant'] as _i19.SavedRestaurantEndpoint)
+                  (endpoints['savedRestaurant'] as _i20.SavedRestaurantEndpoint)
                       .getSavedRestaurants(session),
         ),
         'updateSavedRestaurant': _i1.MethodConnector(
@@ -2118,7 +2170,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['savedRestaurant'] as _i19.SavedRestaurantEndpoint)
+                  (endpoints['savedRestaurant'] as _i20.SavedRestaurantEndpoint)
                       .updateSavedRestaurant(
                         session,
                         id: params['id'],
@@ -2140,7 +2192,7 @@ class Endpoints extends _i1.EndpointDispatch {
                 _i1.Session session,
                 Map<String, dynamic> params,
               ) async =>
-                  (endpoints['savedRestaurant'] as _i19.SavedRestaurantEndpoint)
+                  (endpoints['savedRestaurant'] as _i20.SavedRestaurantEndpoint)
                       .getSavedRestaurant(
                         session,
                         id: params['id'],
@@ -2157,7 +2209,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'request': _i1.ParameterDescription(
               name: 'request',
-              type: _i1.getType<_i25.TourRequest>(),
+              type: _i1.getType<_i26.TourRequest>(),
               nullable: false,
             ),
           },
@@ -2165,7 +2217,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['tour'] as _i20.TourEndpoint).generate(
+              ) async => (endpoints['tour'] as _i21.TourEndpoint).generate(
                 session,
                 params['request'],
               ),
@@ -2183,7 +2235,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .getProfile(session),
         ),
         'hasCompletedOnboarding': _i1.MethodConnector(
@@ -2193,7 +2245,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .hasCompletedOnboarding(session),
         ),
         'saveProfile': _i1.MethodConnector(
@@ -2201,12 +2253,12 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'foodPhilosophy': _i1.ParameterDescription(
               name: 'foodPhilosophy',
-              type: _i1.getType<_i26.FoodPhilosophy?>(),
+              type: _i1.getType<_i27.FoodPhilosophy?>(),
               nullable: true,
             ),
             'adventureLevel': _i1.ParameterDescription(
               name: 'adventureLevel',
-              type: _i1.getType<_i27.AdventureLevel?>(),
+              type: _i1.getType<_i28.AdventureLevel?>(),
               nullable: true,
             ),
             'familiarCuisines': _i1.ParameterDescription(
@@ -2264,7 +2316,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .saveProfile(
                     session,
                     foodPhilosophy: params['foodPhilosophy'],
@@ -2288,7 +2340,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .completeOnboarding(session),
         ),
         'updateLocation': _i1.MethodConnector(
@@ -2324,7 +2376,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .updateLocation(
                     session,
                     city: params['city'],
@@ -2339,7 +2391,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'philosophy': _i1.ParameterDescription(
               name: 'philosophy',
-              type: _i1.getType<_i26.FoodPhilosophy>(),
+              type: _i1.getType<_i27.FoodPhilosophy>(),
               nullable: false,
             ),
           },
@@ -2347,7 +2399,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .updateFoodPhilosophy(
                     session,
                     params['philosophy'],
@@ -2358,7 +2410,7 @@ class Endpoints extends _i1.EndpointDispatch {
           params: {
             'level': _i1.ParameterDescription(
               name: 'level',
-              type: _i1.getType<_i27.AdventureLevel>(),
+              type: _i1.getType<_i28.AdventureLevel>(),
               nullable: false,
             ),
           },
@@ -2366,7 +2418,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .updateAdventureLevel(
                     session,
                     params['level'],
@@ -2390,7 +2442,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .updateCuisinePreferences(
                     session,
                     familiar: params['familiar'],
@@ -2410,7 +2462,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .updateDietaryRestrictions(
                     session,
                     params['restrictions'],
@@ -2429,7 +2481,7 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .updateAdditionalCities(
                     session,
                     params['citiesJson'],
@@ -2442,19 +2494,19 @@ class Endpoints extends _i1.EndpointDispatch {
               (
                 _i1.Session session,
                 Map<String, dynamic> params,
-              ) async => (endpoints['userProfile'] as _i21.UserProfileEndpoint)
+              ) async => (endpoints['userProfile'] as _i22.UserProfileEndpoint)
                   .debugProfileStatus(session),
         ),
       },
     );
-    modules['serverpod_auth_idp'] = _i28.Endpoints()
+    modules['serverpod_auth_idp'] = _i29.Endpoints()
       ..initializeEndpoints(server);
-    modules['serverpod_auth_core'] = _i29.Endpoints()
+    modules['serverpod_auth_core'] = _i30.Endpoints()
       ..initializeEndpoints(server);
   }
 
   @override
   _i1.FutureCallDispatch? get futureCalls {
-    return _i30.FutureCalls();
+    return _i31.FutureCalls();
   }
 }

@@ -36,6 +36,8 @@ dailyStory:
   - refreshDailyStory:
 threeForTonight:
   - getThreeForTonight:
+cuisineExploration:
+  - getExplorationSuggestion:
 foodDiscovery:
   - ask:
 geocoding:
