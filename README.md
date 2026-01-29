@@ -4,6 +4,8 @@
 
 An AI-powered culinary storytelling platform that transforms restaurant discovery from transactional search into immersive, narrative-driven journeys.
 
+**Built for the [Serverpod Hackathon 2025](https://serverpod.devpost.com/)**
+
 ## Overview
 
 Off Menu is the love child of Anthony Bourdain's storytelling and Alton Brown's food science — an app that doesn't just find restaurants, but creates culinary experiences with soul. We surface not just what to eat, but why it matters.
@@ -28,6 +30,143 @@ Off Menu is the love child of Anthony Bourdain's storytelling and Alton Brown's 
 | Restaurant Data | Google Places API |
 | Maps | Google Maps Flutter SDK |
 | Auth | Serverpod Auth + Google Sign-In |
+
+## Why Serverpod?
+
+Off Menu is a **full-stack Dart application** built entirely with Serverpod, showcasing its power for building production-ready apps with a unified language across client and server.
+
+### How We Use Serverpod
+
+#### 1. Type-Safe API Generation
+
+We define our data models in YAML and Serverpod generates type-safe Dart classes for both server and client:
+
+```yaml
+# food_butler_server/lib/src/protocol/curated_map.yaml
+class: CuratedMap
+table: curated_maps
+fields:
+  userId: String?
+  cityName: String
+  title: String
+  slug: String
+  category: String
+  shortDescription: String
+  restaurantCount: int
+  isPublished: bool
+  # ... more fields
+```
+
+This generates:
+- Server-side model with ORM methods (`CuratedMap.db.find()`, `.insertRow()`, etc.)
+- Client-side model for type-safe API calls
+- Automatic serialization/deserialization
+
+#### 2. Serverpod ORM for Database Operations
+
+All database operations use Serverpod's built-in ORM with full type safety:
+
+```dart
+// Find maps for a city
+final maps = await CuratedMap.db.find(
+  session,
+  where: (t) => t.cityName.equals(cityName) & t.isPublished.equals(true),
+  orderBy: (t) => t.restaurantCount,
+  orderDescending: true,
+);
+
+// Insert with automatic ID generation
+final saved = await SavedRestaurant.db.insertRow(session, restaurant);
+
+// Update with copyWith pattern
+final updated = existing.copyWith(notes: newNotes);
+await SavedRestaurant.db.updateRow(session, updated);
+```
+
+#### 3. Serverpod Auth Module
+
+User authentication is handled by `serverpod_auth` with Google Sign-In:
+
+```dart
+// Server: Check authentication in any endpoint
+final authenticated = session.authenticated;
+if (authenticated == null) {
+  throw Exception('User must be authenticated');
+}
+final userId = authenticated.userIdentifier.toString();
+
+// Client: Sign in with Google
+await client.auth.signInWithGoogle();
+```
+
+#### 4. Endpoint Architecture
+
+Each feature is organized into dedicated endpoints:
+
+```dart
+class AskButlerEndpoint extends Endpoint {
+  Future<DiscoveryResponse> discover(Session session, {
+    required String query,
+    String? cityName,
+  }) async {
+    // AI-powered restaurant discovery
+  }
+}
+
+class CuratedMapsEndpoint extends Endpoint {
+  Future<CuratedMap> generateMap(Session session, {
+    required String cityName,
+    required String mapType,
+  }) async {
+    // Generate AI-curated restaurant maps
+  }
+}
+```
+
+#### 5. Session-Based Logging
+
+Serverpod's session logging helps debug AI interactions:
+
+```dart
+session.log('Generating map: $title with prompt: $searchPrompt');
+session.log('Perplexity response received. Content length: ${response.content.length}');
+```
+
+#### 6. Secure Password Management
+
+API keys are stored securely in `config/passwords.yaml`:
+
+```dart
+final perplexityApiKey = session.serverpod.getPassword('PERPLEXITY_API_KEY');
+final googlePlacesKey = session.serverpod.getPassword('GOOGLE_PLACES_API_KEY');
+```
+
+#### 7. Generated Client SDK
+
+The Flutter app uses the auto-generated client for all API calls:
+
+```dart
+// Type-safe API calls from Flutter
+final maps = await client.curatedMaps.getMapsForCity(cityName);
+final story = await client.dailyStory.getDailyStory();
+final picks = await client.threeForTonight.getThreeForTonight(
+  cityName: city,
+  latitude: lat,
+  longitude: lng,
+);
+```
+
+### Serverpod Features Used
+
+| Feature | How We Use It |
+|---------|---------------|
+| Protocol Generation | 15+ models (CuratedMap, MapRestaurant, SavedRestaurant, DailyStory, etc.) |
+| ORM | All CRUD operations with type-safe queries |
+| Auth Module | Google Sign-In with session management |
+| Endpoints | 8 endpoint classes (AskButler, CuratedMaps, DailyStory, etc.) |
+| Session Logging | Debug logging for AI service calls |
+| Password Management | Secure storage of API keys |
+| Database Migrations | Schema versioning and updates |
 
 ## Project Structure
 
@@ -196,12 +335,34 @@ See [agent-os/product/roadmap.md](agent-os/product/roadmap.md) for the full prod
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## Hackathon Submission
+
+This project is submitted to the **[Serverpod Hackathon 2025](https://serverpod.devpost.com/)**.
+
+### What Makes This a Great Serverpod Showcase
+
+1. **Full-Stack Dart** - Single language from database to UI
+2. **Complex Data Models** - 15+ interconnected protocol classes
+3. **Real-World Architecture** - Multiple endpoints serving different features
+4. **AI Integration** - Demonstrates how to integrate external APIs (Perplexity, Google Places) through Serverpod
+5. **Auth Flow** - Complete authentication with Serverpod Auth module
+6. **Production Patterns** - Error handling, logging, password management
+
+### Demo
+
+*Video demo coming soon*
+
+### Team
+
+- **Tarik Moody** - Creator & Developer
+
 ## License
 
 Private - All Rights Reserved
 
 ## Acknowledgments
 
-- [Serverpod](https://serverpod.dev) - Full-stack Dart framework
-- [Perplexity AI](https://perplexity.ai) - AI-powered research
-- [Eater](https://eater.com) - Design inspiration
+- [Serverpod](https://serverpod.dev) - Full-stack Dart framework that made this possible
+- [Perplexity AI](https://perplexity.ai) - AI-powered research engine
+- [Eater](https://eater.com) - Design and editorial inspiration
+- [Flutter](https://flutter.dev) - Beautiful cross-platform UI
