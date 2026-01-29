@@ -67,6 +67,10 @@ class FoodDiscoveryService {
                 ?.map((c) => c.toString())
                 .toList() ??
             [];
+        final mustOrder = (restaurant['must_order'] as List<dynamic>?)
+                ?.map((d) => d.toString())
+                .toList();
+        final proTips = restaurant['pro_tips'] as String?;
 
         if (name == null) continue;
 
@@ -92,6 +96,8 @@ class FoodDiscoveryService {
               whyRecommended: whyRecommended,
               categories: categories,
               isOpen: placeDetails['opening_hours']?['open_now'] as bool?,
+              mustOrder: mustOrder,
+              proTips: proTips,
             ));
           } else {
             // Google Places failed - still show the restaurant with basic info from AI
@@ -109,6 +115,8 @@ class FoodDiscoveryService {
               whyRecommended: whyRecommended,
               categories: categories,
               isOpen: null,
+              mustOrder: mustOrder,
+              proTips: proTips,
             ));
           }
         } catch (e) {
@@ -127,6 +135,8 @@ class FoodDiscoveryService {
             whyRecommended: whyRecommended,
             categories: categories,
             isOpen: null,
+            mustOrder: mustOrder,
+            proTips: proTips,
           ));
         }
       }
@@ -152,42 +162,45 @@ class FoodDiscoveryService {
   /// Query Perplexity AI for restaurant recommendations.
   Future<Map<String, dynamic>?> _queryPerplexity(String query) async {
     final prompt = '''
-You are a local food expert and concierge. The user is asking about food/restaurants.
+You are a local food expert writing for a magazine like Eater or Bon Appetit. The user is asking about food/restaurants.
 
 USER QUERY: "$query"
 
-Analyze the query and provide restaurant recommendations. Extract any location mentioned.
+Analyze the query and provide rich, editorial-quality restaurant information. Extract any location mentioned.
 If no location is mentioned, ask the user to specify one.
 
 IMPORTANT: First determine the QUERY INTENT:
-- "discovery" = user is LOOKING FOR restaurants/places (e.g., "find tacos near me", "best restaurants in Seattle", "where to eat tonight")
-- "info" = user is asking about a SPECIFIC restaurant they already know (e.g., "what should I order at Ruta's?", "tell me about the menu at DanDan", "what's the signature dish at Canlis?")
+- "discovery" = user is LOOKING FOR restaurants/places (e.g., "find tacos near me", "best restaurants in Seattle")
+- "info" = user is asking about a SPECIFIC restaurant (e.g., "tell me about Hell's Kitchen Minneapolis")
 
 IMPORTANT: Respond ONLY with valid JSON in this exact format:
 {
   "query_intent": "discovery" or "info",
   "detected_location": "city, state or neighborhood mentioned in query",
-  "summary": "A friendly, playful 1-2 sentence response addressing their query",
+  "summary": "A rich, editorial 2-4 sentence response. Include the restaurant's story, vibe, and what makes it special. Mention specific dishes. For discovery queries, set the scene for what they'll find.",
   "restaurants": [
     {
       "name": "Exact restaurant name",
-      "neighborhood": "Specific neighborhood",
-      "why_recommended": "1 sentence about why this fits their query",
-      "categories": ["cuisine type", "style"]
+      "neighborhood": "Specific neighborhood with brief context (e.g., 'the bustling North Loop', 'quiet residential Tangletown')",
+      "why_recommended": "2-3 sentences: What makes this place special? Include the vibe, who goes there, what the experience is like.",
+      "must_order": ["Specific dish 1 with brief description", "Specific dish 2", "Their famous X"],
+      "pro_tips": "Insider knowledge: best time to go, where to sit, what to skip, secret menu items, etc.",
+      "categories": ["cuisine type", "style", "vibe"]
     }
   ]
 }
 
 Rules:
-- Set query_intent to "info" if the user is asking about menu, dishes, what to order, or details about a restaurant they named
-- Set query_intent to "discovery" if the user is searching for restaurants to go to
-- Include 5-8 specific, real restaurants that match the query (for discovery queries)
-- For "info" queries about a specific restaurant, just include that one restaurant
-- Focus on hidden gems and local favorites when asked for non-touristy spots
-- Be playful and conversational in the summary
-- If query mentions budget, factor that into recommendations
-- If query mentions time (late night, brunch), factor that in
+- Write like a food journalist, not a search engine. Be specific and opinionated.
+- ALWAYS include 2-4 specific dishes in "must_order" with brief descriptions
+- Include "pro_tips" with insider knowledge (best seats, when to avoid crowds, ordering secrets)
+- For "why_recommended", paint a picture of the experience, not just the food
+- Mention the neighborhood character when relevant (trendy? historic? up-and-coming?)
+- For discovery queries: include 5-8 restaurants
+- For info queries about a specific restaurant: include just that one with extra detail
+- Be playful and conversational but substantive
 - Only recommend places you're confident actually exist
+- Include price context and vibe (date night? casual? rowdy?)
 
 JSON RESPONSE:''';
 

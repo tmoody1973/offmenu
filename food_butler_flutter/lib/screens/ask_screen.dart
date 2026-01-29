@@ -811,8 +811,63 @@ class _PlaceCard extends StatelessWidget {
                           color: Colors.amber.shade200,
                           fontStyle: FontStyle.italic,
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                    // Must-order dishes
+                    if (place.mustOrder != null && place.mustOrder!.isNotEmpty) ...[
+                      const SizedBox(height: 12),
+                      Text(
+                        'MUST ORDER',
+                        style: theme.textTheme.labelSmall?.copyWith(
+                          color: Colors.amber.shade400,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.2,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      ...place.mustOrder!.take(3).map((dish) => Padding(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('• ', style: TextStyle(color: Colors.amber.shade300)),
+                            Expanded(
+                              child: Text(
+                                dish,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.grey.shade300,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
+                    ],
+                    // Pro tips
+                    if (place.proTips != null && place.proTips!.isNotEmpty) ...[
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: Colors.amber.shade900.withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(6),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(Icons.lightbulb_outline, size: 14, color: Colors.amber.shade300),
+                            const SizedBox(width: 6),
+                            Expanded(
+                              child: Text(
+                                place.proTips!,
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: Colors.amber.shade200,
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ],

@@ -28,6 +28,8 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
     required this.whyRecommended,
     required this.categories,
     this.isOpen,
+    this.mustOrder,
+    this.proTips,
   });
 
   factory DiscoveredPlace({
@@ -43,6 +45,8 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
     required String whyRecommended,
     required List<String> categories,
     bool? isOpen,
+    List<String>? mustOrder,
+    String? proTips,
   }) = _DiscoveredPlaceImpl;
 
   factory DiscoveredPlace.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -61,6 +65,12 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
         jsonSerialization['categories'],
       ),
       isOpen: jsonSerialization['isOpen'] as bool?,
+      mustOrder: jsonSerialization['mustOrder'] == null
+          ? null
+          : _i2.Protocol().deserialize<List<String>>(
+              jsonSerialization['mustOrder'],
+            ),
+      proTips: jsonSerialization['proTips'] as String?,
     );
   }
 
@@ -91,7 +101,7 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
   /// URL to a photo (from Google Places).
   String? photoUrl;
 
-  /// Why the Butler recommends this place.
+  /// Why the Butler recommends this place (rich, editorial description).
   String whyRecommended;
 
   /// Types/categories (e.g., "Japanese", "Ramen").
@@ -99,6 +109,12 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
 
   /// Is it currently open?
   bool? isOpen;
+
+  /// Must-order dishes with descriptions.
+  List<String>? mustOrder;
+
+  /// Pro tips (best seats, when to go, insider knowledge).
+  String? proTips;
 
   /// Returns a shallow copy of this [DiscoveredPlace]
   /// with some or all fields replaced by the given arguments.
@@ -116,6 +132,8 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
     String? whyRecommended,
     List<String>? categories,
     bool? isOpen,
+    List<String>? mustOrder,
+    String? proTips,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -133,6 +151,8 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
       'whyRecommended': whyRecommended,
       'categories': categories.toJson(),
       if (isOpen != null) 'isOpen': isOpen,
+      if (mustOrder != null) 'mustOrder': mustOrder?.toJson(),
+      if (proTips != null) 'proTips': proTips,
     };
   }
 
@@ -158,6 +178,8 @@ class _DiscoveredPlaceImpl extends DiscoveredPlace {
     required String whyRecommended,
     required List<String> categories,
     bool? isOpen,
+    List<String>? mustOrder,
+    String? proTips,
   }) : super._(
          placeId: placeId,
          name: name,
@@ -171,6 +193,8 @@ class _DiscoveredPlaceImpl extends DiscoveredPlace {
          whyRecommended: whyRecommended,
          categories: categories,
          isOpen: isOpen,
+         mustOrder: mustOrder,
+         proTips: proTips,
        );
 
   /// Returns a shallow copy of this [DiscoveredPlace]
@@ -190,6 +214,8 @@ class _DiscoveredPlaceImpl extends DiscoveredPlace {
     String? whyRecommended,
     List<String>? categories,
     Object? isOpen = _Undefined,
+    Object? mustOrder = _Undefined,
+    Object? proTips = _Undefined,
   }) {
     return DiscoveredPlace(
       placeId: placeId ?? this.placeId,
@@ -204,6 +230,10 @@ class _DiscoveredPlaceImpl extends DiscoveredPlace {
       whyRecommended: whyRecommended ?? this.whyRecommended,
       categories: categories ?? this.categories.map((e0) => e0).toList(),
       isOpen: isOpen is bool? ? isOpen : this.isOpen,
+      mustOrder: mustOrder is List<String>?
+          ? mustOrder
+          : this.mustOrder?.map((e0) => e0).toList(),
+      proTips: proTips is String? ? proTips : this.proTips,
     );
   }
 }

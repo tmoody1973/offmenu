@@ -19,9 +19,13 @@ fields:
   priceLevel: String
   ### URL to a photo (from Google Places).
   photoUrl: String?
-  ### Why the Butler recommends this place.
+  ### Why the Butler recommends this place (rich, editorial description).
   whyRecommended: String
   ### Types/categories (e.g., "Japanese", "Ramen").
   categories: List<String>
   ### Is it currently open?
   isOpen: bool?
+  ### Must-order dishes with descriptions.
+  mustOrder: List<String>?
+  ### Pro tips (best seats, when to go, insider knowledge).
+  proTips: String?
