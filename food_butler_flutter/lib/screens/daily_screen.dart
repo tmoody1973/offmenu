@@ -54,6 +54,22 @@ class _DailyScreenState extends State<DailyScreen> {
       }
     } catch (e) {
       debugPrint('Error loading user profile: $e');
+      // If we get an auth error, sign out and redirect to landing
+      if (e.toString().contains('authenticated') ||
+          e.toString().contains('401') ||
+          e.toString().contains('500')) {
+        _handleAuthError();
+      }
+    }
+  }
+
+  /// Handle authentication errors by signing out and redirecting to landing
+  Future<void> _handleAuthError() async {
+    try {
+      await client.auth.signOutAllDevices();
+    } catch (_) {}
+    if (mounted) {
+      context.go('/landing');
     }
   }
 
@@ -184,7 +200,7 @@ class _DailyScreenState extends State<DailyScreen> {
               // The Hunt (search)
               IconButton(
                 icon: const Icon(Icons.search, color: AppTheme.cream),
-                onPressed: () => context.push('/ask'),
+                onPressed: () => context.go('/ask'),
                 tooltip: 'The Hunt',
               ),
               // Profile
@@ -193,7 +209,7 @@ class _DailyScreenState extends State<DailyScreen> {
                 tooltip: 'Your Travels',
                 onSelected: (value) {
                   if (value == 'profile') {
-                    context.push('/profile');
+                    context.go('/profile');
                   } else if (value == 'logout') {
                     _showLogoutDialog(context);
                   }
@@ -251,10 +267,11 @@ class _DailyScreenState extends State<DailyScreen> {
               onRefresh: _loadDailyStory,
               onTap: () {
                 if (_dailyStory != null) {
-                  // Navigate to full story detail view
+                  // Navigate to full story detail view (outside shell)
                   context.push('/story', extra: {'story': _dailyStory});
                 } else {
-                  context.push('/ask');
+                  // Switch to Ask tab (within shell - use go, not push)
+                  context.go('/ask');
                 }
               },
             ),
@@ -264,10 +281,10 @@ class _DailyScreenState extends State<DailyScreen> {
           SliverToBoxAdapter(
             child: _QuickActions(
               onCreateMap: () => context.push('/maps/create'),
-              onWhereTonight: () => context.push('/ask', extra: {
+              onWhereTonight: () => context.go('/ask', extra: {
                 'prompt': 'Find me something great for dinner tonight',
               }),
-              onAskButler: () => context.push('/ask'),
+              onAskButler: () => context.go('/ask'),
             ),
           ),
 
@@ -280,19 +297,20 @@ class _DailyScreenState extends State<DailyScreen> {
           ),
 
           // 2. THREE FOR TONIGHT - Horizontal scroll (with weather)
+          // Uses user's home city from profile, or falls back to daily story city
           SliverToBoxAdapter(
             child: _ThreeForTonight(
-              cityName: _userProfile?.homeCity ?? _dailyStory?.city ?? 'New Orleans',
-              stateOrRegion: _userProfile?.homeState ?? _dailyStory?.state,
-              latitude: _userProfile?.homeLatitude,
-              longitude: _userProfile?.homeLongitude,
+              cityName: _userProfile?.homeCity ?? _dailyStory?.city ?? 'Milwaukee',
+              stateOrRegion: _userProfile?.homeState ?? _dailyStory?.state ?? 'WI',
+              latitude: _userProfile?.homeLatitude ?? 43.0389,
+              longitude: _userProfile?.homeLongitude ?? -87.9065,
               onTap: (pick) {
                 if (pick.placeId != null) {
-                  context.push('/ask', extra: {
+                  context.go('/ask', extra: {
                     'prompt': 'Tell me about ${pick.name}',
                   });
                 } else {
-                  context.push('/ask', extra: {'prompt': pick.name});
+                  context.go('/ask', extra: {'prompt': pick.name});
                 }
               },
             ),
@@ -301,7 +319,7 @@ class _DailyScreenState extends State<DailyScreen> {
           // 3. THE ADVENTURE - Challenge prompt
           SliverToBoxAdapter(
             child: _AdventureCard(
-              onTap: () => context.push('/ask', extra: {
+              onTap: () => context.go('/ask', extra: {
                 'prompt': 'Take me somewhere I\'d never pick myself',
               }),
             ),
@@ -318,7 +336,7 @@ class _DailyScreenState extends State<DailyScreen> {
           // Quick hunt prompts
           SliverToBoxAdapter(
             child: _HuntPrompts(
-              onTap: (prompt) => context.push('/ask', extra: {'prompt': prompt}),
+              onTap: (prompt) => context.go('/ask', extra: {'prompt': prompt}),
             ),
           ),
 
@@ -802,7 +820,7 @@ class _ThreeForTonightState extends State<_ThreeForTonight> {
   Widget build(BuildContext context) {
     if (_isLoading) {
       return SizedBox(
-        height: 220,
+        height: 250,
         child: Center(
           child: CircularProgressIndicator(
             color: AppTheme.burntOrange,
@@ -813,7 +831,7 @@ class _ThreeForTonightState extends State<_ThreeForTonight> {
 
     if (_error != null || _picks == null || _picks!.isEmpty) {
       return SizedBox(
-        height: 220,
+        height: 250,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -838,8 +856,39 @@ class _ThreeForTonightState extends State<_ThreeForTonight> {
       );
     }
 
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    final isWide = screenWidth >= 800;
+
+    // On wide screens, show cards in a responsive row
+    if (isWide) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: _picks!.asMap().entries.map((entry) {
+              final index = entry.key;
+              final pick = entry.value;
+              final isLast = index == _picks!.length - 1;
+              return Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(right: isLast ? 0 : 12),
+                  child: _TonightCard(
+                    pick: pick,
+                    onTap: () => widget.onTap(pick),
+                    isExpanded: true,
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+      );
+    }
+
+    // On mobile, keep horizontal scroll
     return SizedBox(
-      height: 220,
+      height: 280,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -849,6 +898,7 @@ class _ThreeForTonightState extends State<_ThreeForTonight> {
           return _TonightCard(
             pick: pick,
             onTap: () => widget.onTap(pick),
+            isExpanded: false,
           );
         },
       ),
@@ -860,25 +910,31 @@ class _ThreeForTonightState extends State<_ThreeForTonight> {
 class _TonightCard extends StatelessWidget {
   final TonightPick pick;
   final VoidCallback onTap;
+  final bool isExpanded;
 
   const _TonightCard({
     required this.pick,
     required this.onTap,
+    this.isExpanded = false,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Dynamic image height based on expanded state
+    final imageHeight = isExpanded ? 180.0 : 140.0;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 180,
-        margin: const EdgeInsets.only(right: 12),
+        width: isExpanded ? null : 220,
+        margin: isExpanded ? EdgeInsets.zero : const EdgeInsets.only(right: 12),
         decoration: BoxDecoration(
           color: AppTheme.charcoalLight,
           border: AppTheme.boxBorder, // Eater-style border
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Image with save button overlay
             Stack(
@@ -886,17 +942,17 @@ class _TonightCard extends StatelessWidget {
                 pick.imageUrl != null
                     ? Image.network(
                         pick.imageUrl!,
-                        height: 100,
+                        height: imageHeight,
                         width: double.infinity,
                         fit: BoxFit.cover,
                         errorBuilder: (_, __, ___) => Container(
-                          height: 100,
+                          height: imageHeight,
                           color: AppTheme.charcoal,
                           child: const Icon(Icons.restaurant, color: AppTheme.creamMuted),
                         ),
                       )
                     : Container(
-                        height: 100,
+                        height: 110,
                         color: AppTheme.charcoal,
                         child: const Center(
                           child: Icon(Icons.restaurant, color: AppTheme.creamMuted, size: 32),
@@ -923,69 +979,81 @@ class _TonightCard extends StatelessWidget {
             ),
             // Divider between image and content
             Container(height: 1, color: AppTheme.borderColor),
-            // Info
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Cuisine type as tag
-                  if (pick.cuisineType != null) ...[
-                    Text(
-                      pick.cuisineType!.toUpperCase(),
-                      style: AppTheme.labelCaps.copyWith(
-                        fontSize: 10,
-                        color: AppTheme.burntOrange,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                  ],
-                  // Name in bold sans (DM Sans)
-                  Text(
-                    pick.name,
-                    style: AppTheme.headlineSans.copyWith(
-                      fontSize: 15,
-                      height: 1.2,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 6),
-                  // Hook in serif italic (Literata)
-                  Text(
-                    pick.hook,
-                    style: AppTheme.butlerVoice.copyWith(
-                      fontSize: 13,
-                      color: AppTheme.creamMuted,
-                      height: 1.3,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  // Rating if available
-                  if (pick.rating != null) ...[
-                    const SizedBox(height: 8),
-                    Row(
-                      children: [
-                        Icon(Icons.star, size: 14, color: AppTheme.agedBrass),
-                        const SizedBox(width: 4),
-                        Text(
-                          pick.rating!.toStringAsFixed(1),
-                          style: AppTheme.labelSans.copyWith(
-                            fontSize: 12,
-                            color: AppTheme.creamMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ],
-              ),
-            ),
+            // Info content
+            _buildContentSection(),
           ],
         ),
       ),
     );
+  }
+
+  /// Build content section - uses Expanded when in fixed-height mode (mobile scroll),
+  /// otherwise flows naturally for desktop row layout.
+  Widget _buildContentSection() {
+    final content = Padding(
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Cuisine type as tag
+          if (pick.cuisineType != null)
+            Text(
+              pick.cuisineType!.toUpperCase(),
+              style: AppTheme.labelCaps.copyWith(
+                fontSize: 10,
+                color: AppTheme.burntOrange,
+              ),
+            ),
+          const SizedBox(height: 4),
+          // Name in bold sans (DM Sans)
+          Text(
+            pick.name,
+            style: AppTheme.headlineSans.copyWith(
+              fontSize: 14,
+              height: 1.2,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 4),
+          // Hook in serif italic (Literata)
+          Text(
+            pick.hook,
+            style: AppTheme.butlerVoice.copyWith(
+              fontSize: 12,
+              color: AppTheme.creamMuted,
+              height: 1.3,
+            ),
+            maxLines: 3,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: 8),
+          // Rating if available
+          if (pick.rating != null)
+            Row(
+              children: [
+                Icon(Icons.star, size: 12, color: AppTheme.agedBrass),
+                const SizedBox(width: 3),
+                Text(
+                  pick.rating!.toStringAsFixed(1),
+                  style: AppTheme.labelSans.copyWith(
+                    fontSize: 11,
+                    color: AppTheme.creamMuted,
+                  ),
+                ),
+              ],
+            ),
+        ],
+      ),
+    );
+
+    // When not expanded (mobile horizontal scroll), use Expanded to fill height
+    // When expanded (desktop row), let it flow naturally
+    if (isExpanded) {
+      return content;
+    }
+    return Expanded(child: content);
   }
 }
 

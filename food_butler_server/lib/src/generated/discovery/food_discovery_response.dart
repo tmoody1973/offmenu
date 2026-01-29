@@ -22,6 +22,7 @@ abstract class FoodDiscoveryResponse
     required this.places,
     required this.query,
     this.detectedLocation,
+    required this.showMap,
   });
 
   factory FoodDiscoveryResponse({
@@ -29,6 +30,7 @@ abstract class FoodDiscoveryResponse
     required List<_i2.DiscoveredPlace> places,
     required String query,
     String? detectedLocation,
+    required bool showMap,
   }) = _FoodDiscoveryResponseImpl;
 
   factory FoodDiscoveryResponse.fromJson(
@@ -41,6 +43,7 @@ abstract class FoodDiscoveryResponse
       ),
       query: jsonSerialization['query'] as String,
       detectedLocation: jsonSerialization['detectedLocation'] as String?,
+      showMap: jsonSerialization['showMap'] as bool,
     );
   }
 
@@ -56,6 +59,9 @@ abstract class FoodDiscoveryResponse
   /// Detected location from the query (if any).
   String? detectedLocation;
 
+  /// Whether to show the map (true for discovery queries, false for menu/dish questions).
+  bool showMap;
+
   /// Returns a shallow copy of this [FoodDiscoveryResponse]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
@@ -64,6 +70,7 @@ abstract class FoodDiscoveryResponse
     List<_i2.DiscoveredPlace>? places,
     String? query,
     String? detectedLocation,
+    bool? showMap,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -73,6 +80,7 @@ abstract class FoodDiscoveryResponse
       'places': places.toJson(valueToJson: (v) => v.toJson()),
       'query': query,
       if (detectedLocation != null) 'detectedLocation': detectedLocation,
+      'showMap': showMap,
     };
   }
 
@@ -84,6 +92,7 @@ abstract class FoodDiscoveryResponse
       'places': places.toJson(valueToJson: (v) => v.toJsonForProtocol()),
       'query': query,
       if (detectedLocation != null) 'detectedLocation': detectedLocation,
+      'showMap': showMap,
     };
   }
 
@@ -101,11 +110,13 @@ class _FoodDiscoveryResponseImpl extends FoodDiscoveryResponse {
     required List<_i2.DiscoveredPlace> places,
     required String query,
     String? detectedLocation,
+    required bool showMap,
   }) : super._(
          summary: summary,
          places: places,
          query: query,
          detectedLocation: detectedLocation,
+         showMap: showMap,
        );
 
   /// Returns a shallow copy of this [FoodDiscoveryResponse]
@@ -117,6 +128,7 @@ class _FoodDiscoveryResponseImpl extends FoodDiscoveryResponse {
     List<_i2.DiscoveredPlace>? places,
     String? query,
     Object? detectedLocation = _Undefined,
+    bool? showMap,
   }) {
     return FoodDiscoveryResponse(
       summary: summary ?? this.summary,
@@ -125,6 +137,7 @@ class _FoodDiscoveryResponseImpl extends FoodDiscoveryResponse {
       detectedLocation: detectedLocation is String?
           ? detectedLocation
           : this.detectedLocation,
+      showMap: showMap ?? this.showMap,
     );
   }
 }

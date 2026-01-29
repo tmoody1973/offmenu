@@ -346,7 +346,7 @@ class _CreateMapScreenState extends State<CreateMapScreen> {
                           ),
                           const SizedBox(height: 12),
                           TextButton(
-                            onPressed: () => context.push('/profile'),
+                            onPressed: () => context.go('/profile'),
                             child: const Text('Add cities in Profile'),
                           ),
                         ],

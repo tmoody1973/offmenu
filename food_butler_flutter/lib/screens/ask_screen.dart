@@ -439,6 +439,7 @@ class _EmptyState extends StatelessWidget {
 }
 
 /// Wide layout with map on left, list on right.
+/// Map is only shown if response.showMap is true.
 class _WideResultsLayout extends StatelessWidget {
   final FoodDiscoveryResponse response;
   final GoogleMapController? mapController;
@@ -458,6 +459,16 @@ class _WideResultsLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Only show map for discovery queries, not for menu/info queries
+    if (!response.showMap) {
+      return _ResultsList(
+        response: response,
+        selectedIndex: selectedIndex,
+        onSelectPlace: onSelectPlace,
+        onOpenInMaps: onOpenInMaps,
+      );
+    }
+
     return Row(
       children: [
         // Map
@@ -486,6 +497,7 @@ class _WideResultsLayout extends StatelessWidget {
 }
 
 /// Mobile layout with stacked map and list.
+/// Map is only shown if response.showMap is true.
 class _MobileResultsLayout extends StatelessWidget {
   final FoodDiscoveryResponse response;
   final GoogleMapController? mapController;
@@ -505,6 +517,16 @@ class _MobileResultsLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Only show map for discovery queries, not for menu/info queries
+    if (!response.showMap) {
+      return _ResultsList(
+        response: response,
+        selectedIndex: selectedIndex,
+        onSelectPlace: onSelectPlace,
+        onOpenInMaps: onOpenInMaps,
+      );
+    }
+
     return Column(
       children: [
         // Map (smaller on mobile)

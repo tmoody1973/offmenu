@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
               child: Transform.translate(
                 offset: const Offset(0, -20),
                 child: _AskButlerCard(
-                  onTap: () => context.push('/ask'),
+                  onTap: () => context.go('/ask'),
                 ),
               ),
             ),
@@ -227,7 +227,7 @@ class HomeScreen extends StatelessWidget {
                     child: _CompactActionCard(
                       icon: Icons.auto_stories,
                       label: 'Food Journal',
-                      onTap: () => context.push('/journal'),
+                      onTap: () => context.go('/journal'),
                     ),
                   ),
                   const SizedBox(width: 12),

@@ -247,7 +247,7 @@ class StoryDetailScreen extends StatelessWidget {
                     width: double.infinity,
                     child: GestureDetector(
                       onTap: () {
-                        context.push('/ask', extra: {
+                        context.go('/ask', extra: {
                           'prompt': 'Tell me more about ${story.restaurantName} - what should I order?',
                         });
                       },

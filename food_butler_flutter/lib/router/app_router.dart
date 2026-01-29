@@ -9,6 +9,7 @@ import '../screens/ask_screen.dart';
 import '../screens/create_map_screen.dart';
 import '../screens/daily_screen.dart';
 import '../screens/journal_screen.dart';
+import '../screens/landing_screen.dart';
 import '../screens/maps/map_detail_screen.dart';
 import '../screens/maps/maps_screen.dart';
 import '../screens/onboarding/onboarding_screen.dart';
@@ -47,20 +48,28 @@ class AppRouter {
     navigatorKey: _rootNavigatorKey,
     initialLocation: '/',
     debugLogDiagnostics: true,
-    // Redirect unauthenticated users to sign-in
+    // Redirect unauthenticated users to landing page
     redirect: (context, state) {
       final isAuthenticated = client.auth.isAuthenticated;
+      final isLanding = state.matchedLocation == '/landing';
       final isSigningIn = state.matchedLocation == '/sign-in';
       final isOnboarding = state.matchedLocation == '/onboarding';
 
-      // If not authenticated and not already on sign-in page, redirect to sign-in
-      if (!isAuthenticated && !isSigningIn) {
-        return '/sign-in';
+      // If not authenticated and not on landing/sign-in page, redirect to landing
+      if (!isAuthenticated && !isLanding && !isSigningIn) {
+        return '/landing';
       }
 
       return null; // No redirect needed
     },
     routes: [
+      // Landing page for unauthenticated users
+      GoRoute(
+        path: '/landing',
+        name: 'landing',
+        builder: (context, state) => const LandingScreen(),
+      ),
+
       // Sign in (outside shell - no bottom nav)
       GoRoute(
         path: '/sign-in',

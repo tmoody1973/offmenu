@@ -9,3 +9,5 @@ fields:
   query: String
   ### Detected location from the query (if any).
   detectedLocation: String?
+  ### Whether to show the map (true for discovery queries, false for menu/dish questions).
+  showMap: bool
