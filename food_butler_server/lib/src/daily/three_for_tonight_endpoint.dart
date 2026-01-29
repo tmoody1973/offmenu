@@ -14,6 +14,9 @@ import '../services/weather_service.dart';
 /// - Current weather conditions
 /// - User's cuisine preferences
 /// - User's selected city
+///
+/// Caching: Picks are cached per user per day per meal context.
+/// New picks are generated when meal context changes (breakfast -> lunch -> dinner).
 class ThreeForTonightEndpoint extends Endpoint {
   /// Get three contextual restaurant picks for tonight.
   ///
@@ -21,18 +24,32 @@ class ThreeForTonightEndpoint extends Endpoint {
   /// [stateOrRegion] - Optional state/region for more accurate results
   /// [latitude] - Optional latitude for weather data
   /// [longitude] - Optional longitude for weather data
+  /// [forceRefresh] - If true, bypass cache and generate fresh picks
   Future<List<TonightPick>> getThreeForTonight(
     Session session, {
     required String cityName,
     String? stateOrRegion,
     double? latitude,
     double? longitude,
+    bool? forceRefresh,
   }) async {
+    final shouldRefresh = forceRefresh ?? false;
     session.log('Getting Three for Tonight in $cityName');
 
     // Determine meal context based on time
     final mealContext = _getMealContext();
     session.log('Meal context: ${mealContext.name} (${mealContext.description})');
+
+    // Check cache first (if user is authenticated and not forcing refresh)
+    final authenticated = session.authenticated;
+    if (authenticated != null && !shouldRefresh) {
+      final userId = authenticated.userIdentifier.toString();
+      final cachedPicks = await _getCachedPicks(session, userId, cityName, mealContext);
+      if (cachedPicks != null && cachedPicks.isNotEmpty) {
+        session.log('Returning ${cachedPicks.length} cached picks for $cityName');
+        return cachedPicks;
+      }
+    }
 
     // Get user preferences if authenticated
     String? cuisinePreferences;
@@ -40,7 +57,6 @@ class ThreeForTonightEndpoint extends Endpoint {
     double? userLat = latitude;
     double? userLng = longitude;
 
-    final authenticated = session.authenticated;
     if (authenticated != null) {
       final userId = authenticated.userIdentifier.toString();
       final profile = await UserProfile.db.findFirstRow(
@@ -161,10 +177,112 @@ class ThreeForTonightEndpoint extends Endpoint {
       }
 
       session.log('Returning ${picks.length} picks for tonight');
+
+      // Cache the picks for this user/day/meal context
+      if (authenticated != null && picks.isNotEmpty) {
+        final userId = authenticated.userIdentifier.toString();
+        await _cachePicks(session, userId, cityName, stateOrRegion, mealContext, picks);
+      }
+
       return picks;
     } finally {
       perplexity.dispose();
     }
+  }
+
+  /// Get cached picks for today if available.
+  Future<List<TonightPick>?> _getCachedPicks(
+    Session session,
+    String userId,
+    String cityName,
+    _MealContext mealContext,
+  ) async {
+    final today = _getTodayString();
+
+    final cached = await TonightPicksCache.db.findFirstRow(
+      session,
+      where: (t) =>
+          t.userId.equals(userId) &
+          t.cacheDate.equals(today) &
+          t.city.equals(cityName) &
+          t.mealContext.equals(mealContext.name),
+    );
+
+    if (cached == null) return null;
+
+    try {
+      final picksData = jsonDecode(cached.picksJson) as List<dynamic>;
+      return picksData.map((p) {
+        final map = p as Map<String, dynamic>;
+        return TonightPick(
+          name: map['name'] as String,
+          hook: map['hook'] as String,
+          cuisineType: map['cuisineType'] as String?,
+          imageUrl: map['imageUrl'] as String?,
+          placeId: map['placeId'] as String?,
+          address: map['address'] as String?,
+          rating: (map['rating'] as num?)?.toDouble(),
+          priceLevel: map['priceLevel'] as int?,
+        );
+      }).toList();
+    } catch (e) {
+      session.log('Error parsing cached picks: $e');
+      return null;
+    }
+  }
+
+  /// Cache picks for this user/day/meal context.
+  Future<void> _cachePicks(
+    Session session,
+    String userId,
+    String cityName,
+    String? state,
+    _MealContext mealContext,
+    List<TonightPick> picks,
+  ) async {
+    final today = _getTodayString();
+
+    // Convert picks to JSON
+    final picksJson = jsonEncode(picks.map((p) => {
+      'name': p.name,
+      'hook': p.hook,
+      'cuisineType': p.cuisineType,
+      'imageUrl': p.imageUrl,
+      'placeId': p.placeId,
+      'address': p.address,
+      'rating': p.rating,
+      'priceLevel': p.priceLevel,
+    }).toList());
+
+    // Delete existing cache for this user/day/city/mealContext
+    await TonightPicksCache.db.deleteWhere(
+      session,
+      where: (t) =>
+          t.userId.equals(userId) &
+          t.cacheDate.equals(today) &
+          t.city.equals(cityName) &
+          t.mealContext.equals(mealContext.name),
+    );
+
+    // Insert new cache entry
+    final cache = TonightPicksCache(
+      userId: userId,
+      cacheDate: today,
+      city: cityName,
+      state: state,
+      mealContext: mealContext.name,
+      picksJson: picksJson,
+      createdAt: DateTime.now().toUtc(),
+    );
+
+    await TonightPicksCache.db.insertRow(session, cache);
+    session.log('Cached ${picks.length} picks for $cityName (${mealContext.name})');
+  }
+
+  /// Get today's date as YYYY-MM-DD string.
+  String _getTodayString() {
+    final now = DateTime.now();
+    return '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
   }
 
   /// Determine meal context based on current time.

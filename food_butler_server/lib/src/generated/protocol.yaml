@@ -30,6 +30,9 @@ award:
   - calculateRestaurantAwardScore:
 dailyStory:
   - getDailyStory:
+  - getStoryHistory:
+  - getStoryById:
+  - getStoryCount:
   - refreshDailyStory:
 threeForTonight:
   - getThreeForTonight:

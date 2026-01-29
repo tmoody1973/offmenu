@@ -1,0 +1,30 @@
+### Cached "Three for Tonight" picks for a user.
+### Generated once per day based on user location and preferences.
+class: TonightPicksCache
+table: tonight_picks_cache
+fields:
+  ### User ID this cache is for.
+  userId: String
+
+  ### Date this cache is for (YYYY-MM-DD format).
+  cacheDate: String
+
+  ### City the picks are for.
+  city: String
+
+  ### State/region of the city.
+  state: String?
+
+  ### Meal context (breakfast, lunch, dinner, etc).
+  mealContext: String
+
+  ### JSON-encoded list of TonightPick objects.
+  picksJson: String
+
+  ### When this cache was created.
+  createdAt: DateTime
+
+indexes:
+  tonight_cache_user_date_idx:
+    fields: userId, cacheDate
+    unique: true

@@ -835,6 +835,60 @@ class Endpoints extends _i1.EndpointDispatch {
               ) async => (endpoints['dailyStory'] as _i8.DailyStoryEndpoint)
                   .getDailyStory(session),
         ),
+        'getStoryHistory': _i1.MethodConnector(
+          name: 'getStoryHistory',
+          params: {
+            'limit': _i1.ParameterDescription(
+              name: 'limit',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+            'offset': _i1.ParameterDescription(
+              name: 'offset',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['dailyStory'] as _i8.DailyStoryEndpoint)
+                  .getStoryHistory(
+                    session,
+                    limit: params['limit'],
+                    offset: params['offset'],
+                  ),
+        ),
+        'getStoryById': _i1.MethodConnector(
+          name: 'getStoryById',
+          params: {
+            'storyId': _i1.ParameterDescription(
+              name: 'storyId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['dailyStory'] as _i8.DailyStoryEndpoint)
+                  .getStoryById(
+                    session,
+                    params['storyId'],
+                  ),
+        ),
+        'getStoryCount': _i1.MethodConnector(
+          name: 'getStoryCount',
+          params: {},
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['dailyStory'] as _i8.DailyStoryEndpoint)
+                  .getStoryCount(session),
+        ),
         'refreshDailyStory': _i1.MethodConnector(
           name: 'refreshDailyStory',
           params: {},
@@ -874,6 +928,11 @@ class Endpoints extends _i1.EndpointDispatch {
               type: _i1.getType<double?>(),
               nullable: true,
             ),
+            'forceRefresh': _i1.ParameterDescription(
+              name: 'forceRefresh',
+              type: _i1.getType<bool?>(),
+              nullable: true,
+            ),
           },
           call:
               (
@@ -887,6 +946,7 @@ class Endpoints extends _i1.EndpointDispatch {
                         stateOrRegion: params['stateOrRegion'],
                         latitude: params['latitude'],
                         longitude: params['longitude'],
+                        forceRefresh: params['forceRefresh'],
                       ),
         ),
       },

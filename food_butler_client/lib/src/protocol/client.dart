@@ -582,6 +582,38 @@ class EndpointDailyStory extends _i1.EndpointRef {
         {},
       );
 
+  /// Get all past stories for the current user.
+  ///
+  /// Returns stories in reverse chronological order (newest first).
+  /// [limit] - Maximum number of stories to return (default 30)
+  /// [offset] - Number of stories to skip (for pagination)
+  _i2.Future<List<_i15.DailyStory>> getStoryHistory({
+    required int limit,
+    required int offset,
+  }) => caller.callServerEndpoint<List<_i15.DailyStory>>(
+    'dailyStory',
+    'getStoryHistory',
+    {
+      'limit': limit,
+      'offset': offset,
+    },
+  );
+
+  /// Get a specific story by ID.
+  _i2.Future<_i15.DailyStory?> getStoryById(int storyId) =>
+      caller.callServerEndpoint<_i15.DailyStory?>(
+        'dailyStory',
+        'getStoryById',
+        {'storyId': storyId},
+      );
+
+  /// Get count of stories for the current user.
+  _i2.Future<int> getStoryCount() => caller.callServerEndpoint<int>(
+    'dailyStory',
+    'getStoryCount',
+    {},
+  );
+
   /// Force refresh today's story (for testing/admin).
   _i2.Future<_i15.DailyStory?> refreshDailyStory() =>
       caller.callServerEndpoint<_i15.DailyStory?>(
@@ -598,6 +630,9 @@ class EndpointDailyStory extends _i1.EndpointRef {
 /// - Current weather conditions
 /// - User's cuisine preferences
 /// - User's selected city
+///
+/// Caching: Picks are cached per user per day per meal context.
+/// New picks are generated when meal context changes (breakfast -> lunch -> dinner).
 /// {@category Endpoint}
 class EndpointThreeForTonight extends _i1.EndpointRef {
   EndpointThreeForTonight(_i1.EndpointCaller caller) : super(caller);
@@ -611,11 +646,13 @@ class EndpointThreeForTonight extends _i1.EndpointRef {
   /// [stateOrRegion] - Optional state/region for more accurate results
   /// [latitude] - Optional latitude for weather data
   /// [longitude] - Optional longitude for weather data
+  /// [forceRefresh] - If true, bypass cache and generate fresh picks
   _i2.Future<List<_i16.TonightPick>> getThreeForTonight({
     required String cityName,
     String? stateOrRegion,
     double? latitude,
     double? longitude,
+    bool? forceRefresh,
   }) => caller.callServerEndpoint<List<_i16.TonightPick>>(
     'threeForTonight',
     'getThreeForTonight',
@@ -624,6 +661,7 @@ class EndpointThreeForTonight extends _i1.EndpointRef {
       'stateOrRegion': stateOrRegion,
       'latitude': latitude,
       'longitude': longitude,
+      'forceRefresh': forceRefresh,
     },
   );
 }

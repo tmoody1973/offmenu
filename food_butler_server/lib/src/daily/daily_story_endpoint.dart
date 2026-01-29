@@ -59,6 +59,71 @@ class DailyStoryEndpoint extends Endpoint {
     return await _generateStory(session, userId, profile);
   }
 
+  /// Get all past stories for the current user.
+  ///
+  /// Returns stories in reverse chronological order (newest first).
+  /// [limit] - Maximum number of stories to return (default 30)
+  /// [offset] - Number of stories to skip (for pagination)
+  Future<List<DailyStory>> getStoryHistory(
+    Session session, {
+    int limit = 30,
+    int offset = 0,
+  }) async {
+    final authenticated = session.authenticated;
+    if (authenticated == null) {
+      throw Exception('User must be authenticated');
+    }
+
+    final userId = authenticated.userIdentifier.toString();
+    session.log('Fetching story history for user $userId (limit=$limit, offset=$offset)');
+
+    final stories = await DailyStory.db.find(
+      session,
+      where: (t) => t.userId.equals(userId),
+      orderBy: (t) => t.storyDate,
+      orderDescending: true,
+      limit: limit,
+      offset: offset,
+    );
+
+    session.log('Found ${stories.length} stories in history');
+    return stories;
+  }
+
+  /// Get a specific story by ID.
+  Future<DailyStory?> getStoryById(Session session, int storyId) async {
+    final authenticated = session.authenticated;
+    if (authenticated == null) {
+      throw Exception('User must be authenticated');
+    }
+
+    final userId = authenticated.userIdentifier.toString();
+
+    final story = await DailyStory.db.findById(session, storyId);
+
+    // Only return if story belongs to this user
+    if (story != null && story.userId == userId) {
+      return story;
+    }
+
+    return null;
+  }
+
+  /// Get count of stories for the current user.
+  Future<int> getStoryCount(Session session) async {
+    final authenticated = session.authenticated;
+    if (authenticated == null) {
+      throw Exception('User must be authenticated');
+    }
+
+    final userId = authenticated.userIdentifier.toString();
+
+    return await DailyStory.db.count(
+      session,
+      where: (t) => t.userId.equals(userId),
+    );
+  }
+
   /// Force refresh today's story (for testing/admin).
   Future<DailyStory?> refreshDailyStory(Session session) async {
     final authenticated = session.authenticated;
