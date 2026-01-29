@@ -5,6 +5,7 @@ import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
 import 'package:serverpod_auth_idp_server/providers/google.dart';
 
+import 'src/future_calls/daily_story_generation_call.dart';
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
 import 'src/web/routes/app_config_route.dart';
@@ -104,6 +105,33 @@ void run(List<String> args) async {
       ),
       '/app/**',
     );
+  }
+
+  // Register future calls for scheduled tasks
+  pod.registerFutureCall(DailyStoryGenerationCall(), 'dailyStoryGeneration');
+
+  // Schedule initial daily story generation if not already scheduled
+  final startupSession = await pod.createSession();
+  try {
+    final now = DateTime.now();
+    var nextRun = DateTime(now.year, now.month, now.day, DailyStoryGenerationCall.runHour, 0, 0);
+
+    // If it's already past the run hour today, schedule for tomorrow
+    if (now.hour >= DailyStoryGenerationCall.runHour) {
+      nextRun = nextRun.add(const Duration(days: 1));
+    }
+
+    startupSession.log('[Scheduler] Scheduling initial daily story generation for $nextRun');
+
+    await startupSession.serverpod.futureCallAtTime(
+      'dailyStoryGeneration',
+      null,
+      nextRun,
+    );
+  } catch (e) {
+    startupSession.log('[Scheduler] Error scheduling daily story generation: $e', level: LogLevel.warning);
+  } finally {
+    await startupSession.close();
   }
 
   // Start the server.

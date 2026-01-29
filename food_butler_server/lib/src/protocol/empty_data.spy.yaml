@@ -1,0 +1,3 @@
+### Empty data model for FutureCalls that don't need parameters.
+class: EmptyData
+fields: {}

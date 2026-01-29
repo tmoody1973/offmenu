@@ -47,6 +47,8 @@ import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _i28;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _i29;
+import 'package:food_butler_server/src/generated/future_calls.dart' as _i30;
+export 'future_calls.dart' show ServerpodFutureCallsGetter;
 
 class Endpoints extends _i1.EndpointDispatch {
   @override
@@ -2449,5 +2451,10 @@ class Endpoints extends _i1.EndpointDispatch {
       ..initializeEndpoints(server);
     modules['serverpod_auth_core'] = _i29.Endpoints()
       ..initializeEndpoints(server);
+  }
+
+  @override
+  _i1.FutureCallDispatch? get futureCalls {
+    return _i30.FutureCalls();
   }
 }

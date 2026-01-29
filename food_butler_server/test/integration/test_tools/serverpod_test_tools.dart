@@ -69,6 +69,8 @@ import 'package:food_butler_server/src/generated/user/food_philosophy.dart'
     as _i31;
 import 'package:food_butler_server/src/generated/user/adventure_level.dart'
     as _i32;
+import 'package:food_butler_server/src/generated/empty_data.dart' as _i33;
+import 'package:food_butler_server/src/generated/future_calls.dart' as _i34;
 import 'package:food_butler_server/src/generated/protocol.dart';
 import 'package:food_butler_server/src/generated/endpoints.dart';
 export 'package:serverpod_test/serverpod_test_public_exports.dart';
@@ -176,6 +178,8 @@ void withServerpod(
 }
 
 class TestEndpoints {
+  late final futureCalls = _FutureCalls();
+
   late final _AnalyticsEndpoint analytics;
 
   late final _EmailIdpEndpoint emailIdp;
@@ -305,6 +309,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
   }
+}
+
+class _FutureCalls {
+  late final dailyStoryGenerationCall = _DailyStoryGenerationCallFutureCall();
 }
 
 class _AnalyticsEndpoint {
@@ -3358,5 +3366,23 @@ class _UserProfileEndpoint {
         await _localUniqueSession.close();
       }
     });
+  }
+}
+
+class _DailyStoryGenerationCallFutureCall {
+  Future<void> invoke(
+    _i1.TestSessionBuilder sessionBuilder,
+    _i33.EmptyData? object,
+  ) async {
+    var _localUniqueSession = (sessionBuilder as _i1.InternalTestSessionBuilder)
+        .internalBuild();
+    try {
+      await _i34.DailyStoryGenerationCallInvokeFutureCall().invoke(
+        _localUniqueSession,
+        object,
+      );
+    } finally {
+      await _localUniqueSession.close();
+    }
   }
 }

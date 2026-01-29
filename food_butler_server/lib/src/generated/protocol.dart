@@ -27,69 +27,70 @@ import 'daily/daily_story_type.dart' as _i12;
 import 'daily/tonight_picks_cache.dart' as _i13;
 import 'discovery/discovered_place.dart' as _i14;
 import 'discovery/food_discovery_response.dart' as _i15;
-import 'geocoding/place_details.dart' as _i16;
-import 'geocoding/place_prediction.dart' as _i17;
-import 'greetings/greeting.dart' as _i18;
-import 'journal/journal_entry.dart' as _i19;
-import 'journal/journal_photo.dart' as _i20;
-import 'maps/curated_map.dart' as _i21;
-import 'maps/favorite_city.dart' as _i22;
-import 'maps/map_category.dart' as _i23;
-import 'maps/map_restaurant.dart' as _i24;
-import 'narratives/narrative_cache.dart' as _i25;
-import 'narratives/narrative_regenerate_limit.dart' as _i26;
-import 'narratives/narrative_response.dart' as _i27;
-import 'narratives/narrative_type.dart' as _i28;
-import 'places/city_prediction.dart' as _i29;
-import 'places/restaurant_photo.dart' as _i30;
-import 'saved_restaurant.dart' as _i31;
-import 'saved_restaurant_source.dart' as _i32;
-import 'tonight_pick.dart' as _i33;
-import 'tours/award.dart' as _i34;
-import 'tours/award_import_log.dart' as _i35;
-import 'tours/award_type.dart' as _i36;
-import 'tours/budget_tier.dart' as _i37;
-import 'tours/cached_foursquare_response.dart' as _i38;
-import 'tours/cached_route.dart' as _i39;
-import 'tours/james_beard_award.dart' as _i40;
-import 'tours/james_beard_distinction.dart' as _i41;
-import 'tours/match_status.dart' as _i42;
-import 'tours/michelin_award.dart' as _i43;
-import 'tours/michelin_designation.dart' as _i44;
-import 'tours/restaurant.dart' as _i45;
-import 'tours/restaurant_award_link.dart' as _i46;
-import 'tours/route_leg.dart' as _i47;
-import 'tours/tour_request.dart' as _i48;
-import 'tours/tour_result.dart' as _i49;
-import 'tours/tour_stop.dart' as _i50;
-import 'tours/tour_stop_alternative.dart' as _i51;
-import 'tours/transport_mode.dart' as _i52;
-import 'user/adventure_level.dart' as _i53;
-import 'user/food_philosophy.dart' as _i54;
-import 'user/user_profile.dart' as _i55;
+import 'empty_data.dart' as _i16;
+import 'geocoding/place_details.dart' as _i17;
+import 'geocoding/place_prediction.dart' as _i18;
+import 'greetings/greeting.dart' as _i19;
+import 'journal/journal_entry.dart' as _i20;
+import 'journal/journal_photo.dart' as _i21;
+import 'maps/curated_map.dart' as _i22;
+import 'maps/favorite_city.dart' as _i23;
+import 'maps/map_category.dart' as _i24;
+import 'maps/map_restaurant.dart' as _i25;
+import 'narratives/narrative_cache.dart' as _i26;
+import 'narratives/narrative_regenerate_limit.dart' as _i27;
+import 'narratives/narrative_response.dart' as _i28;
+import 'narratives/narrative_type.dart' as _i29;
+import 'places/city_prediction.dart' as _i30;
+import 'places/restaurant_photo.dart' as _i31;
+import 'saved_restaurant.dart' as _i32;
+import 'saved_restaurant_source.dart' as _i33;
+import 'tonight_pick.dart' as _i34;
+import 'tours/award.dart' as _i35;
+import 'tours/award_import_log.dart' as _i36;
+import 'tours/award_type.dart' as _i37;
+import 'tours/budget_tier.dart' as _i38;
+import 'tours/cached_foursquare_response.dart' as _i39;
+import 'tours/cached_route.dart' as _i40;
+import 'tours/james_beard_award.dart' as _i41;
+import 'tours/james_beard_distinction.dart' as _i42;
+import 'tours/match_status.dart' as _i43;
+import 'tours/michelin_award.dart' as _i44;
+import 'tours/michelin_designation.dart' as _i45;
+import 'tours/restaurant.dart' as _i46;
+import 'tours/restaurant_award_link.dart' as _i47;
+import 'tours/route_leg.dart' as _i48;
+import 'tours/tour_request.dart' as _i49;
+import 'tours/tour_result.dart' as _i50;
+import 'tours/tour_stop.dart' as _i51;
+import 'tours/tour_stop_alternative.dart' as _i52;
+import 'tours/transport_mode.dart' as _i53;
+import 'user/adventure_level.dart' as _i54;
+import 'user/food_philosophy.dart' as _i55;
+import 'user/user_profile.dart' as _i56;
 import 'package:food_butler_server/src/generated/analytics/reservation_click_event.dart'
-    as _i56;
-import 'package:food_butler_server/src/generated/awards/review_queue_item.dart'
     as _i57;
-import 'package:food_butler_server/src/generated/tours/award_import_log.dart'
+import 'package:food_butler_server/src/generated/awards/review_queue_item.dart'
     as _i58;
-import 'package:food_butler_server/src/generated/tours/michelin_award.dart'
+import 'package:food_butler_server/src/generated/tours/award_import_log.dart'
     as _i59;
-import 'package:food_butler_server/src/generated/tours/james_beard_award.dart'
+import 'package:food_butler_server/src/generated/tours/michelin_award.dart'
     as _i60;
-import 'package:food_butler_server/src/generated/daily/daily_story.dart'
+import 'package:food_butler_server/src/generated/tours/james_beard_award.dart'
     as _i61;
-import 'package:food_butler_server/src/generated/tonight_pick.dart' as _i62;
+import 'package:food_butler_server/src/generated/daily/daily_story.dart'
+    as _i62;
+import 'package:food_butler_server/src/generated/tonight_pick.dart' as _i63;
 import 'package:food_butler_server/src/generated/geocoding/place_prediction.dart'
-    as _i63;
-import 'package:food_butler_server/src/generated/places/city_prediction.dart'
     as _i64;
-import 'package:food_butler_server/src/generated/maps/curated_map.dart' as _i65;
+import 'package:food_butler_server/src/generated/places/city_prediction.dart'
+    as _i65;
+import 'package:food_butler_server/src/generated/maps/curated_map.dart' as _i66;
 import 'package:food_butler_server/src/generated/maps/map_restaurant.dart'
-    as _i66;
-import 'package:food_butler_server/src/generated/maps/favorite_city.dart'
     as _i67;
-import 'package:food_butler_server/src/generated/saved_restaurant.dart' as _i68;
+import 'package:food_butler_server/src/generated/maps/favorite_city.dart'
+    as _i68;
+import 'package:food_butler_server/src/generated/saved_restaurant.dart' as _i69;
 export 'analytics/reservation_click_event.dart';
 export 'analytics/reservation_link_type.dart';
 export 'awards/import_preview_item.dart';
@@ -101,6 +102,7 @@ export 'daily/daily_story_type.dart';
 export 'daily/tonight_picks_cache.dart';
 export 'discovery/discovered_place.dart';
 export 'discovery/food_discovery_response.dart';
+export 'empty_data.dart';
 export 'geocoding/place_details.dart';
 export 'geocoding/place_prediction.dart';
 export 'greetings/greeting.dart';
@@ -3112,125 +3114,128 @@ class Protocol extends _i1.SerializationManagerServer {
     if (t == _i15.FoodDiscoveryResponse) {
       return _i15.FoodDiscoveryResponse.fromJson(data) as T;
     }
-    if (t == _i16.PlaceDetails) {
-      return _i16.PlaceDetails.fromJson(data) as T;
+    if (t == _i16.EmptyData) {
+      return _i16.EmptyData.fromJson(data) as T;
     }
-    if (t == _i17.PlacePrediction) {
-      return _i17.PlacePrediction.fromJson(data) as T;
+    if (t == _i17.PlaceDetails) {
+      return _i17.PlaceDetails.fromJson(data) as T;
     }
-    if (t == _i18.Greeting) {
-      return _i18.Greeting.fromJson(data) as T;
+    if (t == _i18.PlacePrediction) {
+      return _i18.PlacePrediction.fromJson(data) as T;
     }
-    if (t == _i19.JournalEntry) {
-      return _i19.JournalEntry.fromJson(data) as T;
+    if (t == _i19.Greeting) {
+      return _i19.Greeting.fromJson(data) as T;
     }
-    if (t == _i20.JournalPhoto) {
-      return _i20.JournalPhoto.fromJson(data) as T;
+    if (t == _i20.JournalEntry) {
+      return _i20.JournalEntry.fromJson(data) as T;
     }
-    if (t == _i21.CuratedMap) {
-      return _i21.CuratedMap.fromJson(data) as T;
+    if (t == _i21.JournalPhoto) {
+      return _i21.JournalPhoto.fromJson(data) as T;
     }
-    if (t == _i22.FavoriteCity) {
-      return _i22.FavoriteCity.fromJson(data) as T;
+    if (t == _i22.CuratedMap) {
+      return _i22.CuratedMap.fromJson(data) as T;
     }
-    if (t == _i23.MapCategory) {
-      return _i23.MapCategory.fromJson(data) as T;
+    if (t == _i23.FavoriteCity) {
+      return _i23.FavoriteCity.fromJson(data) as T;
     }
-    if (t == _i24.MapRestaurant) {
-      return _i24.MapRestaurant.fromJson(data) as T;
+    if (t == _i24.MapCategory) {
+      return _i24.MapCategory.fromJson(data) as T;
     }
-    if (t == _i25.NarrativeCache) {
-      return _i25.NarrativeCache.fromJson(data) as T;
+    if (t == _i25.MapRestaurant) {
+      return _i25.MapRestaurant.fromJson(data) as T;
     }
-    if (t == _i26.NarrativeRegenerateLimit) {
-      return _i26.NarrativeRegenerateLimit.fromJson(data) as T;
+    if (t == _i26.NarrativeCache) {
+      return _i26.NarrativeCache.fromJson(data) as T;
     }
-    if (t == _i27.NarrativeResponse) {
-      return _i27.NarrativeResponse.fromJson(data) as T;
+    if (t == _i27.NarrativeRegenerateLimit) {
+      return _i27.NarrativeRegenerateLimit.fromJson(data) as T;
     }
-    if (t == _i28.NarrativeType) {
-      return _i28.NarrativeType.fromJson(data) as T;
+    if (t == _i28.NarrativeResponse) {
+      return _i28.NarrativeResponse.fromJson(data) as T;
     }
-    if (t == _i29.CityPrediction) {
-      return _i29.CityPrediction.fromJson(data) as T;
+    if (t == _i29.NarrativeType) {
+      return _i29.NarrativeType.fromJson(data) as T;
     }
-    if (t == _i30.RestaurantPhoto) {
-      return _i30.RestaurantPhoto.fromJson(data) as T;
+    if (t == _i30.CityPrediction) {
+      return _i30.CityPrediction.fromJson(data) as T;
     }
-    if (t == _i31.SavedRestaurant) {
-      return _i31.SavedRestaurant.fromJson(data) as T;
+    if (t == _i31.RestaurantPhoto) {
+      return _i31.RestaurantPhoto.fromJson(data) as T;
     }
-    if (t == _i32.SavedRestaurantSource) {
-      return _i32.SavedRestaurantSource.fromJson(data) as T;
+    if (t == _i32.SavedRestaurant) {
+      return _i32.SavedRestaurant.fromJson(data) as T;
     }
-    if (t == _i33.TonightPick) {
-      return _i33.TonightPick.fromJson(data) as T;
+    if (t == _i33.SavedRestaurantSource) {
+      return _i33.SavedRestaurantSource.fromJson(data) as T;
     }
-    if (t == _i34.Award) {
-      return _i34.Award.fromJson(data) as T;
+    if (t == _i34.TonightPick) {
+      return _i34.TonightPick.fromJson(data) as T;
     }
-    if (t == _i35.AwardImportLog) {
-      return _i35.AwardImportLog.fromJson(data) as T;
+    if (t == _i35.Award) {
+      return _i35.Award.fromJson(data) as T;
     }
-    if (t == _i36.AwardType) {
-      return _i36.AwardType.fromJson(data) as T;
+    if (t == _i36.AwardImportLog) {
+      return _i36.AwardImportLog.fromJson(data) as T;
     }
-    if (t == _i37.BudgetTier) {
-      return _i37.BudgetTier.fromJson(data) as T;
+    if (t == _i37.AwardType) {
+      return _i37.AwardType.fromJson(data) as T;
     }
-    if (t == _i38.CachedFoursquareResponse) {
-      return _i38.CachedFoursquareResponse.fromJson(data) as T;
+    if (t == _i38.BudgetTier) {
+      return _i38.BudgetTier.fromJson(data) as T;
     }
-    if (t == _i39.CachedRoute) {
-      return _i39.CachedRoute.fromJson(data) as T;
+    if (t == _i39.CachedFoursquareResponse) {
+      return _i39.CachedFoursquareResponse.fromJson(data) as T;
     }
-    if (t == _i40.JamesBeardAward) {
-      return _i40.JamesBeardAward.fromJson(data) as T;
+    if (t == _i40.CachedRoute) {
+      return _i40.CachedRoute.fromJson(data) as T;
     }
-    if (t == _i41.JamesBeardDistinction) {
-      return _i41.JamesBeardDistinction.fromJson(data) as T;
+    if (t == _i41.JamesBeardAward) {
+      return _i41.JamesBeardAward.fromJson(data) as T;
     }
-    if (t == _i42.MatchStatus) {
-      return _i42.MatchStatus.fromJson(data) as T;
+    if (t == _i42.JamesBeardDistinction) {
+      return _i42.JamesBeardDistinction.fromJson(data) as T;
     }
-    if (t == _i43.MichelinAward) {
-      return _i43.MichelinAward.fromJson(data) as T;
+    if (t == _i43.MatchStatus) {
+      return _i43.MatchStatus.fromJson(data) as T;
     }
-    if (t == _i44.MichelinDesignation) {
-      return _i44.MichelinDesignation.fromJson(data) as T;
+    if (t == _i44.MichelinAward) {
+      return _i44.MichelinAward.fromJson(data) as T;
     }
-    if (t == _i45.Restaurant) {
-      return _i45.Restaurant.fromJson(data) as T;
+    if (t == _i45.MichelinDesignation) {
+      return _i45.MichelinDesignation.fromJson(data) as T;
     }
-    if (t == _i46.RestaurantAwardLink) {
-      return _i46.RestaurantAwardLink.fromJson(data) as T;
+    if (t == _i46.Restaurant) {
+      return _i46.Restaurant.fromJson(data) as T;
     }
-    if (t == _i47.RouteLeg) {
-      return _i47.RouteLeg.fromJson(data) as T;
+    if (t == _i47.RestaurantAwardLink) {
+      return _i47.RestaurantAwardLink.fromJson(data) as T;
     }
-    if (t == _i48.TourRequest) {
-      return _i48.TourRequest.fromJson(data) as T;
+    if (t == _i48.RouteLeg) {
+      return _i48.RouteLeg.fromJson(data) as T;
     }
-    if (t == _i49.TourResult) {
-      return _i49.TourResult.fromJson(data) as T;
+    if (t == _i49.TourRequest) {
+      return _i49.TourRequest.fromJson(data) as T;
     }
-    if (t == _i50.TourStop) {
-      return _i50.TourStop.fromJson(data) as T;
+    if (t == _i50.TourResult) {
+      return _i50.TourResult.fromJson(data) as T;
     }
-    if (t == _i51.TourStopAlternative) {
-      return _i51.TourStopAlternative.fromJson(data) as T;
+    if (t == _i51.TourStop) {
+      return _i51.TourStop.fromJson(data) as T;
     }
-    if (t == _i52.TransportMode) {
-      return _i52.TransportMode.fromJson(data) as T;
+    if (t == _i52.TourStopAlternative) {
+      return _i52.TourStopAlternative.fromJson(data) as T;
     }
-    if (t == _i53.AdventureLevel) {
-      return _i53.AdventureLevel.fromJson(data) as T;
+    if (t == _i53.TransportMode) {
+      return _i53.TransportMode.fromJson(data) as T;
     }
-    if (t == _i54.FoodPhilosophy) {
-      return _i54.FoodPhilosophy.fromJson(data) as T;
+    if (t == _i54.AdventureLevel) {
+      return _i54.AdventureLevel.fromJson(data) as T;
     }
-    if (t == _i55.UserProfile) {
-      return _i55.UserProfile.fromJson(data) as T;
+    if (t == _i55.FoodPhilosophy) {
+      return _i55.FoodPhilosophy.fromJson(data) as T;
+    }
+    if (t == _i56.UserProfile) {
+      return _i56.UserProfile.fromJson(data) as T;
     }
     if (t == _i1.getType<_i5.ReservationClickEvent?>()) {
       return (data != null ? _i5.ReservationClickEvent.fromJson(data) : null)
@@ -3269,136 +3274,139 @@ class Protocol extends _i1.SerializationManagerServer {
       return (data != null ? _i15.FoodDiscoveryResponse.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i16.PlaceDetails?>()) {
-      return (data != null ? _i16.PlaceDetails.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i16.EmptyData?>()) {
+      return (data != null ? _i16.EmptyData.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i17.PlacePrediction?>()) {
-      return (data != null ? _i17.PlacePrediction.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i17.PlaceDetails?>()) {
+      return (data != null ? _i17.PlaceDetails.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i18.Greeting?>()) {
-      return (data != null ? _i18.Greeting.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i18.PlacePrediction?>()) {
+      return (data != null ? _i18.PlacePrediction.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i19.JournalEntry?>()) {
-      return (data != null ? _i19.JournalEntry.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i19.Greeting?>()) {
+      return (data != null ? _i19.Greeting.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i20.JournalPhoto?>()) {
-      return (data != null ? _i20.JournalPhoto.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i20.JournalEntry?>()) {
+      return (data != null ? _i20.JournalEntry.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i21.CuratedMap?>()) {
-      return (data != null ? _i21.CuratedMap.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i21.JournalPhoto?>()) {
+      return (data != null ? _i21.JournalPhoto.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i22.FavoriteCity?>()) {
-      return (data != null ? _i22.FavoriteCity.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i22.CuratedMap?>()) {
+      return (data != null ? _i22.CuratedMap.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i23.MapCategory?>()) {
-      return (data != null ? _i23.MapCategory.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i23.FavoriteCity?>()) {
+      return (data != null ? _i23.FavoriteCity.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i24.MapRestaurant?>()) {
-      return (data != null ? _i24.MapRestaurant.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i24.MapCategory?>()) {
+      return (data != null ? _i24.MapCategory.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i25.NarrativeCache?>()) {
-      return (data != null ? _i25.NarrativeCache.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i25.MapRestaurant?>()) {
+      return (data != null ? _i25.MapRestaurant.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i26.NarrativeRegenerateLimit?>()) {
+    if (t == _i1.getType<_i26.NarrativeCache?>()) {
+      return (data != null ? _i26.NarrativeCache.fromJson(data) : null) as T;
+    }
+    if (t == _i1.getType<_i27.NarrativeRegenerateLimit?>()) {
       return (data != null
-              ? _i26.NarrativeRegenerateLimit.fromJson(data)
+              ? _i27.NarrativeRegenerateLimit.fromJson(data)
               : null)
           as T;
     }
-    if (t == _i1.getType<_i27.NarrativeResponse?>()) {
-      return (data != null ? _i27.NarrativeResponse.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i28.NarrativeResponse?>()) {
+      return (data != null ? _i28.NarrativeResponse.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i28.NarrativeType?>()) {
-      return (data != null ? _i28.NarrativeType.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i29.NarrativeType?>()) {
+      return (data != null ? _i29.NarrativeType.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i29.CityPrediction?>()) {
-      return (data != null ? _i29.CityPrediction.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i30.CityPrediction?>()) {
+      return (data != null ? _i30.CityPrediction.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i30.RestaurantPhoto?>()) {
-      return (data != null ? _i30.RestaurantPhoto.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i31.RestaurantPhoto?>()) {
+      return (data != null ? _i31.RestaurantPhoto.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i31.SavedRestaurant?>()) {
-      return (data != null ? _i31.SavedRestaurant.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i32.SavedRestaurant?>()) {
+      return (data != null ? _i32.SavedRestaurant.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i32.SavedRestaurantSource?>()) {
-      return (data != null ? _i32.SavedRestaurantSource.fromJson(data) : null)
+    if (t == _i1.getType<_i33.SavedRestaurantSource?>()) {
+      return (data != null ? _i33.SavedRestaurantSource.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i33.TonightPick?>()) {
-      return (data != null ? _i33.TonightPick.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i34.TonightPick?>()) {
+      return (data != null ? _i34.TonightPick.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i34.Award?>()) {
-      return (data != null ? _i34.Award.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i35.Award?>()) {
+      return (data != null ? _i35.Award.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i35.AwardImportLog?>()) {
-      return (data != null ? _i35.AwardImportLog.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i36.AwardImportLog?>()) {
+      return (data != null ? _i36.AwardImportLog.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i36.AwardType?>()) {
-      return (data != null ? _i36.AwardType.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i37.AwardType?>()) {
+      return (data != null ? _i37.AwardType.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i37.BudgetTier?>()) {
-      return (data != null ? _i37.BudgetTier.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i38.BudgetTier?>()) {
+      return (data != null ? _i38.BudgetTier.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i38.CachedFoursquareResponse?>()) {
+    if (t == _i1.getType<_i39.CachedFoursquareResponse?>()) {
       return (data != null
-              ? _i38.CachedFoursquareResponse.fromJson(data)
+              ? _i39.CachedFoursquareResponse.fromJson(data)
               : null)
           as T;
     }
-    if (t == _i1.getType<_i39.CachedRoute?>()) {
-      return (data != null ? _i39.CachedRoute.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i40.CachedRoute?>()) {
+      return (data != null ? _i40.CachedRoute.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i40.JamesBeardAward?>()) {
-      return (data != null ? _i40.JamesBeardAward.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i41.JamesBeardAward?>()) {
+      return (data != null ? _i41.JamesBeardAward.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i41.JamesBeardDistinction?>()) {
-      return (data != null ? _i41.JamesBeardDistinction.fromJson(data) : null)
+    if (t == _i1.getType<_i42.JamesBeardDistinction?>()) {
+      return (data != null ? _i42.JamesBeardDistinction.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i42.MatchStatus?>()) {
-      return (data != null ? _i42.MatchStatus.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i43.MatchStatus?>()) {
+      return (data != null ? _i43.MatchStatus.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i43.MichelinAward?>()) {
-      return (data != null ? _i43.MichelinAward.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i44.MichelinAward?>()) {
+      return (data != null ? _i44.MichelinAward.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i44.MichelinDesignation?>()) {
-      return (data != null ? _i44.MichelinDesignation.fromJson(data) : null)
+    if (t == _i1.getType<_i45.MichelinDesignation?>()) {
+      return (data != null ? _i45.MichelinDesignation.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i45.Restaurant?>()) {
-      return (data != null ? _i45.Restaurant.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i46.Restaurant?>()) {
+      return (data != null ? _i46.Restaurant.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i46.RestaurantAwardLink?>()) {
-      return (data != null ? _i46.RestaurantAwardLink.fromJson(data) : null)
+    if (t == _i1.getType<_i47.RestaurantAwardLink?>()) {
+      return (data != null ? _i47.RestaurantAwardLink.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i47.RouteLeg?>()) {
-      return (data != null ? _i47.RouteLeg.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i48.RouteLeg?>()) {
+      return (data != null ? _i48.RouteLeg.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i48.TourRequest?>()) {
-      return (data != null ? _i48.TourRequest.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i49.TourRequest?>()) {
+      return (data != null ? _i49.TourRequest.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i49.TourResult?>()) {
-      return (data != null ? _i49.TourResult.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i50.TourResult?>()) {
+      return (data != null ? _i50.TourResult.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i50.TourStop?>()) {
-      return (data != null ? _i50.TourStop.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i51.TourStop?>()) {
+      return (data != null ? _i51.TourStop.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i51.TourStopAlternative?>()) {
-      return (data != null ? _i51.TourStopAlternative.fromJson(data) : null)
+    if (t == _i1.getType<_i52.TourStopAlternative?>()) {
+      return (data != null ? _i52.TourStopAlternative.fromJson(data) : null)
           as T;
     }
-    if (t == _i1.getType<_i52.TransportMode?>()) {
-      return (data != null ? _i52.TransportMode.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i53.TransportMode?>()) {
+      return (data != null ? _i53.TransportMode.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i53.AdventureLevel?>()) {
-      return (data != null ? _i53.AdventureLevel.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i54.AdventureLevel?>()) {
+      return (data != null ? _i54.AdventureLevel.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i54.FoodPhilosophy?>()) {
-      return (data != null ? _i54.FoodPhilosophy.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i55.FoodPhilosophy?>()) {
+      return (data != null ? _i55.FoodPhilosophy.fromJson(data) : null) as T;
     }
-    if (t == _i1.getType<_i55.UserProfile?>()) {
-      return (data != null ? _i55.UserProfile.fromJson(data) : null) as T;
+    if (t == _i1.getType<_i56.UserProfile?>()) {
+      return (data != null ? _i56.UserProfile.fromJson(data) : null) as T;
     }
     if (t == List<_i7.ImportPreviewItem>) {
       return (data as List)
@@ -3421,15 +3429,15 @@ class Protocol extends _i1.SerializationManagerServer {
               : null)
           as T;
     }
-    if (t == List<_i51.TourStopAlternative>) {
+    if (t == List<_i52.TourStopAlternative>) {
       return (data as List)
-              .map((e) => deserialize<_i51.TourStopAlternative>(e))
+              .map((e) => deserialize<_i52.TourStopAlternative>(e))
               .toList()
           as T;
     }
-    if (t == List<_i56.ReservationClickEvent>) {
+    if (t == List<_i57.ReservationClickEvent>) {
       return (data as List)
-              .map((e) => deserialize<_i56.ReservationClickEvent>(e))
+              .map((e) => deserialize<_i57.ReservationClickEvent>(e))
               .toList()
           as T;
     }
@@ -3439,15 +3447,15 @@ class Protocol extends _i1.SerializationManagerServer {
           )
           as T;
     }
-    if (t == List<_i57.ReviewQueueItem>) {
+    if (t == List<_i58.ReviewQueueItem>) {
       return (data as List)
-              .map((e) => deserialize<_i57.ReviewQueueItem>(e))
+              .map((e) => deserialize<_i58.ReviewQueueItem>(e))
               .toList()
           as T;
     }
-    if (t == List<_i58.AwardImportLog>) {
+    if (t == List<_i59.AwardImportLog>) {
       return (data as List)
-              .map((e) => deserialize<_i58.AwardImportLog>(e))
+              .map((e) => deserialize<_i59.AwardImportLog>(e))
               .toList()
           as T;
     }
@@ -3463,62 +3471,62 @@ class Protocol extends _i1.SerializationManagerServer {
           )
           as T;
     }
-    if (t == List<_i59.MichelinAward>) {
+    if (t == List<_i60.MichelinAward>) {
       return (data as List)
-              .map((e) => deserialize<_i59.MichelinAward>(e))
+              .map((e) => deserialize<_i60.MichelinAward>(e))
               .toList()
           as T;
     }
-    if (t == List<_i60.JamesBeardAward>) {
+    if (t == List<_i61.JamesBeardAward>) {
       return (data as List)
-              .map((e) => deserialize<_i60.JamesBeardAward>(e))
+              .map((e) => deserialize<_i61.JamesBeardAward>(e))
               .toList()
           as T;
     }
-    if (t == List<_i61.DailyStory>) {
-      return (data as List).map((e) => deserialize<_i61.DailyStory>(e)).toList()
+    if (t == List<_i62.DailyStory>) {
+      return (data as List).map((e) => deserialize<_i62.DailyStory>(e)).toList()
           as T;
     }
-    if (t == List<_i62.TonightPick>) {
+    if (t == List<_i63.TonightPick>) {
       return (data as List)
-              .map((e) => deserialize<_i62.TonightPick>(e))
+              .map((e) => deserialize<_i63.TonightPick>(e))
               .toList()
           as T;
     }
-    if (t == List<_i63.PlacePrediction>) {
+    if (t == List<_i64.PlacePrediction>) {
       return (data as List)
-              .map((e) => deserialize<_i63.PlacePrediction>(e))
+              .map((e) => deserialize<_i64.PlacePrediction>(e))
               .toList()
           as T;
     }
-    if (t == List<_i64.CityPrediction>) {
+    if (t == List<_i65.CityPrediction>) {
       return (data as List)
-              .map((e) => deserialize<_i64.CityPrediction>(e))
+              .map((e) => deserialize<_i65.CityPrediction>(e))
               .toList()
           as T;
     }
-    if (t == List<_i65.CuratedMap>) {
-      return (data as List).map((e) => deserialize<_i65.CuratedMap>(e)).toList()
+    if (t == List<_i66.CuratedMap>) {
+      return (data as List).map((e) => deserialize<_i66.CuratedMap>(e)).toList()
           as T;
     }
-    if (t == List<_i66.MapRestaurant>) {
+    if (t == List<_i67.MapRestaurant>) {
       return (data as List)
-              .map((e) => deserialize<_i66.MapRestaurant>(e))
+              .map((e) => deserialize<_i67.MapRestaurant>(e))
               .toList()
           as T;
     }
-    if (t == List<_i67.FavoriteCity>) {
+    if (t == List<_i68.FavoriteCity>) {
       return (data as List)
-              .map((e) => deserialize<_i67.FavoriteCity>(e))
+              .map((e) => deserialize<_i68.FavoriteCity>(e))
               .toList()
           as T;
     }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList() as T;
     }
-    if (t == List<_i68.SavedRestaurant>) {
+    if (t == List<_i69.SavedRestaurant>) {
       return (data as List)
-              .map((e) => deserialize<_i68.SavedRestaurant>(e))
+              .map((e) => deserialize<_i69.SavedRestaurant>(e))
               .toList()
           as T;
     }
@@ -3553,46 +3561,47 @@ class Protocol extends _i1.SerializationManagerServer {
       _i13.TonightPicksCache => 'TonightPicksCache',
       _i14.DiscoveredPlace => 'DiscoveredPlace',
       _i15.FoodDiscoveryResponse => 'FoodDiscoveryResponse',
-      _i16.PlaceDetails => 'PlaceDetails',
-      _i17.PlacePrediction => 'PlacePrediction',
-      _i18.Greeting => 'Greeting',
-      _i19.JournalEntry => 'JournalEntry',
-      _i20.JournalPhoto => 'JournalPhoto',
-      _i21.CuratedMap => 'CuratedMap',
-      _i22.FavoriteCity => 'FavoriteCity',
-      _i23.MapCategory => 'MapCategory',
-      _i24.MapRestaurant => 'MapRestaurant',
-      _i25.NarrativeCache => 'NarrativeCache',
-      _i26.NarrativeRegenerateLimit => 'NarrativeRegenerateLimit',
-      _i27.NarrativeResponse => 'NarrativeResponse',
-      _i28.NarrativeType => 'NarrativeType',
-      _i29.CityPrediction => 'CityPrediction',
-      _i30.RestaurantPhoto => 'RestaurantPhoto',
-      _i31.SavedRestaurant => 'SavedRestaurant',
-      _i32.SavedRestaurantSource => 'SavedRestaurantSource',
-      _i33.TonightPick => 'TonightPick',
-      _i34.Award => 'Award',
-      _i35.AwardImportLog => 'AwardImportLog',
-      _i36.AwardType => 'AwardType',
-      _i37.BudgetTier => 'BudgetTier',
-      _i38.CachedFoursquareResponse => 'CachedFoursquareResponse',
-      _i39.CachedRoute => 'CachedRoute',
-      _i40.JamesBeardAward => 'JamesBeardAward',
-      _i41.JamesBeardDistinction => 'JamesBeardDistinction',
-      _i42.MatchStatus => 'MatchStatus',
-      _i43.MichelinAward => 'MichelinAward',
-      _i44.MichelinDesignation => 'MichelinDesignation',
-      _i45.Restaurant => 'Restaurant',
-      _i46.RestaurantAwardLink => 'RestaurantAwardLink',
-      _i47.RouteLeg => 'RouteLeg',
-      _i48.TourRequest => 'TourRequest',
-      _i49.TourResult => 'TourResult',
-      _i50.TourStop => 'TourStop',
-      _i51.TourStopAlternative => 'TourStopAlternative',
-      _i52.TransportMode => 'TransportMode',
-      _i53.AdventureLevel => 'AdventureLevel',
-      _i54.FoodPhilosophy => 'FoodPhilosophy',
-      _i55.UserProfile => 'UserProfile',
+      _i16.EmptyData => 'EmptyData',
+      _i17.PlaceDetails => 'PlaceDetails',
+      _i18.PlacePrediction => 'PlacePrediction',
+      _i19.Greeting => 'Greeting',
+      _i20.JournalEntry => 'JournalEntry',
+      _i21.JournalPhoto => 'JournalPhoto',
+      _i22.CuratedMap => 'CuratedMap',
+      _i23.FavoriteCity => 'FavoriteCity',
+      _i24.MapCategory => 'MapCategory',
+      _i25.MapRestaurant => 'MapRestaurant',
+      _i26.NarrativeCache => 'NarrativeCache',
+      _i27.NarrativeRegenerateLimit => 'NarrativeRegenerateLimit',
+      _i28.NarrativeResponse => 'NarrativeResponse',
+      _i29.NarrativeType => 'NarrativeType',
+      _i30.CityPrediction => 'CityPrediction',
+      _i31.RestaurantPhoto => 'RestaurantPhoto',
+      _i32.SavedRestaurant => 'SavedRestaurant',
+      _i33.SavedRestaurantSource => 'SavedRestaurantSource',
+      _i34.TonightPick => 'TonightPick',
+      _i35.Award => 'Award',
+      _i36.AwardImportLog => 'AwardImportLog',
+      _i37.AwardType => 'AwardType',
+      _i38.BudgetTier => 'BudgetTier',
+      _i39.CachedFoursquareResponse => 'CachedFoursquareResponse',
+      _i40.CachedRoute => 'CachedRoute',
+      _i41.JamesBeardAward => 'JamesBeardAward',
+      _i42.JamesBeardDistinction => 'JamesBeardDistinction',
+      _i43.MatchStatus => 'MatchStatus',
+      _i44.MichelinAward => 'MichelinAward',
+      _i45.MichelinDesignation => 'MichelinDesignation',
+      _i46.Restaurant => 'Restaurant',
+      _i47.RestaurantAwardLink => 'RestaurantAwardLink',
+      _i48.RouteLeg => 'RouteLeg',
+      _i49.TourRequest => 'TourRequest',
+      _i50.TourResult => 'TourResult',
+      _i51.TourStop => 'TourStop',
+      _i52.TourStopAlternative => 'TourStopAlternative',
+      _i53.TransportMode => 'TransportMode',
+      _i54.AdventureLevel => 'AdventureLevel',
+      _i55.FoodPhilosophy => 'FoodPhilosophy',
+      _i56.UserProfile => 'UserProfile',
       _ => null,
     };
   }
@@ -3629,85 +3638,87 @@ class Protocol extends _i1.SerializationManagerServer {
         return 'DiscoveredPlace';
       case _i15.FoodDiscoveryResponse():
         return 'FoodDiscoveryResponse';
-      case _i16.PlaceDetails():
+      case _i16.EmptyData():
+        return 'EmptyData';
+      case _i17.PlaceDetails():
         return 'PlaceDetails';
-      case _i17.PlacePrediction():
+      case _i18.PlacePrediction():
         return 'PlacePrediction';
-      case _i18.Greeting():
+      case _i19.Greeting():
         return 'Greeting';
-      case _i19.JournalEntry():
+      case _i20.JournalEntry():
         return 'JournalEntry';
-      case _i20.JournalPhoto():
+      case _i21.JournalPhoto():
         return 'JournalPhoto';
-      case _i21.CuratedMap():
+      case _i22.CuratedMap():
         return 'CuratedMap';
-      case _i22.FavoriteCity():
+      case _i23.FavoriteCity():
         return 'FavoriteCity';
-      case _i23.MapCategory():
+      case _i24.MapCategory():
         return 'MapCategory';
-      case _i24.MapRestaurant():
+      case _i25.MapRestaurant():
         return 'MapRestaurant';
-      case _i25.NarrativeCache():
+      case _i26.NarrativeCache():
         return 'NarrativeCache';
-      case _i26.NarrativeRegenerateLimit():
+      case _i27.NarrativeRegenerateLimit():
         return 'NarrativeRegenerateLimit';
-      case _i27.NarrativeResponse():
+      case _i28.NarrativeResponse():
         return 'NarrativeResponse';
-      case _i28.NarrativeType():
+      case _i29.NarrativeType():
         return 'NarrativeType';
-      case _i29.CityPrediction():
+      case _i30.CityPrediction():
         return 'CityPrediction';
-      case _i30.RestaurantPhoto():
+      case _i31.RestaurantPhoto():
         return 'RestaurantPhoto';
-      case _i31.SavedRestaurant():
+      case _i32.SavedRestaurant():
         return 'SavedRestaurant';
-      case _i32.SavedRestaurantSource():
+      case _i33.SavedRestaurantSource():
         return 'SavedRestaurantSource';
-      case _i33.TonightPick():
+      case _i34.TonightPick():
         return 'TonightPick';
-      case _i34.Award():
+      case _i35.Award():
         return 'Award';
-      case _i35.AwardImportLog():
+      case _i36.AwardImportLog():
         return 'AwardImportLog';
-      case _i36.AwardType():
+      case _i37.AwardType():
         return 'AwardType';
-      case _i37.BudgetTier():
+      case _i38.BudgetTier():
         return 'BudgetTier';
-      case _i38.CachedFoursquareResponse():
+      case _i39.CachedFoursquareResponse():
         return 'CachedFoursquareResponse';
-      case _i39.CachedRoute():
+      case _i40.CachedRoute():
         return 'CachedRoute';
-      case _i40.JamesBeardAward():
+      case _i41.JamesBeardAward():
         return 'JamesBeardAward';
-      case _i41.JamesBeardDistinction():
+      case _i42.JamesBeardDistinction():
         return 'JamesBeardDistinction';
-      case _i42.MatchStatus():
+      case _i43.MatchStatus():
         return 'MatchStatus';
-      case _i43.MichelinAward():
+      case _i44.MichelinAward():
         return 'MichelinAward';
-      case _i44.MichelinDesignation():
+      case _i45.MichelinDesignation():
         return 'MichelinDesignation';
-      case _i45.Restaurant():
+      case _i46.Restaurant():
         return 'Restaurant';
-      case _i46.RestaurantAwardLink():
+      case _i47.RestaurantAwardLink():
         return 'RestaurantAwardLink';
-      case _i47.RouteLeg():
+      case _i48.RouteLeg():
         return 'RouteLeg';
-      case _i48.TourRequest():
+      case _i49.TourRequest():
         return 'TourRequest';
-      case _i49.TourResult():
+      case _i50.TourResult():
         return 'TourResult';
-      case _i50.TourStop():
+      case _i51.TourStop():
         return 'TourStop';
-      case _i51.TourStopAlternative():
+      case _i52.TourStopAlternative():
         return 'TourStopAlternative';
-      case _i52.TransportMode():
+      case _i53.TransportMode():
         return 'TransportMode';
-      case _i53.AdventureLevel():
+      case _i54.AdventureLevel():
         return 'AdventureLevel';
-      case _i54.FoodPhilosophy():
+      case _i55.FoodPhilosophy():
         return 'FoodPhilosophy';
-      case _i55.UserProfile():
+      case _i56.UserProfile():
         return 'UserProfile';
     }
     className = _i2.Protocol().getClassNameForObject(data);
@@ -3764,125 +3775,128 @@ class Protocol extends _i1.SerializationManagerServer {
     if (dataClassName == 'FoodDiscoveryResponse') {
       return deserialize<_i15.FoodDiscoveryResponse>(data['data']);
     }
+    if (dataClassName == 'EmptyData') {
+      return deserialize<_i16.EmptyData>(data['data']);
+    }
     if (dataClassName == 'PlaceDetails') {
-      return deserialize<_i16.PlaceDetails>(data['data']);
+      return deserialize<_i17.PlaceDetails>(data['data']);
     }
     if (dataClassName == 'PlacePrediction') {
-      return deserialize<_i17.PlacePrediction>(data['data']);
+      return deserialize<_i18.PlacePrediction>(data['data']);
     }
     if (dataClassName == 'Greeting') {
-      return deserialize<_i18.Greeting>(data['data']);
+      return deserialize<_i19.Greeting>(data['data']);
     }
     if (dataClassName == 'JournalEntry') {
-      return deserialize<_i19.JournalEntry>(data['data']);
+      return deserialize<_i20.JournalEntry>(data['data']);
     }
     if (dataClassName == 'JournalPhoto') {
-      return deserialize<_i20.JournalPhoto>(data['data']);
+      return deserialize<_i21.JournalPhoto>(data['data']);
     }
     if (dataClassName == 'CuratedMap') {
-      return deserialize<_i21.CuratedMap>(data['data']);
+      return deserialize<_i22.CuratedMap>(data['data']);
     }
     if (dataClassName == 'FavoriteCity') {
-      return deserialize<_i22.FavoriteCity>(data['data']);
+      return deserialize<_i23.FavoriteCity>(data['data']);
     }
     if (dataClassName == 'MapCategory') {
-      return deserialize<_i23.MapCategory>(data['data']);
+      return deserialize<_i24.MapCategory>(data['data']);
     }
     if (dataClassName == 'MapRestaurant') {
-      return deserialize<_i24.MapRestaurant>(data['data']);
+      return deserialize<_i25.MapRestaurant>(data['data']);
     }
     if (dataClassName == 'NarrativeCache') {
-      return deserialize<_i25.NarrativeCache>(data['data']);
+      return deserialize<_i26.NarrativeCache>(data['data']);
     }
     if (dataClassName == 'NarrativeRegenerateLimit') {
-      return deserialize<_i26.NarrativeRegenerateLimit>(data['data']);
+      return deserialize<_i27.NarrativeRegenerateLimit>(data['data']);
     }
     if (dataClassName == 'NarrativeResponse') {
-      return deserialize<_i27.NarrativeResponse>(data['data']);
+      return deserialize<_i28.NarrativeResponse>(data['data']);
     }
     if (dataClassName == 'NarrativeType') {
-      return deserialize<_i28.NarrativeType>(data['data']);
+      return deserialize<_i29.NarrativeType>(data['data']);
     }
     if (dataClassName == 'CityPrediction') {
-      return deserialize<_i29.CityPrediction>(data['data']);
+      return deserialize<_i30.CityPrediction>(data['data']);
     }
     if (dataClassName == 'RestaurantPhoto') {
-      return deserialize<_i30.RestaurantPhoto>(data['data']);
+      return deserialize<_i31.RestaurantPhoto>(data['data']);
     }
     if (dataClassName == 'SavedRestaurant') {
-      return deserialize<_i31.SavedRestaurant>(data['data']);
+      return deserialize<_i32.SavedRestaurant>(data['data']);
     }
     if (dataClassName == 'SavedRestaurantSource') {
-      return deserialize<_i32.SavedRestaurantSource>(data['data']);
+      return deserialize<_i33.SavedRestaurantSource>(data['data']);
     }
     if (dataClassName == 'TonightPick') {
-      return deserialize<_i33.TonightPick>(data['data']);
+      return deserialize<_i34.TonightPick>(data['data']);
     }
     if (dataClassName == 'Award') {
-      return deserialize<_i34.Award>(data['data']);
+      return deserialize<_i35.Award>(data['data']);
     }
     if (dataClassName == 'AwardImportLog') {
-      return deserialize<_i35.AwardImportLog>(data['data']);
+      return deserialize<_i36.AwardImportLog>(data['data']);
     }
     if (dataClassName == 'AwardType') {
-      return deserialize<_i36.AwardType>(data['data']);
+      return deserialize<_i37.AwardType>(data['data']);
     }
     if (dataClassName == 'BudgetTier') {
-      return deserialize<_i37.BudgetTier>(data['data']);
+      return deserialize<_i38.BudgetTier>(data['data']);
     }
     if (dataClassName == 'CachedFoursquareResponse') {
-      return deserialize<_i38.CachedFoursquareResponse>(data['data']);
+      return deserialize<_i39.CachedFoursquareResponse>(data['data']);
     }
     if (dataClassName == 'CachedRoute') {
-      return deserialize<_i39.CachedRoute>(data['data']);
+      return deserialize<_i40.CachedRoute>(data['data']);
     }
     if (dataClassName == 'JamesBeardAward') {
-      return deserialize<_i40.JamesBeardAward>(data['data']);
+      return deserialize<_i41.JamesBeardAward>(data['data']);
     }
     if (dataClassName == 'JamesBeardDistinction') {
-      return deserialize<_i41.JamesBeardDistinction>(data['data']);
+      return deserialize<_i42.JamesBeardDistinction>(data['data']);
     }
     if (dataClassName == 'MatchStatus') {
-      return deserialize<_i42.MatchStatus>(data['data']);
+      return deserialize<_i43.MatchStatus>(data['data']);
     }
     if (dataClassName == 'MichelinAward') {
-      return deserialize<_i43.MichelinAward>(data['data']);
+      return deserialize<_i44.MichelinAward>(data['data']);
     }
     if (dataClassName == 'MichelinDesignation') {
-      return deserialize<_i44.MichelinDesignation>(data['data']);
+      return deserialize<_i45.MichelinDesignation>(data['data']);
     }
     if (dataClassName == 'Restaurant') {
-      return deserialize<_i45.Restaurant>(data['data']);
+      return deserialize<_i46.Restaurant>(data['data']);
     }
     if (dataClassName == 'RestaurantAwardLink') {
-      return deserialize<_i46.RestaurantAwardLink>(data['data']);
+      return deserialize<_i47.RestaurantAwardLink>(data['data']);
     }
     if (dataClassName == 'RouteLeg') {
-      return deserialize<_i47.RouteLeg>(data['data']);
+      return deserialize<_i48.RouteLeg>(data['data']);
     }
     if (dataClassName == 'TourRequest') {
-      return deserialize<_i48.TourRequest>(data['data']);
+      return deserialize<_i49.TourRequest>(data['data']);
     }
     if (dataClassName == 'TourResult') {
-      return deserialize<_i49.TourResult>(data['data']);
+      return deserialize<_i50.TourResult>(data['data']);
     }
     if (dataClassName == 'TourStop') {
-      return deserialize<_i50.TourStop>(data['data']);
+      return deserialize<_i51.TourStop>(data['data']);
     }
     if (dataClassName == 'TourStopAlternative') {
-      return deserialize<_i51.TourStopAlternative>(data['data']);
+      return deserialize<_i52.TourStopAlternative>(data['data']);
     }
     if (dataClassName == 'TransportMode') {
-      return deserialize<_i52.TransportMode>(data['data']);
+      return deserialize<_i53.TransportMode>(data['data']);
     }
     if (dataClassName == 'AdventureLevel') {
-      return deserialize<_i53.AdventureLevel>(data['data']);
+      return deserialize<_i54.AdventureLevel>(data['data']);
     }
     if (dataClassName == 'FoodPhilosophy') {
-      return deserialize<_i54.FoodPhilosophy>(data['data']);
+      return deserialize<_i55.FoodPhilosophy>(data['data']);
     }
     if (dataClassName == 'UserProfile') {
-      return deserialize<_i55.UserProfile>(data['data']);
+      return deserialize<_i56.UserProfile>(data['data']);
     }
     if (dataClassName.startsWith('serverpod.')) {
       data['className'] = dataClassName.substring(10);
@@ -3926,44 +3940,44 @@ class Protocol extends _i1.SerializationManagerServer {
         return _i11.DailyStory.t;
       case _i13.TonightPicksCache:
         return _i13.TonightPicksCache.t;
-      case _i19.JournalEntry:
-        return _i19.JournalEntry.t;
-      case _i20.JournalPhoto:
-        return _i20.JournalPhoto.t;
-      case _i21.CuratedMap:
-        return _i21.CuratedMap.t;
-      case _i22.FavoriteCity:
-        return _i22.FavoriteCity.t;
-      case _i24.MapRestaurant:
-        return _i24.MapRestaurant.t;
-      case _i25.NarrativeCache:
-        return _i25.NarrativeCache.t;
-      case _i26.NarrativeRegenerateLimit:
-        return _i26.NarrativeRegenerateLimit.t;
-      case _i31.SavedRestaurant:
-        return _i31.SavedRestaurant.t;
-      case _i34.Award:
-        return _i34.Award.t;
-      case _i35.AwardImportLog:
-        return _i35.AwardImportLog.t;
-      case _i38.CachedFoursquareResponse:
-        return _i38.CachedFoursquareResponse.t;
-      case _i39.CachedRoute:
-        return _i39.CachedRoute.t;
-      case _i40.JamesBeardAward:
-        return _i40.JamesBeardAward.t;
-      case _i43.MichelinAward:
-        return _i43.MichelinAward.t;
-      case _i45.Restaurant:
-        return _i45.Restaurant.t;
-      case _i46.RestaurantAwardLink:
-        return _i46.RestaurantAwardLink.t;
-      case _i48.TourRequest:
-        return _i48.TourRequest.t;
-      case _i49.TourResult:
-        return _i49.TourResult.t;
-      case _i55.UserProfile:
-        return _i55.UserProfile.t;
+      case _i20.JournalEntry:
+        return _i20.JournalEntry.t;
+      case _i21.JournalPhoto:
+        return _i21.JournalPhoto.t;
+      case _i22.CuratedMap:
+        return _i22.CuratedMap.t;
+      case _i23.FavoriteCity:
+        return _i23.FavoriteCity.t;
+      case _i25.MapRestaurant:
+        return _i25.MapRestaurant.t;
+      case _i26.NarrativeCache:
+        return _i26.NarrativeCache.t;
+      case _i27.NarrativeRegenerateLimit:
+        return _i27.NarrativeRegenerateLimit.t;
+      case _i32.SavedRestaurant:
+        return _i32.SavedRestaurant.t;
+      case _i35.Award:
+        return _i35.Award.t;
+      case _i36.AwardImportLog:
+        return _i36.AwardImportLog.t;
+      case _i39.CachedFoursquareResponse:
+        return _i39.CachedFoursquareResponse.t;
+      case _i40.CachedRoute:
+        return _i40.CachedRoute.t;
+      case _i41.JamesBeardAward:
+        return _i41.JamesBeardAward.t;
+      case _i44.MichelinAward:
+        return _i44.MichelinAward.t;
+      case _i46.Restaurant:
+        return _i46.Restaurant.t;
+      case _i47.RestaurantAwardLink:
+        return _i47.RestaurantAwardLink.t;
+      case _i49.TourRequest:
+        return _i49.TourRequest.t;
+      case _i50.TourResult:
+        return _i50.TourResult.t;
+      case _i56.UserProfile:
+        return _i56.UserProfile.t;
     }
     return null;
   }
