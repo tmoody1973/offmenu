@@ -1086,6 +1086,14 @@ class EndpointCuratedMaps extends _i1.EndpointRef {
         {},
       );
 
+  /// Delete a user's custom map.
+  /// Only the creator can delete their own map.
+  _i2.Future<bool> deleteUserMap(int mapId) => caller.callServerEndpoint<bool>(
+    'curatedMaps',
+    'deleteUserMap',
+    {'mapId': mapId},
+  );
+
   /// Create a user's custom map.
   _i2.Future<_i23.CuratedMap> createUserMap({
     required String cityName,

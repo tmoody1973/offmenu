@@ -8,6 +8,7 @@ import 'package:serverpod_auth_idp_server/providers/google.dart';
 import 'src/future_calls/daily_story_generation_call.dart';
 import 'src/generated/endpoints.dart';
 import 'src/generated/protocol.dart';
+import 'src/web/middleware/api_cors_middleware.dart';
 import 'src/web/middleware/cors_middleware.dart';
 import 'src/web/routes/app_config_route.dart';
 import 'src/web/routes/photo_proxy_route.dart';
@@ -15,8 +16,27 @@ import 'src/web/routes/root.dart';
 
 /// The starting point of the Serverpod server.
 void run(List<String> args) async {
-  // Initialize Serverpod and connect it with your generated code.
-  final pod = Serverpod(args, Protocol(), Endpoints());
+  // Configure CORS headers for the API server
+  // Note: Access-Control-Allow-Origin must be a single origin when using credentials
+  // We use the primary production origin here
+  final corsHeaders = Headers.fromMap({
+    'Access-Control-Allow-Origin': ['https://offmenu-two.vercel.app'],
+    'Access-Control-Allow-Methods': ['GET, POST, PUT, DELETE, OPTIONS'],
+    'Access-Control-Allow-Headers': [
+      'Content-Type, Authorization, X-Serverpod-Client-Id, serverpod_idp, Accept, User-Agent, X-Requested-With'
+    ],
+    'Access-Control-Allow-Credentials': ['true'],
+    'Access-Control-Max-Age': ['86400'],
+  });
+
+  // Initialize Serverpod with custom CORS headers
+  final pod = Serverpod(
+    args,
+    Protocol(),
+    Endpoints(),
+    httpResponseHeaders: corsHeaders,
+    httpOptionsResponseHeaders: corsHeaders,
+  );
 
   // Initialize authentication services for the server.
   // Token managers will be used to validate and issue authentication keys,
@@ -34,15 +54,30 @@ void run(List<String> args) async {
     print('[Auth] Google client secret found (${googleClientSecret.length} chars)');
   } else {
     print('[Auth] WARNING: Google client secret NOT found');
-    print('[Auth] Expected: SERVERPOD_PASSWORD_serverpod_auth_googleClientSecret');
-    // Debug: List relevant env vars to help diagnose
-    final relevantVars = Platform.environment.keys
-        .where((k) => k.toLowerCase().contains('google') ||
-                      k.toLowerCase().contains('secret') ||
-                      k.contains('SERVERPOD'))
-        .toList();
-    print('[Auth] Available relevant env vars: $relevantVars');
   }
+
+  // Debug: Check Perplexity API key
+  final perplexityKey = pod.getPassword('PERPLEXITY_API_KEY');
+  if (perplexityKey != null) {
+    print('[API Keys] Perplexity API key found (${perplexityKey.length} chars, starts with: ${perplexityKey.substring(0, 8)}...)');
+  } else {
+    print('[API Keys] WARNING: Perplexity API key NOT found');
+    print('[API Keys] Expected env var: SERVERPOD_PASSWORD_PERPLEXITY_API_KEY');
+  }
+
+  // Debug: Check Google Places API key
+  final placesKey = pod.getPassword('GOOGLE_PLACES_API_KEY');
+  if (placesKey != null) {
+    print('[API Keys] Google Places API key found (${placesKey.length} chars)');
+  } else {
+    print('[API Keys] WARNING: Google Places API key NOT found');
+  }
+
+  // Debug: List all SERVERPOD env vars
+  final serverpodVars = Platform.environment.keys
+      .where((k) => k.contains('SERVERPOD'))
+      .toList();
+  print('[Debug] Available SERVERPOD env vars: $serverpodVars');
 
   pod.initializeAuthServices(
     tokenManagerBuilders: [
@@ -66,11 +101,17 @@ void run(List<String> args) async {
   // Configure CORS for Flutter web clients
   const allowedOrigins = [
     'https://offmenu-two.vercel.app',
+    'https://offmenu-two-snowy.vercel.app',
     'https://offmenu.vercel.app',
     'http://localhost:8080',
     'http://localhost:3000',
   ];
-  pod.webServer.addMiddleware(corsMiddleware(allowedOrigins), '/**');
+
+  // Add CORS middleware to the API server (for RPC/method calls from Flutter)
+  pod.server.addMiddleware(apiCorsMiddleware(allowedOrigins));
+
+  // Add CORS middleware to the web server (for custom routes like photo proxy)
+  pod.webServer.addMiddleware(corsMiddleware(allowedOrigins), '/api/**');
 
   // Setup a default page at the web root.
   // These are used by the default page.
@@ -80,10 +121,10 @@ void run(List<String> args) async {
   // Photo proxy route - serves Google Places photos to avoid CORS issues.
   pod.webServer.addRoute(PhotoProxyRoute(), '/api/photos/**');
 
-  // Serve all files in the web/static relative directory under /.
+  // Serve all files in the web/static relative directory under /static.
   // These are used by the default web page.
   final root = Directory(Uri(path: 'web/static').toFilePath());
-  pod.webServer.addRoute(StaticRoute.directory(root));
+  pod.webServer.addRoute(StaticRoute.directory(root), '/static');
 
   // Setup the app config route.
   // We build this configuration based on the servers api url and serve it to

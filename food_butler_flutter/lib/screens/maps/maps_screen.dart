@@ -145,6 +145,7 @@ class _MapsScreenState extends State<MapsScreen> {
                     return _MyMapCard(
                       map: map,
                       onTap: () => context.push('/maps/${map.slug}'),
+                      onDelete: () => _confirmDeleteMap(map),
                     );
                   },
                 ),
@@ -281,6 +282,58 @@ class _MapsScreenState extends State<MapsScreen> {
         },
       ),
     );
+  }
+
+  /// Show delete confirmation dialog
+  Future<void> _confirmDeleteMap(CuratedMap map) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: AppTheme.charcoalLight,
+        title: Text(
+          'Delete Map?',
+          style: AppTheme.headlineSans.copyWith(color: AppTheme.cream),
+        ),
+        content: Text(
+          'Are you sure you want to delete "${map.title}"? This cannot be undone.',
+          style: AppTheme.bodySans.copyWith(color: AppTheme.creamMuted),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text('Cancel', style: TextStyle(color: AppTheme.creamMuted)),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            child: const Text('Delete', style: TextStyle(color: AppTheme.errorColor)),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed == true && map.id != null) {
+      try {
+        await client.curatedMaps.deleteUserMap(map.id!);
+        _loadMyMaps(); // Refresh the list
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Deleted "${map.title}"'),
+              backgroundColor: AppTheme.charcoalLight,
+            ),
+          );
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to delete: $e'),
+              backgroundColor: AppTheme.errorColor,
+            ),
+          );
+        }
+      }
+    }
   }
 
   Future<void> _generateMapsForCity(FavoriteCity city) async {
@@ -543,16 +596,19 @@ class _PlaceholderImage extends StatelessWidget {
 class _MyMapCard extends StatelessWidget {
   final CuratedMap map;
   final VoidCallback onTap;
+  final VoidCallback? onDelete;
 
   const _MyMapCard({
     required this.map,
     required this.onTap,
+    this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
+      onLongPress: onDelete,
       child: Container(
         width: 200,
         margin: const EdgeInsets.only(right: 12),
@@ -564,30 +620,55 @@ class _MyMapCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Cover image
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(11)),
-              child: SizedBox(
-                height: 80,
-                width: double.infinity,
-                child: map.coverImageUrl != null
-                    ? Image.network(
-                        map.coverImageUrl!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => Container(
-                          color: AppTheme.charcoal,
-                          child: const Center(
-                            child: Icon(Icons.map, color: AppTheme.creamMuted, size: 32),
+            // Cover image with delete button
+            Stack(
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(11)),
+                  child: SizedBox(
+                    height: 80,
+                    width: double.infinity,
+                    child: map.coverImageUrl != null
+                        ? Image.network(
+                            map.coverImageUrl!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => Container(
+                              color: AppTheme.charcoal,
+                              child: const Center(
+                                child: Icon(Icons.map, color: AppTheme.creamMuted, size: 32),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            color: AppTheme.charcoal,
+                            child: const Center(
+                              child: Icon(Icons.map, color: AppTheme.creamMuted, size: 32),
+                            ),
                           ),
+                  ),
+                ),
+                // Delete button
+                if (onDelete != null)
+                  Positioned(
+                    top: 4,
+                    right: 4,
+                    child: GestureDetector(
+                      onTap: onDelete,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: AppTheme.charcoal.withAlpha(200),
+                          shape: BoxShape.circle,
                         ),
-                      )
-                    : Container(
-                        color: AppTheme.charcoal,
-                        child: const Center(
-                          child: Icon(Icons.map, color: AppTheme.creamMuted, size: 32),
+                        child: const Icon(
+                          Icons.close,
+                          size: 16,
+                          color: AppTheme.creamMuted,
                         ),
                       ),
-              ),
+                    ),
+                  ),
+              ],
             ),
             // Info
             Expanded(

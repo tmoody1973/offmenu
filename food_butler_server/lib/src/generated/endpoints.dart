@@ -1659,6 +1659,25 @@ class Endpoints extends _i1.EndpointDispatch {
               ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
                   .getUserMaps(session),
         ),
+        'deleteUserMap': _i1.MethodConnector(
+          name: 'deleteUserMap',
+          params: {
+            'mapId': _i1.ParameterDescription(
+              name: 'mapId',
+              type: _i1.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _i1.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['curatedMaps'] as _i17.CuratedMapsEndpoint)
+                  .deleteUserMap(
+                    session,
+                    params['mapId'],
+                  ),
+        ),
         'createUserMap': _i1.MethodConnector(
           name: 'createUserMap',
           params: {

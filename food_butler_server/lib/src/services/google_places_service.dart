@@ -519,28 +519,36 @@ class GooglePlacesService {
 
   /// Search for a place by name and get full details including photos.
   /// Returns raw JSON data for flexible use.
+  /// Uses the NEW Places API (places.googleapis.com).
   Future<Map<String, dynamic>?> searchAndGetDetails(String query) async {
+    print('[GooglePlaces] searchAndGetDetails: $query');
+
+    if (_apiKey.isEmpty) {
+      print('[GooglePlaces] ERROR: API key is empty!');
+      return null;
+    }
+
     const textSearchUrl = 'https://places.googleapis.com/v1/places:searchText';
 
-    // Include photos in field mask
+    // Field mask for the data we need
     const fieldMask = 'places.id,'
         'places.displayName,'
         'places.formattedAddress,'
         'places.location,'
-        'places.types,'
-        'places.priceLevel,'
         'places.rating,'
         'places.userRatingCount,'
-        'places.regularOpeningHours,'
-        'places.photos';
+        'places.priceLevel,'
+        'places.photos,'
+        'places.regularOpeningHours';
 
     final requestBody = {
       'textQuery': query,
-      'includedType': 'restaurant',
       'maxResultCount': 1,
     };
 
     try {
+      print('[GooglePlaces] Calling new Places API...');
+
       final response = await _httpClient
           .post(
             Uri.parse(textSearchUrl),
@@ -551,13 +559,12 @@ class GooglePlacesService {
             },
             body: jsonEncode(requestBody),
           )
-          .timeout(_timeout);
+          .timeout(const Duration(seconds: 10));
+
+      print('[GooglePlaces] Response status: ${response.statusCode}');
 
       if (response.statusCode != 200) {
-        _session.log(
-          'Google Places searchAndGetDetails error: ${response.statusCode} - ${response.body}',
-          level: LogLevel.warning,
-        );
+        print('[GooglePlaces] ERROR: ${response.body}');
         return null;
       }
 
@@ -565,16 +572,19 @@ class GooglePlacesService {
       final places = json['places'] as List<dynamic>?;
 
       if (places == null || places.isEmpty) {
+        print('[GooglePlaces] No results found');
         return null;
       }
 
       final place = places.first as Map<String, dynamic>;
-
-      // Convert from new API format to legacy format for easier use
       final location = place['location'] as Map<String, dynamic>? ?? {};
       final displayName = place['displayName'] as Map<String, dynamic>? ?? {};
       final photos = place['photos'] as List<dynamic>? ?? [];
-      final openingHours = place['regularOpeningHours'] as Map<String, dynamic>?;
+
+      print('[GooglePlaces] Found: ${displayName['text']}');
+      print('[GooglePlaces] Address: ${place['formattedAddress']}');
+      print('[GooglePlaces] Coords: ${location['latitude']}, ${location['longitude']}');
+      print('[GooglePlaces] Rating: ${place['rating']}');
 
       return {
         'place_id': place['id'],
@@ -591,8 +601,6 @@ class GooglePlacesService {
         'price_level': _parsePriceLevelToInt(place['priceLevel'] as String?),
         'photos': photos.map((p) {
           final photoName = p['name'] as String?;
-          // Extract photo reference from resource name
-          // Format: places/{place_id}/photos/{photo_reference}
           final photoRef = photoName?.split('/').last;
           return {
             'photo_reference': photoRef,
@@ -600,15 +608,13 @@ class GooglePlacesService {
             'width': p['widthPx'],
           };
         }).toList(),
-        'opening_hours': openingHours != null
-            ? {'open_now': openingHours['openNow']}
+        'opening_hours': place['regularOpeningHours'] != null
+            ? {'open_now': place['regularOpeningHours']['openNow']}
             : null,
       };
-    } catch (e) {
-      _session.log(
-        'Google Places searchAndGetDetails error: $e',
-        level: LogLevel.error,
-      );
+    } catch (e, stack) {
+      print('[GooglePlaces] EXCEPTION: $e');
+      print('[GooglePlaces] Stack: $stack');
       return null;
     }
   }

@@ -1,6 +1,6 @@
 # This file configures your Serverpod Cloud project.
 # It is automatically generated and updated by the `scloud` command.
-# 
+#
 # Useful commands:
 # - Deploy: `scloud deploy`
 # - Get Help: `scloud help`
@@ -12,3 +12,13 @@ project:
   scripts:
     pre_deploy: []
     post_deploy: []
+
+# CORS configuration for Flutter web clients
+cors:
+  enabled: true
+  allowedOrigins:
+    - "https://offmenu-two.vercel.app"
+    - "https://offmenu-two-snowy.vercel.app"
+    - "https://offmenu.vercel.app"
+    - "http://localhost:8080"
+    - "http://localhost:3000"

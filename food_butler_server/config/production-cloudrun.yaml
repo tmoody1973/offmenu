@@ -1,0 +1,48 @@
+# Cloud Run Production Configuration for Off Menu
+# This config uses Cloud SQL Proxy via Unix socket
+
+# Configuration for the main API server.
+apiServer:
+  port: 8080
+  publicHost: offmenu-api-HASH-uc.a.run.app
+  publicPort: 443
+  publicScheme: https
+
+# Configuration for the Insights server (disabled for Cloud Run)
+insightsServer:
+  port: 8081
+  publicHost: offmenu-api-HASH-uc.a.run.app
+  publicPort: 443
+  publicScheme: https
+
+# Configuration for the web server.
+webServer:
+  port: 8082
+  publicHost: offmenu-api-HASH-uc.a.run.app
+  publicPort: 443
+  publicScheme: https
+
+# Cloud SQL connection via Unix socket
+# The CONNECTION_NAME will be: offmenu-backend:us-central1:offmenu-db
+database:
+  host: /cloudsql/offmenu-backend:us-central1:offmenu-db/.s.PGSQL.5432
+  port: 5432
+  name: serverpod
+  user: postgres
+  isUnixSocket: true
+
+# Redis disabled for Cloud Run (can add later with Memorystore)
+redis:
+  enabled: false
+
+maxRequestSize: 524288
+
+# CORS configuration - this is what we control!
+httpOptionsResponseHeaders:
+  Access-Control-Allow-Origin: 'https://offmenu-two.vercel.app'
+  Access-Control-Allow-Methods: 'GET, POST, PUT, DELETE, OPTIONS'
+  Access-Control-Allow-Headers: 'Content-Type, Authorization, X-Serverpod-Client-Id, serverpod_idp'
+  Access-Control-Allow-Credentials: 'true'
+
+sessionLogs:
+  consoleEnabled: true

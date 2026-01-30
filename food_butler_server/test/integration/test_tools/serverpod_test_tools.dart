@@ -2399,6 +2399,37 @@ class _CuratedMapsEndpoint {
     });
   }
 
+  _i3.Future<bool> deleteUserMap(
+    _i1.TestSessionBuilder sessionBuilder,
+    int mapId,
+  ) async {
+    return _i1.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _i1.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'curatedMaps',
+            method: 'deleteUserMap',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'curatedMaps',
+          methodName: 'deleteUserMap',
+          parameters: _i1.testObjectToJson({'mapId': mapId}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _i3.Future<bool>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
   _i3.Future<_i23.CuratedMap> createUserMap(
     _i1.TestSessionBuilder sessionBuilder, {
     required String cityName,

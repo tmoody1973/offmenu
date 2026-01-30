@@ -173,6 +173,43 @@ class CuratedMapsEndpoint extends Endpoint {
     );
   }
 
+  /// Delete a user's custom map.
+  /// Only the creator can delete their own map.
+  Future<bool> deleteUserMap(Session session, int mapId) async {
+    final authenticated = session.authenticated;
+    if (authenticated == null) {
+      throw Exception('User must be authenticated');
+    }
+
+    final userId = authenticated.userIdentifier.toString();
+
+    // Find the map
+    final map = await CuratedMap.db.findById(session, mapId);
+    if (map == null) {
+      throw Exception('Map not found');
+    }
+
+    // Verify ownership
+    if (map.userId != userId) {
+      throw Exception('You can only delete your own maps');
+    }
+
+    // Delete all restaurants in the map first (foreign key constraint)
+    final restaurants = await MapRestaurant.db.find(
+      session,
+      where: (t) => t.mapId.equals(mapId),
+    );
+    for (final restaurant in restaurants) {
+      await MapRestaurant.db.deleteRow(session, restaurant);
+    }
+
+    // Delete the map
+    await CuratedMap.db.deleteRow(session, map);
+
+    session.log('User $userId deleted map: ${map.title}', level: LogLevel.info);
+    return true;
+  }
+
   /// Create a user's custom map.
   Future<CuratedMap> createUserMap(
     Session session, {

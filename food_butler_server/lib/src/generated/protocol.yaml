@@ -70,6 +70,7 @@ curatedMaps:
   - addFavoriteCity:
   - removeFavoriteCity:
   - getUserMaps:
+  - deleteUserMap:
   - createUserMap:
   - addRestaurantToMap:
   - generateMap:

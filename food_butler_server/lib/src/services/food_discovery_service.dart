@@ -19,7 +19,10 @@ class FoodDiscoveryService {
 
   FoodDiscoveryService(this._session)
       : _perplexityApiKey = _session.serverpod.getPassword('PERPLEXITY_API_KEY'),
-        _placesService = GooglePlacesService.fromSession(_session);
+        _placesService = GooglePlacesService.fromSession(_session) {
+    final key = _session.serverpod.getPassword('PERPLEXITY_API_KEY');
+    print('[FoodDiscoveryService] Perplexity API key: ${key != null ? "found (${key.length} chars)" : "NOT FOUND"}');
+  }
 
   /// Discover restaurants based on a natural language query.
   Future<FoodDiscoveryResponse> discover(String query) async {
@@ -35,9 +38,12 @@ class FoodDiscoveryService {
 
     try {
       // Ask Perplexity for restaurant recommendations
+      print('[FoodDiscoveryService] Calling Perplexity API for: $query');
       final aiResponse = await _queryPerplexity(query);
+      print('[FoodDiscoveryService] Perplexity response: ${aiResponse != null ? "received with keys: ${aiResponse.keys}" : "null"}');
 
       if (aiResponse == null) {
+        print('[FoodDiscoveryService] Returning no recommendations');
         return FoodDiscoveryResponse(
           summary: 'I couldn\'t find any recommendations for that query. Try being more specific about the location!',
           places: [],
@@ -55,12 +61,20 @@ class FoodDiscoveryService {
       final location = aiResponse['detected_location'] as String? ??
           _extractLocationFromQuery(query);
 
+      // Get Perplexity images to use as fallback
+      final perplexityImages = (aiResponse['_perplexity_images'] as List<dynamic>?)
+          ?.map((e) => e.toString())
+          .toList() ?? [];
+      print('[FoodDiscovery] Have ${perplexityImages.length} Perplexity images for fallback');
+
       // Enrich each restaurant with Google Places data
       final enrichedPlaces = <DiscoveredPlace>[];
       final restaurants = aiResponse['restaurants'] as List<dynamic>? ?? [];
+      int perplexityImageIndex = 0;
 
       for (final restaurant in restaurants.take(10)) {
         final name = restaurant['name'] as String?;
+        final aiAddress = restaurant['address'] as String?;
         final neighborhood = restaurant['neighborhood'] as String?;
         final whyRecommended = restaurant['why_recommended'] as String? ?? '';
         final categories = (restaurant['categories'] as List<dynamic>?)
@@ -74,15 +88,26 @@ class FoodDiscoveryService {
 
         if (name == null) continue;
 
+        // Build fallback address from AI data
+        final fallbackAddress = aiAddress ??
+            (neighborhood != null ? '$neighborhood, $location' : location ?? '');
+
         // Search Google Places for this restaurant
-        final searchQuery = neighborhood != null
-            ? '$name $neighborhood $location'
-            : '$name $location';
+        // Use simple query: just name + location (city/state)
+        // The neighborhood description is too verbose for Google Places search
+        final searchQuery = '$name $location';
 
         try {
           final placeDetails = await _placesService.searchAndGetDetails(searchQuery);
 
           if (placeDetails != null) {
+            // Try Google Places photo first, fall back to Perplexity images
+            String? photoUrl = _getPhotoUrl(placeDetails);
+            if (photoUrl == null && perplexityImageIndex < perplexityImages.length) {
+              photoUrl = perplexityImages[perplexityImageIndex++];
+              print('[FoodDiscovery] Using Perplexity image for $name: ${photoUrl.substring(0, 50)}...');
+            }
+
             enrichedPlaces.add(DiscoveredPlace(
               placeId: placeDetails['place_id'] as String? ?? '',
               name: placeDetails['name'] as String? ?? name,
@@ -92,7 +117,7 @@ class FoodDiscoveryService {
               rating: (placeDetails['rating'] as num?)?.toDouble() ?? 0,
               reviewCount: (placeDetails['user_ratings_total'] as num?)?.toInt() ?? 0,
               priceLevel: _formatPriceLevel(placeDetails['price_level'] as int?),
-              photoUrl: _getPhotoUrl(placeDetails),
+              photoUrl: photoUrl,
               whyRecommended: whyRecommended,
               categories: categories,
               isOpen: placeDetails['opening_hours']?['open_now'] as bool?,
@@ -102,16 +127,24 @@ class FoodDiscoveryService {
           } else {
             // Google Places failed - still show the restaurant with basic info from AI
             _session.log('Google Places lookup failed for $name, using AI data only', level: LogLevel.info);
+
+            // Use Perplexity image as fallback
+            String? photoUrl;
+            if (perplexityImageIndex < perplexityImages.length) {
+              photoUrl = perplexityImages[perplexityImageIndex++];
+              print('[FoodDiscovery] Using Perplexity image for $name (no Places data): ${photoUrl.substring(0, 50)}...');
+            }
+
             enrichedPlaces.add(DiscoveredPlace(
               placeId: 'ai_${name.hashCode}',
               name: name,
-              address: neighborhood != null ? '$neighborhood, $location' : location ?? '',
+              address: fallbackAddress,
               latitude: 0,
               longitude: 0,
               rating: 0,
               reviewCount: 0,
               priceLevel: '\$\$',
-              photoUrl: null,
+              photoUrl: photoUrl,
               whyRecommended: whyRecommended,
               categories: categories,
               isOpen: null,
@@ -121,17 +154,24 @@ class FoodDiscoveryService {
           }
         } catch (e) {
           _session.log('Failed to enrich $name: $e', level: LogLevel.warning);
+
+          // Use Perplexity image as fallback
+          String? photoUrl;
+          if (perplexityImageIndex < perplexityImages.length) {
+            photoUrl = perplexityImages[perplexityImageIndex++];
+          }
+
           // Still add the restaurant with basic info
           enrichedPlaces.add(DiscoveredPlace(
             placeId: 'ai_${name.hashCode}',
             name: name,
-            address: neighborhood != null ? '$neighborhood, $location' : location ?? '',
+            address: fallbackAddress,
             latitude: 0,
             longitude: 0,
             rating: 0,
             reviewCount: 0,
             priceLevel: '\$\$',
-            photoUrl: null,
+            photoUrl: photoUrl,
             whyRecommended: whyRecommended,
             categories: categories,
             isOpen: null,
@@ -181,6 +221,7 @@ IMPORTANT: Respond ONLY with valid JSON in this exact format:
   "restaurants": [
     {
       "name": "Exact restaurant name",
+      "address": "Full street address including city and state (e.g., '1234 Main St, Los Angeles, CA')",
       "neighborhood": "Specific neighborhood with brief context (e.g., 'the bustling North Loop', 'quiet residential Tangletown')",
       "why_recommended": "2-3 sentences: What makes this place special? Include the vibe, who goes there, what the experience is like.",
       "must_order": ["Specific dish 1 with brief description", "Specific dish 2", "Their famous X"],
@@ -192,14 +233,15 @@ IMPORTANT: Respond ONLY with valid JSON in this exact format:
 
 Rules:
 - Write like a food journalist, not a search engine. Be specific and opinionated.
+- ALWAYS include the full street address for each restaurant (e.g., "1234 Main St, Los Angeles, CA")
 - ALWAYS include 2-4 specific dishes in "must_order" with brief descriptions
 - Include "pro_tips" with insider knowledge (best seats, when to avoid crowds, ordering secrets)
 - For "why_recommended", paint a picture of the experience, not just the food
 - Mention the neighborhood character when relevant (trendy? historic? up-and-coming?)
-- For discovery queries: include 5-8 restaurants
+- For discovery queries: include 3-5 restaurants that you are CERTAIN exist. Quality over quantity - only include restaurants you have high confidence are real and currently operating.
 - For info queries about a specific restaurant: include just that one with extra detail
 - Be playful and conversational but substantive
-- Only recommend places you're confident actually exist
+- CRITICAL: Only recommend places you are CONFIDENT actually exist. Do NOT make up restaurant names. If you're unsure, include fewer restaurants rather than inventing ones.
 - Include price context and vibe (date night? casual? rowdy?)
 
 JSON RESPONSE:''';
@@ -226,12 +268,40 @@ JSON RESPONSE:''';
           ],
           'temperature': 0.7,
           'max_tokens': 2000,
+          'return_images': true,
+          'image_domain_filter': [
+            '-gettyimages.com',
+            '-shutterstock.com',
+            '-istockphoto.com',
+            '-stock.adobe.com',
+          ],
         }),
       );
 
+      print('[Perplexity] Response status: ${response.statusCode}');
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final content = data['choices']?[0]?['message']?['content'] as String?;
+        print('[Perplexity] Content received: ${content != null ? "${content.length} chars" : "null"}');
+
+        // Extract images from Perplexity response
+        final perplexityImages = <String>[];
+        if (data.containsKey('images')) {
+          final imageList = data['images'] as List<dynamic>?;
+          if (imageList != null) {
+            for (final img in imageList) {
+              if (img is String) {
+                perplexityImages.add(img);
+              } else if (img is Map<String, dynamic>) {
+                final url = img['image_url'] as String? ?? img['url'] as String?;
+                if (url != null && url.isNotEmpty) {
+                  perplexityImages.add(url);
+                }
+              }
+            }
+          }
+        }
+        print('[Perplexity] Got ${perplexityImages.length} images from Perplexity');
 
         if (content != null) {
           // Parse the JSON from the response
@@ -243,16 +313,25 @@ JSON RESPONSE:''';
                 .replaceFirst(RegExp(r'\n?```$'), '');
           }
 
-          return jsonDecode(jsonStr) as Map<String, dynamic>;
+          try {
+            final parsed = jsonDecode(jsonStr) as Map<String, dynamic>;
+            print('[Perplexity] Parsed JSON with keys: ${parsed.keys.toList()}');
+
+            // Add images to the parsed response
+            parsed['_perplexity_images'] = perplexityImages;
+
+            return parsed;
+          } catch (parseError) {
+            print('[Perplexity] JSON parse error: $parseError');
+            print('[Perplexity] Raw content (first 500 chars): ${jsonStr.substring(0, jsonStr.length > 500 ? 500 : jsonStr.length)}');
+          }
         }
       } else {
-        _session.log(
-          'Perplexity API error: ${response.statusCode} - ${response.body}',
-          level: LogLevel.error,
-        );
+        print('[Perplexity] API error: ${response.statusCode} - ${response.body}');
       }
-    } catch (e) {
-      _session.log('Perplexity request failed: $e', level: LogLevel.error);
+    } catch (e, stack) {
+      print('[Perplexity] Request failed: $e');
+      print('[Perplexity] Stack: $stack');
     }
 
     return null;

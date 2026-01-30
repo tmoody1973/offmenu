@@ -96,10 +96,19 @@ class _AskScreenState extends State<AskScreen> {
     }
   }
 
+  /// Check if coordinates are valid (not Null Island at 0,0)
+  bool _hasValidCoordinates(DiscoveredPlace place) {
+    return place.latitude != 0 || place.longitude != 0;
+  }
+
   void _fitMapToMarkers() {
     if (_response == null || _response!.places.isEmpty) return;
 
-    final bounds = _response!.places.fold<LatLngBounds?>(
+    // Only consider places with valid coordinates
+    final validPlaces = _response!.places.where(_hasValidCoordinates).toList();
+    if (validPlaces.isEmpty) return;
+
+    final bounds = validPlaces.fold<LatLngBounds?>(
       null,
       (bounds, place) {
         final latLng = LatLng(place.latitude, place.longitude);
@@ -567,26 +576,36 @@ class _MapView extends StatelessWidget {
     required this.onMarkerTap,
   });
 
+  /// Check if coordinates are valid (not Null Island at 0,0)
+  bool _hasValidCoordinates(DiscoveredPlace place) {
+    return place.latitude != 0 || place.longitude != 0;
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (places.isEmpty) {
+    // Filter to only places with valid coordinates
+    final validPlaces = places.where(_hasValidCoordinates).toList();
+
+    if (validPlaces.isEmpty) {
       return Container(
         color: Colors.grey.shade800,
         child: const Center(
-          child: Text('No places found', style: TextStyle(color: Colors.white)),
+          child: Text('No map locations available', style: TextStyle(color: Colors.white)),
         ),
       );
     }
 
     final center = LatLng(
-      places.map((p) => p.latitude).reduce((a, b) => a + b) / places.length,
-      places.map((p) => p.longitude).reduce((a, b) => a + b) / places.length,
+      validPlaces.map((p) => p.latitude).reduce((a, b) => a + b) / validPlaces.length,
+      validPlaces.map((p) => p.longitude).reduce((a, b) => a + b) / validPlaces.length,
     );
 
     return GoogleMap(
       initialCameraPosition: CameraPosition(target: center, zoom: 13),
       onMapCreated: onMapCreated,
-      markers: places.asMap().entries.map((entry) {
+      markers: places.asMap().entries
+          .where((entry) => _hasValidCoordinates(entry.value))
+          .map((entry) {
         final index = entry.key;
         final place = entry.value;
         final isSelected = index == selectedIndex;
