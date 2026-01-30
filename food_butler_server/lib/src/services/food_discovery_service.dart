@@ -101,11 +101,12 @@ class FoodDiscoveryService {
           final placeDetails = await _placesService.searchAndGetDetails(searchQuery);
 
           if (placeDetails != null) {
-            // Try Google Places photo first, fall back to Perplexity images
-            String? photoUrl = _getPhotoUrl(placeDetails);
-            if (photoUrl == null && perplexityImageIndex < perplexityImages.length) {
+            // Use Perplexity images (no referrer restrictions)
+            // Google Places photos require a proxy which adds complexity
+            String? photoUrl;
+            if (perplexityImageIndex < perplexityImages.length) {
               photoUrl = perplexityImages[perplexityImageIndex++];
-              print('[FoodDiscovery] Using Perplexity image for $name: ${photoUrl.substring(0, 50)}...');
+              print('[FoodDiscovery] Using Perplexity image for $name');
             }
 
             enrichedPlaces.add(DiscoveredPlace(
@@ -377,15 +378,26 @@ JSON RESPONSE:''';
   /// Returns a server-proxied URL to avoid API key referrer restrictions.
   String? _getPhotoUrl(Map<String, dynamic> placeDetails) {
     final photos = placeDetails['photos'] as List<dynamic>?;
-    if (photos == null || photos.isEmpty) return null;
+    print('[FoodDiscovery] Photos array: ${photos?.length ?? 0} photos');
+    if (photos == null || photos.isEmpty) {
+      print('[FoodDiscovery] No photos found in place details');
+      return null;
+    }
 
+    print('[FoodDiscovery] First photo object: ${photos[0]}');
     final photoReference = photos[0]['photo_reference'] as String?;
-    if (photoReference == null || photoReference.isEmpty) return null;
+    print('[FoodDiscovery] Photo reference: $photoReference');
+    if (photoReference == null || photoReference.isEmpty) {
+      print('[FoodDiscovery] Photo reference is null or empty');
+      return null;
+    }
 
     // Use the API server URL (port 8080) which Cloud Run exposes
     const apiServerUrl = 'https://offmenu-api-862293483750.us-central1.run.app';
 
     // Use the photo proxy route on the API server
-    return '$apiServerUrl/api/photos/$photoReference';
+    final url = '$apiServerUrl/api/photos/$photoReference';
+    print('[FoodDiscovery] Generated photo URL: $url');
+    return url;
   }
 }

@@ -146,24 +146,13 @@ class ThreeForTonightEndpoint extends Endpoint {
             final placeDetails = await placesService.searchAndGetDetails(searchQuery);
 
             if (placeDetails != null) {
-              // Get photo URL - use proxy route on API server to avoid referrer restrictions
-              String? photoUrl;
-              final photos = placeDetails['photos'] as List<dynamic>?;
-              if (photos != null && photos.isNotEmpty) {
-                final photoRef = photos[0]['photo_reference'] as String?;
-                if (photoRef != null) {
-                  // Use the API server URL (port 8080) which Cloud Run exposes
-                  const apiServerUrl = 'https://offmenu-api-862293483750.us-central1.run.app';
-                  photoUrl = '$apiServerUrl/api/photos/$photoRef';
-                }
-              }
-
-              // Update the pick with Google data
+              // Keep Perplexity image (no referrer restrictions)
+              // Google Places photos require a proxy which adds complexity
               picks[i] = TonightPick(
                 name: picks[i].name,
                 hook: picks[i].hook,
                 cuisineType: picks[i].cuisineType,
-                imageUrl: photoUrl ?? picks[i].imageUrl,
+                imageUrl: picks[i].imageUrl, // Keep Perplexity image
                 placeId: placeDetails['place_id'] as String?,
                 address: placeDetails['formatted_address'] as String?,
                 rating: (placeDetails['rating'] as num?)?.toDouble(),

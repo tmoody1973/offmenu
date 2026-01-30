@@ -589,6 +589,14 @@ class GooglePlacesService {
       print('[GooglePlaces] Address: ${place['formattedAddress']}');
       print('[GooglePlaces] Coords: ${location['latitude']}, ${location['longitude']}');
       print('[GooglePlaces] Rating: ${place['rating']}');
+      print('[GooglePlaces] Photos count: ${photos.length}');
+      if (photos.isNotEmpty) {
+        print('[GooglePlaces] First photo raw: ${photos[0]}');
+        final photoName = photos[0]['name'] as String?;
+        print('[GooglePlaces] Photo name: $photoName');
+        final photoRef = photoName?.split('/').last;
+        print('[GooglePlaces] Photo ref extracted: $photoRef');
+      }
 
       return {
         'place_id': place['id'],

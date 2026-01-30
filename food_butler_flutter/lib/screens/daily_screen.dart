@@ -825,6 +825,7 @@ class _ThreeForTonightState extends State<_ThreeForTonight> {
         stateOrRegion: widget.stateOrRegion,
         latitude: widget.latitude,
         longitude: widget.longitude,
+        forceRefresh: true, // Force refresh to get new photo URLs
       );
       if (mounted) {
         setState(() {

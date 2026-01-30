@@ -110,9 +110,6 @@ void run(List<String> args) async {
   // Add CORS middleware to the API server (for RPC/method calls from Flutter)
   pod.server.addMiddleware(apiCorsMiddleware(allowedOrigins));
 
-  // Add photo proxy route to API server (port 8080 - the one Cloud Run exposes)
-  pod.server.addRoute(PhotoProxyRoute(), '/api/photos/**');
-
   // Add CORS middleware to the web server (for custom routes like photo proxy)
   pod.webServer.addMiddleware(corsMiddleware(allowedOrigins), '/api/**');
 
