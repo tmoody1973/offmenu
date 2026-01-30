@@ -183,7 +183,13 @@ class _AskScreenState extends State<AskScreen> {
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => context.pop(),
+          onPressed: () {
+            if (context.canPop()) {
+              context.pop();
+            } else {
+              context.go('/');
+            }
+          },
         ),
       ),
       body: Column(
@@ -475,6 +481,7 @@ class _WideResultsLayout extends StatelessWidget {
         selectedIndex: selectedIndex,
         onSelectPlace: onSelectPlace,
         onOpenInMaps: onOpenInMaps,
+        isMobile: false,
       );
     }
 
@@ -498,6 +505,7 @@ class _WideResultsLayout extends StatelessWidget {
             selectedIndex: selectedIndex,
             onSelectPlace: onSelectPlace,
             onOpenInMaps: onOpenInMaps,
+            isMobile: false,
           ),
         ),
       ],
@@ -533,6 +541,7 @@ class _MobileResultsLayout extends StatelessWidget {
         selectedIndex: selectedIndex,
         onSelectPlace: onSelectPlace,
         onOpenInMaps: onOpenInMaps,
+        isMobile: true,
       );
     }
 
@@ -555,6 +564,7 @@ class _MobileResultsLayout extends StatelessWidget {
             selectedIndex: selectedIndex,
             onSelectPlace: onSelectPlace,
             onOpenInMaps: onOpenInMaps,
+            isMobile: true,
           ),
         ),
       ],
@@ -630,18 +640,27 @@ class _MapView extends StatelessWidget {
 }
 
 /// Results list.
-class _ResultsList extends StatelessWidget {
+class _ResultsList extends StatefulWidget {
   final FoodDiscoveryResponse response;
   final int? selectedIndex;
   final ValueChanged<int> onSelectPlace;
   final ValueChanged<DiscoveredPlace> onOpenInMaps;
+  final bool isMobile;
 
   const _ResultsList({
     required this.response,
     required this.selectedIndex,
     required this.onSelectPlace,
     required this.onOpenInMaps,
+    this.isMobile = false,
   });
+
+  @override
+  State<_ResultsList> createState() => _ResultsListState();
+}
+
+class _ResultsListState extends State<_ResultsList> {
+  bool _summaryExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -652,44 +671,68 @@ class _ResultsList extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // AI response summary
-          if (response.summary.isNotEmpty)
+          // AI response summary - collapsible on mobile
+          if (widget.response.summary.isNotEmpty)
             Container(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(12),
               color: Colors.grey.shade800,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Icon(Icons.auto_awesome,
-                          size: 16, color: Colors.amber.shade400),
-                      const SizedBox(width: 8),
-                      Text(
-                        'Butler\'s Take',
-                        style: theme.textTheme.labelMedium?.copyWith(
-                          color: Colors.amber.shade400,
-                          fontWeight: FontWeight.bold,
+                  InkWell(
+                    onTap: widget.isMobile ? () => setState(() => _summaryExpanded = !_summaryExpanded) : null,
+                    child: Row(
+                      children: [
+                        Icon(Icons.auto_awesome,
+                            size: 16, color: Colors.amber.shade400),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Butler\'s Take',
+                          style: theme.textTheme.labelMedium?.copyWith(
+                            color: Colors.amber.shade400,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    response.summary,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: Colors.grey.shade300,
-                      height: 1.4,
+                        if (widget.isMobile) ...[
+                          const Spacer(),
+                          Icon(
+                            _summaryExpanded ? Icons.expand_less : Icons.expand_more,
+                            size: 20,
+                            color: Colors.grey.shade400,
+                          ),
+                        ],
+                      ],
                     ),
                   ),
+                  const SizedBox(height: 6),
+                  if (widget.isMobile && !_summaryExpanded)
+                    // Collapsed: show only first line with ellipsis
+                    Text(
+                      widget.response.summary,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: Colors.grey.shade400,
+                        height: 1.3,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    )
+                  else
+                    // Expanded or desktop: show full text
+                    Text(
+                      widget.response.summary,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        color: Colors.grey.shade300,
+                        height: 1.4,
+                      ),
+                    ),
                 ],
               ),
             ),
           // Places count
           Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: Text(
-              '${response.places.length} places found',
+              '${widget.response.places.length} places found',
               style: theme.textTheme.titleSmall?.copyWith(
                 color: Colors.grey.shade400,
               ),
@@ -699,16 +742,16 @@ class _ResultsList extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: response.places.length,
+              itemCount: widget.response.places.length,
               itemBuilder: (context, index) {
-                final place = response.places[index];
-                final isSelected = index == selectedIndex;
+                final place = widget.response.places[index];
+                final isSelected = index == widget.selectedIndex;
                 return _PlaceCard(
                   place: place,
                   index: index + 1,
                   isSelected: isSelected,
-                  onTap: () => onSelectPlace(index),
-                  onNavigate: () => onOpenInMaps(place),
+                  onTap: () => widget.onSelectPlace(index),
+                  onNavigate: () => widget.onOpenInMaps(place),
                 );
               },
             ),
@@ -892,7 +935,7 @@ class _PlaceCard extends StatelessWidget {
                   ],
                 ),
               ),
-              // Action buttons (save and navigate)
+              // Action buttons (save, website, phone, navigate)
               Column(
                 children: [
                   SaveButtonCompact(
@@ -905,6 +948,20 @@ class _PlaceCard extends StatelessWidget {
                     priceLevel: _parsePriceLevel(place.priceLevel),
                     source: SavedRestaurantSource.askButler,
                   ),
+                  if (place.websiteUrl != null)
+                    IconButton(
+                      icon: Icon(Icons.language, color: Colors.grey.shade400, size: 20),
+                      onPressed: () => _launchUrl(place.websiteUrl!),
+                      tooltip: 'Website',
+                      visualDensity: VisualDensity.compact,
+                    ),
+                  if (place.phoneNumber != null)
+                    IconButton(
+                      icon: Icon(Icons.phone, color: Colors.grey.shade400, size: 20),
+                      onPressed: () => _launchUrl('tel:${place.phoneNumber}'),
+                      tooltip: place.phoneNumber,
+                      visualDensity: VisualDensity.compact,
+                    ),
                   IconButton(
                     icon: const Icon(Icons.directions, color: Colors.amber),
                     onPressed: onNavigate,
@@ -925,6 +982,14 @@ class _PlaceCard extends StatelessWidget {
     if (priceLevel.isEmpty) return null;
     final dollarCount = priceLevel.split('\$').length - 1;
     return dollarCount > 0 ? dollarCount : null;
+  }
+
+  /// Launch a URL (website or phone)
+  Future<void> _launchUrl(String urlString) async {
+    final url = Uri.parse(urlString);
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    }
   }
 }
 

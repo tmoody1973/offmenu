@@ -30,6 +30,9 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
     this.isOpen,
     this.mustOrder,
     this.proTips,
+    this.websiteUrl,
+    this.phoneNumber,
+    this.googleMapsUrl,
   });
 
   factory DiscoveredPlace({
@@ -47,6 +50,9 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
     bool? isOpen,
     List<String>? mustOrder,
     String? proTips,
+    String? websiteUrl,
+    String? phoneNumber,
+    String? googleMapsUrl,
   }) = _DiscoveredPlaceImpl;
 
   factory DiscoveredPlace.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -71,6 +77,9 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
               jsonSerialization['mustOrder'],
             ),
       proTips: jsonSerialization['proTips'] as String?,
+      websiteUrl: jsonSerialization['websiteUrl'] as String?,
+      phoneNumber: jsonSerialization['phoneNumber'] as String?,
+      googleMapsUrl: jsonSerialization['googleMapsUrl'] as String?,
     );
   }
 
@@ -116,6 +125,15 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
   /// Pro tips (best seats, when to go, insider knowledge).
   String? proTips;
 
+  /// Restaurant website URL.
+  String? websiteUrl;
+
+  /// Phone number.
+  String? phoneNumber;
+
+  /// Google Maps URL for directions.
+  String? googleMapsUrl;
+
   /// Returns a shallow copy of this [DiscoveredPlace]
   /// with some or all fields replaced by the given arguments.
   @_i1.useResult
@@ -134,6 +152,9 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
     bool? isOpen,
     List<String>? mustOrder,
     String? proTips,
+    String? websiteUrl,
+    String? phoneNumber,
+    String? googleMapsUrl,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -153,6 +174,9 @@ abstract class DiscoveredPlace implements _i1.SerializableModel {
       if (isOpen != null) 'isOpen': isOpen,
       if (mustOrder != null) 'mustOrder': mustOrder?.toJson(),
       if (proTips != null) 'proTips': proTips,
+      if (websiteUrl != null) 'websiteUrl': websiteUrl,
+      if (phoneNumber != null) 'phoneNumber': phoneNumber,
+      if (googleMapsUrl != null) 'googleMapsUrl': googleMapsUrl,
     };
   }
 
@@ -180,6 +204,9 @@ class _DiscoveredPlaceImpl extends DiscoveredPlace {
     bool? isOpen,
     List<String>? mustOrder,
     String? proTips,
+    String? websiteUrl,
+    String? phoneNumber,
+    String? googleMapsUrl,
   }) : super._(
          placeId: placeId,
          name: name,
@@ -195,6 +222,9 @@ class _DiscoveredPlaceImpl extends DiscoveredPlace {
          isOpen: isOpen,
          mustOrder: mustOrder,
          proTips: proTips,
+         websiteUrl: websiteUrl,
+         phoneNumber: phoneNumber,
+         googleMapsUrl: googleMapsUrl,
        );
 
   /// Returns a shallow copy of this [DiscoveredPlace]
@@ -216,6 +246,9 @@ class _DiscoveredPlaceImpl extends DiscoveredPlace {
     Object? isOpen = _Undefined,
     Object? mustOrder = _Undefined,
     Object? proTips = _Undefined,
+    Object? websiteUrl = _Undefined,
+    Object? phoneNumber = _Undefined,
+    Object? googleMapsUrl = _Undefined,
   }) {
     return DiscoveredPlace(
       placeId: placeId ?? this.placeId,
@@ -234,6 +267,11 @@ class _DiscoveredPlaceImpl extends DiscoveredPlace {
           ? mustOrder
           : this.mustOrder?.map((e0) => e0).toList(),
       proTips: proTips is String? ? proTips : this.proTips,
+      websiteUrl: websiteUrl is String? ? websiteUrl : this.websiteUrl,
+      phoneNumber: phoneNumber is String? ? phoneNumber : this.phoneNumber,
+      googleMapsUrl: googleMapsUrl is String?
+          ? googleMapsUrl
+          : this.googleMapsUrl,
     );
   }
 }

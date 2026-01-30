@@ -29,3 +29,9 @@ fields:
   mustOrder: List<String>?
   ### Pro tips (best seats, when to go, insider knowledge).
   proTips: String?
+  ### Restaurant website URL.
+  websiteUrl: String?
+  ### Phone number.
+  phoneNumber: String?
+  ### Google Maps URL for directions.
+  googleMapsUrl: String?

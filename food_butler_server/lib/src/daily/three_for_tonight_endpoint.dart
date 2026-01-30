@@ -139,8 +139,6 @@ class ThreeForTonightEndpoint extends Endpoint {
           apiKey: googleApiKey,
           session: session,
         );
-        final serverBaseUrl = session.serverpod.getPassword('WEB_SERVER_PUBLIC_URL') ??
-                              'http://localhost:8082';
 
         for (var i = 0; i < picks.length; i++) {
           try {
@@ -148,13 +146,15 @@ class ThreeForTonightEndpoint extends Endpoint {
             final placeDetails = await placesService.searchAndGetDetails(searchQuery);
 
             if (placeDetails != null) {
-              // Get photo URL
+              // Get photo URL - use proxy route on API server to avoid referrer restrictions
               String? photoUrl;
               final photos = placeDetails['photos'] as List<dynamic>?;
               if (photos != null && photos.isNotEmpty) {
                 final photoRef = photos[0]['photo_reference'] as String?;
                 if (photoRef != null) {
-                  photoUrl = '$serverBaseUrl/api/photos/$photoRef';
+                  // Use the API server URL (port 8080) which Cloud Run exposes
+                  const apiServerUrl = 'https://offmenu-api-862293483750.us-central1.run.app';
+                  photoUrl = '$apiServerUrl/api/photos/$photoRef';
                 }
               }
 

@@ -531,6 +531,7 @@ class GooglePlacesService {
     const textSearchUrl = 'https://places.googleapis.com/v1/places:searchText';
 
     // Field mask for the data we need
+    // Note: websiteUri, nationalPhoneNumber, googleMapsUri are Advanced fields (extra cost)
     const fieldMask = 'places.id,'
         'places.displayName,'
         'places.formattedAddress,'
@@ -539,7 +540,10 @@ class GooglePlacesService {
         'places.userRatingCount,'
         'places.priceLevel,'
         'places.photos,'
-        'places.regularOpeningHours';
+        'places.regularOpeningHours,'
+        'places.websiteUri,'
+        'places.nationalPhoneNumber,'
+        'places.googleMapsUri';
 
     final requestBody = {
       'textQuery': query,
@@ -611,6 +615,9 @@ class GooglePlacesService {
         'opening_hours': place['regularOpeningHours'] != null
             ? {'open_now': place['regularOpeningHours']['openNow']}
             : null,
+        'website': place['websiteUri'],
+        'phone_number': place['nationalPhoneNumber'],
+        'google_maps_url': place['googleMapsUri'],
       };
     } catch (e, stack) {
       print('[GooglePlaces] EXCEPTION: $e');

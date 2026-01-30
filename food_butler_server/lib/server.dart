@@ -110,6 +110,9 @@ void run(List<String> args) async {
   // Add CORS middleware to the API server (for RPC/method calls from Flutter)
   pod.server.addMiddleware(apiCorsMiddleware(allowedOrigins));
 
+  // Add photo proxy route to API server (port 8080 - the one Cloud Run exposes)
+  pod.server.addRoute(PhotoProxyRoute(), '/api/photos/**');
+
   // Add CORS middleware to the web server (for custom routes like photo proxy)
   pod.webServer.addMiddleware(corsMiddleware(allowedOrigins), '/api/**');
 
@@ -118,7 +121,7 @@ void run(List<String> args) async {
   pod.webServer.addRoute(RootRoute(), '/');
   pod.webServer.addRoute(RootRoute(), '/index.html');
 
-  // Photo proxy route - serves Google Places photos to avoid CORS issues.
+  // Photo proxy route on web server too (for local dev)
   pod.webServer.addRoute(PhotoProxyRoute(), '/api/photos/**');
 
   // Serve all files in the web/static relative directory under /static.

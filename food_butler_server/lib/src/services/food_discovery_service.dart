@@ -123,6 +123,9 @@ class FoodDiscoveryService {
               isOpen: placeDetails['opening_hours']?['open_now'] as bool?,
               mustOrder: mustOrder,
               proTips: proTips,
+              websiteUrl: placeDetails['website'] as String?,
+              phoneNumber: placeDetails['phone_number'] as String?,
+              googleMapsUrl: placeDetails['google_maps_url'] as String?,
             ));
           } else {
             // Google Places failed - still show the restaurant with basic info from AI
@@ -150,6 +153,9 @@ class FoodDiscoveryService {
               isOpen: null,
               mustOrder: mustOrder,
               proTips: proTips,
+              websiteUrl: null,
+              phoneNumber: null,
+              googleMapsUrl: null,
             ));
           }
         } catch (e) {
@@ -177,6 +183,9 @@ class FoodDiscoveryService {
             isOpen: null,
             mustOrder: mustOrder,
             proTips: proTips,
+            websiteUrl: null,
+            phoneNumber: null,
+            googleMapsUrl: null,
           ));
         }
       }
@@ -365,7 +374,7 @@ JSON RESPONSE:''';
   }
 
   /// Get photo URL from place details.
-  /// Returns a server-proxied URL that won't have CORS issues.
+  /// Returns a server-proxied URL to avoid API key referrer restrictions.
   String? _getPhotoUrl(Map<String, dynamic> placeDetails) {
     final photos = placeDetails['photos'] as List<dynamic>?;
     if (photos == null || photos.isEmpty) return null;
@@ -373,12 +382,10 @@ JSON RESPONSE:''';
     final photoReference = photos[0]['photo_reference'] as String?;
     if (photoReference == null || photoReference.isEmpty) return null;
 
-    // Return a server-proxied URL that works without CORS issues
-    // Photos are served via the web server, not the API server
-    final webServerUrl = _session.serverpod.getPassword('WEB_SERVER_PUBLIC_URL') ??
-        'http://localhost:8082';
+    // Use the API server URL (port 8080) which Cloud Run exposes
+    const apiServerUrl = 'https://offmenu-api-862293483750.us-central1.run.app';
 
-    // Use the photo proxy route on the web server
-    return '$webServerUrl/api/photos/$photoReference';
+    // Use the photo proxy route on the API server
+    return '$apiServerUrl/api/photos/$photoReference';
   }
 }
